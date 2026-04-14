@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Estacionamento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="top-bar">
+        <div class="top-bar-content">
+            <div class="logo">Rastreio de Vagas</div>
+
+            <div class="top-actions">
+                <div class="search-box">
+                    <input type="text" placeholder="Buscar vaga...">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="hero">
+            <div class="hero-title">
+                <h1 id="parking-title">Estacionamento USC</h1>
+
+                <div class="status-line">
+                    <div class="status-badge" id="status-badge">Status: Majoritariamente Livre</div>
+                    <div class="small-text" id="status-text">Taxa de vagas não ocupadas: 70.9%</div>
+                </div>
+            </div>
+
+            <div class="vacancy-box">
+                <div class="vacancy-number" id="available-spots">142</div>
+                <div class="small-text">Vagas disponíveis</div>
+            </div>
+        </section>
+
+        <section class="card-container">
+            <div class="card">
+                <div class="card-title">Taxa de ocupação</div>
+                <div>
+                    <div class="card-value" id="occupancy-rate">64%</div>
+                    <div class="card-highlight" id="occupancy-variation">+2.4% vs última hora</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Tendência de pico</div>
+                <div class="chart-bars" id="chart-bars"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Alertas ativos</div>
+                <div class="alert-text" id="active-alert">B20 - Manutenção de sensor</div>
+            </div>
+        </section>
+
+        <section class="section-header">
+            <h2>Matriz de vagas</h2>
+
+            <div class="button-group">
+                <button class="default-button">Filtrar</button>
+                <button class="default-button">Atualizar</button>
+            </div>
+        </section>
+
+        <section class="parking-grid" id="parking-grid"></section>
+
+        <div class="pagination" id="pagination"></div>
+        <footer class="footer">
+            <div class="footer-info">
+                <div class="footer-item">
+                    <div class="small-text">Última sincronização</div>
+                    <strong id="last-sync">14:22:05 UTC</strong>
+                </div>
+
+                <div class="footer-item">
+                    <div class="small-text">Sensores ativos</div>
+                    <strong id="active-sensors" style="color: #4bee74;">2.841 / 2.842</strong>
+                </div>
+            </div>
+
+            <div class="footer-actions">
+                <button class="default-button">Ajuda</button>
+                <button class="default-button">Imprimir</button>
+                <button class="primary-button">Exportar log</button>
+            </div>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
