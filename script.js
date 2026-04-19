@@ -22,7 +22,7 @@ const parkingLots = [
     { code: "C1", status: "free", text: "Livre" },
     { code: "C2", status: "occupied", text: "Ocupado" },
     { code: "D1", status: "free", text: "Livre" },
-    { code: "D2", status: "occupied", text: "Ocupado" },
+    { code: "D2", status: "occupied", text: "Manutenção" },
     { code: "E1", status: "free", text: "Livre" },
     { code: "E2", status: "free", text: "Livre" },
     { code: "F1", status: "occupied", text: "Ocupado" }
@@ -40,6 +40,7 @@ const graphBars = [
 
 const itemsPerPage = 10;
 let currentPage = 1;
+let filteredLots = parkingLots;
 
 document.addEventListener("DOMContentLoaded", function () {
     initialize();
@@ -50,6 +51,30 @@ function initialize() {
     fillSummaryData();
     fillGraphsData();
     fillFooterData();
+    fillParkingLotsData();
+    fillPaginationData();
+    setupSearchListener();
+}
+
+function setupSearchListener() {
+    const searchInput = document.getElementById("search");
+    searchInput.addEventListener("input", function () {
+        searchParkingLots(this.value);
+    });
+}
+
+function searchParkingLots(query) {
+    const lowerQuery = query.toLowerCase().trim();
+    
+    if (lowerQuery === "") {
+        filteredLots = parkingLots;
+    } else {
+        filteredLots = parkingLots.filter(function (lot) {
+            return lot.code.toLowerCase().includes(lowerQuery)
+        });
+    }
+    
+    currentPage = 1;
     fillParkingLotsData();
     fillPaginationData();
 }
@@ -90,7 +115,7 @@ function fillParkingLotsData() {
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentItems = parkingLots.slice(startIndex, endIndex);
+    const currentItems = filteredLots.slice(startIndex, endIndex);
 
     currentItems.forEach(function (item) {
         const parkingCard = document.createElement("div");
@@ -111,7 +136,7 @@ function fillPaginationData() {
     const pagination = document.getElementById("pagination");
     pagination.innerHTML = "";
 
-    const totalPages = Math.ceil(parkingLots.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredLots.length / itemsPerPage);
 
     const previousButton = createPageButton("<", currentPage - 1, currentPage === 1);
     pagination.appendChild(previousButton);
@@ -147,7 +172,7 @@ function createPageButton(text, page, disabled) {
 }
 
 function changePage(page) {
-    const totalPages = Math.ceil(parkingLots.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredLots.length / itemsPerPage);
 
     if (page < 1 || page > totalPages) {
         return;
