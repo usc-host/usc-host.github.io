@@ -14,7 +14,10 @@ export function ProductCard({ product, priority = false }: { product: Product; p
   const direct = isDirectAdd(product);
   const variable = product.variants.length > 1 || product.kind === 'builder';
   const href = `/produto/${product.slug}`;
-  const sizes = product.variants.length > 1 ? product.variants.map(v => v.label).join(' ou ') : null;
+  const label = product.variantLabel ?? 'Tamanho';
+  const meta = product.variants.length < 2 ? null
+    : label === 'Tamanho' ? product.variants.map(v => v.label).join(' ou ')
+    : `${product.variants.length} ${label === 'Sabor' ? 'sabores' : 'opções'}`;
 
   function addNow() {
     const variant = product.variants[0]!;
@@ -28,14 +31,14 @@ export function ProductCard({ product, priority = false }: { product: Product; p
     <article className="product-card">
       <Link to={href} className="product-card__media" tabIndex={-1} aria-hidden="true">
         <ProductImage image={primaryImage(product)} art={artKindFor(product.categoryIds)} priority={priority} />
-        <span className="product-card__tag">{categoryName(product.categoryIds[0] ?? '')}</span>
+        <span className={`product-card__tag${product.badge ? ' is-new' : ''}`}>{product.badge ?? categoryName(product.categoryIds[0] ?? '')}</span>
       </Link>
       <div className="product-card__body">
         <h3>
           <Link to={href}>{product.name}</Link>
         </h3>
         <p className="product-card__desc">{productDescription(product)}</p>
-        {sizes && <p className="product-card__meta">{sizes}</p>}
+        {meta && <p className="product-card__meta">{meta}</p>}
         <div className="product-card__foot">
           <span className="product-card__price">
             {from !== null ? (
