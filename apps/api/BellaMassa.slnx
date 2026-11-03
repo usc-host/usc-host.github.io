@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BellaMassa.Api/BellaMassa.Api.csproj" />
+    <Project Path="src/BellaMassa.Domain/BellaMassa.Domain.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/BellaMassa.Tests/BellaMassa.Tests.csproj" />
+  </Folder>
+</Solution>
