@@ -1,0 +1,765 @@
+{
+  "version": "2026.11.03.1",
+  "currency": "BRL",
+  "store": {
+    "name": "Bella Massa",
+    "displayName": "Bella Massa Pizzas e Esfihas",
+    "tagline": "Pizzas e esfihas artesanais",
+    "logo": {
+      "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/stores/logo/16474038186231632a9ce3f_medium.png",
+      "width": 355,
+      "height": 214,
+      "alt": "Bella Massa Pizzas e Esfihas"
+    },
+    "info": [
+      {
+        "topic": "endereco",
+        "label": "Endereço",
+        "value": "Rua Savério Salve, 496, Barra Bonita, SP",
+        "status": "observed",
+        "sources": ["moohappy:loja"]
+      },
+      {
+        "topic": "atendimento",
+        "label": "Atendimento",
+        "value": "Barra Bonita e Igaraçu do Tietê",
+        "status": "observed",
+        "sources": ["instadelivery:loja", "moohappy:loja"],
+        "note": "Cidades citadas nos títulos das páginas. Área exata de entrega não confirmada."
+      },
+      {
+        "topic": "whatsapp",
+        "label": "WhatsApp",
+        "value": "(14) 99715-9327",
+        "href": "https://wa.me/5514997159327",
+        "status": "observed",
+        "sources": ["instadelivery:loja"]
+      },
+      {
+        "topic": "prazo",
+        "label": "Entrega estimada",
+        "value": "40 a 65 min",
+        "status": "observed",
+        "sources": ["moohappy:loja"],
+        "note": "Estimativa publicada em um canal. Não é garantia de prazo."
+      },
+      {
+        "topic": "horario",
+        "label": "Horário",
+        "value": null,
+        "status": "conflicting",
+        "sources": ["instadelivery:loja", "moohappy:loja"],
+        "observations": [
+          "InstaDelivery em 03/11/2026: 17:00 às 23:30",
+          "Moohappy em 03/11/2026: abre às 18:00"
+        ],
+        "note": "Os canais divergem e não há grade semanal confirmada."
+      },
+      {
+        "topic": "pedido_minimo",
+        "label": "Pedido mínimo",
+        "value": null,
+        "status": "conflicting",
+        "sources": ["instadelivery:loja", "moohappy:loja"],
+        "observations": ["InstaDelivery: R$ 19,90", "Moohappy: sem mínimo"]
+      },
+      {
+        "topic": "taxa_entrega",
+        "label": "Taxa de entrega",
+        "value": null,
+        "status": "pending",
+        "sources": [],
+        "note": "Taxa por região não levantada."
+      },
+      {
+        "topic": "pagamento",
+        "label": "Formas de pagamento",
+        "value": null,
+        "status": "pending",
+        "sources": []
+      },
+      {
+        "topic": "alergenos",
+        "label": "Alergias e restrições",
+        "value": null,
+        "status": "pending",
+        "sources": [],
+        "note": "Descrições publicadas não são fichas de alérgenos. Confirmar sempre com a loja."
+      },
+      {
+        "topic": "promocoes",
+        "label": "Promoções e cupons",
+        "value": null,
+        "status": "pending",
+        "sources": ["instadelivery:loja"],
+        "note": "Campanhas e cupons publicados sem vigência confirmada."
+      }
+    ]
+  },
+  "categories": [
+    { "id": "premium", "name": "Premium", "description": "As receitas especiais da casa" },
+    { "id": "monte", "name": "Monte sua pizza", "description": "Escolha tamanho, sabores e borda" },
+    { "id": "gigantes", "name": "Gigantes", "description": "Para reunir a turma toda" },
+    { "id": "doces", "name": "Doces", "description": "Para fechar a noite" },
+    { "id": "esfihas", "name": "Esfihas", "description": "Abertas, assadas na hora" },
+    { "id": "combos", "name": "Combos", "description": "Tudo junto, por um valor fechado" },
+    { "id": "bebidas", "name": "Bebidas", "description": "Para acompanhar" }
+  ],
+  "flavors": [
+    { "id": "calabresa", "name": "Calabresa", "kind": "salgada", "ingredients": null, "prices": { "grande": 5690, "broto": 3980 }, "status": { "grande": "observed", "broto": "demo" }, "sources": ["instadelivery:modal-grande-2"] },
+    { "id": "mussarela", "name": "Mussarela", "kind": "salgada", "ingredients": null, "prices": { "grande": 5690, "broto": 3980 }, "status": { "grande": "observed", "broto": "demo" }, "sources": ["instadelivery:modal-grande-2"] },
+    { "id": "presunto", "name": "Presunto", "kind": "salgada", "ingredients": null, "prices": { "grande": 5690, "broto": 3980 }, "status": { "grande": "observed", "broto": "demo" }, "sources": ["instadelivery:modal-grande-2"] },
+    { "id": "tres-queijos", "name": "3 Queijos", "kind": "salgada", "ingredients": null, "prices": { "grande": 6190, "broto": 4280 }, "status": { "grande": "observed", "broto": "demo" }, "sources": ["instadelivery:modal-grande-2"] },
+    { "id": "quatro-queijos", "name": "4 Queijos", "kind": "salgada", "ingredients": null, "prices": { "grande": 6290, "broto": 4380 }, "status": { "grande": "observed", "broto": "demo" }, "sources": ["instadelivery:modal-grande-2"] },
+    { "id": "portuguesa", "name": "Portuguesa", "kind": "salgada", "ingredients": null, "prices": { "grande": 6300, "broto": 4380 }, "status": { "grande": "observed", "broto": "demo" }, "sources": ["instadelivery:modal-grande-2"] },
+    { "id": "frango-catupiry", "name": "Frango com Catupiry", "kind": "salgada", "ingredients": null, "prices": { "grande": 6690, "broto": 4580 }, "status": { "grande": "observed", "broto": "demo" }, "sources": ["instadelivery:modal-grande-2"] },
+    { "id": "bella-tare", "name": "Bella Tarê", "kind": "salgada", "ingredients": null, "prices": { "grande": 6990 }, "status": { "grande": "observed" }, "sources": ["instadelivery:modal-grande-2"], "productId": "bella-tare" },
+    { "id": "alcatra-acebolada", "name": "Alcatra Acebolada", "kind": "salgada", "ingredients": null, "prices": { "grande": 8590 }, "status": { "grande": "observed" }, "sources": ["instadelivery:modal-grande-2"], "productId": "alcatra-acebolada" },
+    { "id": "cupim-supremo", "name": "Cupim Supremo", "kind": "salgada", "ingredients": null, "prices": { "grande": 8990 }, "status": { "grande": "observed" }, "sources": ["instadelivery:modal-grande-2"], "productId": "cupim-supremo" },
+    { "id": "nordestina-especial", "name": "Nordestina Especial", "kind": "salgada", "ingredients": null, "prices": { "grande": 8590 }, "status": { "grande": "conflicting" }, "sources": ["instadelivery:modal-grande-2", "instadelivery:bella-insta-010"], "productId": "nordestina-especial", "note": "Fração de R$ 42,95 no modal, card avulso por R$ 89,90." },
+    { "id": "nutella", "name": "Nutella", "kind": "doce", "ingredients": null, "prices": { "grande": 7490, "broto": 4990 }, "status": { "grande": "observed", "broto": "demo" }, "sources": ["instadelivery:modal-grande-2"] },
+    { "id": "churros", "name": "Churros", "kind": "doce", "ingredients": ["Massa artesanal", "Doce de leite cremoso", "Canela"], "prices": { "broto": 2990 }, "status": { "broto": "observed" }, "sources": ["instadelivery:bella-insta-013"], "productId": "pizza-de-churros" }
+  ],
+  "optionGroups": [
+    {
+      "id": "borda-grande",
+      "name": "Borda",
+      "min": 0,
+      "max": 1,
+      "status": "observed",
+      "sources": ["instadelivery:modal-grande-2"],
+      "options": [
+        { "id": "borda-requeijao", "name": "Requeijão tradicional", "priceCents": 1300 },
+        { "id": "borda-cheddar", "name": "Cheddar tradicional", "priceCents": 1300 },
+        { "id": "borda-chocolate", "name": "Chocolate ao leite", "priceCents": 1399 },
+        { "id": "borda-catupiry", "name": "Catupiry Original", "priceCents": 1600 },
+        { "id": "borda-catupiry-frango", "name": "Catupiry Original com frango", "priceCents": 2000 },
+        { "id": "borda-catupiry-calabresa", "name": "Catupiry Original com calabresa", "priceCents": 2000 }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "cupim-supremo",
+      "slug": "cupim-supremo",
+      "name": "Cupim Supremo",
+      "kind": "pizza",
+      "categoryIds": ["premium"],
+      "featured": true,
+      "status": "observed",
+      "variants": [
+        {
+          "id": "cupim-supremo-grande",
+          "label": "Grande",
+          "slices": 8,
+          "pricing": { "type": "fixed", "priceCents": 8990 },
+          "description": "Molho de tomate artesanal, cupim desfiado, pasta de alho Santa Massa, cebola roxa, mussarela, queijo coalho e um toque de mel para finalizar.",
+          "ingredients": ["Molho de tomate artesanal", "Cupim desfiado", "Pasta de alho Santa Massa", "Cebola roxa", "Mussarela", "Queijo coalho", "Mel"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17916652366acaa45423028_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Cupim Supremo grande com cubos de queijo coalho gratinados" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-003"],
+          "alternateSources": ["instadelivery:bella-insta-012"]
+        },
+        {
+          "id": "cupim-supremo-broto",
+          "label": "Broto",
+          "slices": 4,
+          "pricing": { "type": "fixed", "priceCents": 6290 },
+          "description": "Molho de tomate artesanal, cupim desfiado, pasta de alho Santa Massa, cebola roxa, mussarela, queijo coalho e um toque de mel para finalizar.",
+          "ingredients": ["Molho de tomate artesanal", "Cupim desfiado", "Pasta de alho Santa Massa", "Cebola roxa", "Mussarela", "Queijo coalho", "Mel"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17916652786acaa47e1012f_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Cupim Supremo broto" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-004"]
+        }
+      ]
+    },
+    {
+      "id": "alcatra-acebolada",
+      "slug": "alcatra-acebolada",
+      "name": "Alcatra Acebolada",
+      "kind": "pizza",
+      "categoryIds": ["premium"],
+      "featured": true,
+      "status": "observed",
+      "variants": [
+        {
+          "id": "alcatra-acebolada-unica",
+          "label": "Inteira",
+          "pricing": { "type": "fixed", "priceCents": 8590 },
+          "description": "Molho de tomate artesanal, mussarela, alcatra em tiras, Catupiry Original, cebola, orégano e azeitonas.",
+          "ingredients": ["Molho de tomate artesanal", "Mussarela", "Alcatra em tiras", "Catupiry Original", "Cebola", "Orégano", "Azeitonas"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929566186ade58ca0e0cf_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Alcatra Acebolada" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-005"]
+        }
+      ]
+    },
+    {
+      "id": "bella-tare",
+      "slug": "bella-tare",
+      "name": "Bella Tarê",
+      "kind": "pizza",
+      "categoryIds": ["premium"],
+      "featured": true,
+      "status": "observed",
+      "variants": [
+        {
+          "id": "bella-tare-grande",
+          "label": "Grande",
+          "slices": 8,
+          "pricing": { "type": "fixed", "priceCents": 6990 },
+          "description": "Molho de tomate artesanal, mussarela, atum ralado, cream cheese, molho tarê, cheiro-verde e gergelim.",
+          "ingredients": ["Molho de tomate artesanal", "Mussarela", "Atum ralado", "Cream cheese", "Molho tarê", "Cheiro-verde", "Gergelim"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17880312116a9330ebec817_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Bella Tarê grande com atum, cream cheese e gergelim" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-001"],
+          "alternateSources": ["instadelivery:bella-insta-011"]
+        },
+        {
+          "id": "bella-tare-broto",
+          "label": "Broto",
+          "slices": 4,
+          "pricing": { "type": "fixed", "priceCents": 4890 },
+          "description": "Molho de tomate artesanal, mussarela, atum ralado, cream cheese, molho tarê, cheiro-verde e gergelim.",
+          "ingredients": ["Molho de tomate artesanal", "Mussarela", "Atum ralado", "Cream cheese", "Molho tarê", "Cheiro-verde", "Gergelim"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17880318736a933381f1f46_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Bella Tarê broto" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-002"]
+        }
+      ]
+    },
+    {
+      "id": "costela-desfiada",
+      "slug": "costela-desfiada",
+      "name": "Costela Desfiada",
+      "kind": "pizza",
+      "categoryIds": ["premium"],
+      "featured": true,
+      "status": "observed",
+      "variants": [
+        {
+          "id": "costela-desfiada-unica",
+          "label": "Inteira",
+          "pricing": { "type": "fixed", "priceCents": 8590 },
+          "description": "Molho de tomate artesanal, costela desfiada, Catupiry Original, cebola, tomate-cereja, mussarela, orégano e azeitonas.",
+          "ingredients": ["Molho de tomate artesanal", "Costela desfiada", "Catupiry Original", "Cebola", "Tomate-cereja", "Mussarela", "Orégano", "Azeitonas"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929568026ade59820257e_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Costela Desfiada" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-008"]
+        }
+      ]
+    },
+    {
+      "id": "nordestina-especial",
+      "slug": "nordestina-especial",
+      "name": "Nordestina Especial",
+      "kind": "pizza",
+      "categoryIds": ["premium"],
+      "featured": true,
+      "status": "observed",
+      "variants": [
+        {
+          "id": "nordestina-especial-unica",
+          "label": "Inteira",
+          "pricing": { "type": "fixed", "priceCents": 8990 },
+          "description": "Molho de tomate artesanal, mussarela, carne seca desfiada, cebola, queijo coalho, pimenta-biquinho, orégano e azeitonas.",
+          "ingredients": ["Molho de tomate artesanal", "Mussarela", "Carne seca desfiada", "Cebola", "Queijo coalho", "Pimenta-biquinho", "Orégano", "Azeitonas"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929570556ade5a7f48d04_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Nordestina Especial" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-010"]
+        }
+      ]
+    },
+    {
+      "id": "strogonoff-de-frango",
+      "slug": "strogonoff-de-frango",
+      "name": "Strogonoff de Frango",
+      "kind": "pizza",
+      "categoryIds": ["premium"],
+      "featured": true,
+      "status": "observed",
+      "variants": [
+        {
+          "id": "strogonoff-de-frango-unica",
+          "label": "Inteira",
+          "pricing": { "type": "fixed", "priceCents": 8590 },
+          "description": "Molho de tomate artesanal, mussarela, strogonoff de frango, Catupiry Original, batata palha crocante, orégano e azeitonas.",
+          "ingredients": ["Molho de tomate artesanal", "Mussarela", "Strogonoff de frango", "Catupiry Original", "Batata palha crocante", "Orégano", "Azeitonas"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929570186ade5a5a16079_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Strogonoff de Frango com batata palha" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-009"]
+        }
+      ]
+    },
+    {
+      "id": "nordestina",
+      "slug": "nordestina",
+      "name": "Nordestina",
+      "kind": "pizza",
+      "categoryIds": ["premium"],
+      "status": "observed",
+      "variants": [
+        {
+          "id": "nordestina-unica",
+          "label": "Inteira",
+          "pricing": { "type": "fixed", "priceCents": 8590 },
+          "description": "Molho de tomate artesanal, mussarela, carne seca desfiada, Catupiry Original, cebola, orégano e azeitonas.",
+          "ingredients": ["Molho de tomate artesanal", "Mussarela", "Carne seca desfiada", "Catupiry Original", "Cebola", "Orégano", "Azeitonas"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929567146ade592add11b_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Nordestina" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-006"]
+        }
+      ]
+    },
+    {
+      "id": "escondidinho-de-carne-seca",
+      "slug": "escondidinho-de-carne-seca",
+      "name": "Escondidinho de Carne Seca",
+      "kind": "pizza",
+      "categoryIds": ["premium"],
+      "status": "observed",
+      "variants": [
+        {
+          "id": "escondidinho-unica",
+          "label": "Inteira",
+          "pricing": { "type": "fixed", "priceCents": 8590 },
+          "description": "Molho de tomate artesanal, carne seca desfiada, requeijão cremoso, purê de batata, mussarela, orégano e azeitonas.",
+          "ingredients": ["Molho de tomate artesanal", "Carne seca desfiada", "Requeijão cremoso", "Purê de batata", "Mussarela", "Orégano", "Azeitonas"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929567596ade5957c38f6_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Escondidinho de Carne Seca" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-007"]
+        }
+      ]
+    },
+    {
+      "id": "pizza-grande",
+      "slug": "pizza-grande",
+      "name": "Pizza grande",
+      "kind": "builder",
+      "categoryIds": ["monte"],
+      "summary": "8 pedaços, de 1 a 4 sabores",
+      "status": "observed",
+      "variants": [
+        {
+          "id": "pizza-grande-8",
+          "label": "Grande",
+          "slices": 8,
+          "pricing": { "type": "fraction_sum", "table": "grande", "status": "demo" },
+          "flavors": {
+            "min": 1,
+            "max": 4,
+            "table": "grande",
+            "options": ["calabresa", "mussarela", "presunto", "tres-queijos", "quatro-queijos", "portuguesa", "frango-catupiry", "bella-tare", "alcatra-acebolada", "cupim-supremo", "nordestina-especial", "nutella"]
+          },
+          "optionGroupIds": ["borda-grande"],
+          "status": "observed",
+          "sources": ["instadelivery:modal-grande-2", "levantamento:grande-1a4"]
+        }
+      ]
+    },
+    {
+      "id": "pizza-broto",
+      "slug": "pizza-broto",
+      "name": "Pizza broto",
+      "kind": "builder",
+      "categoryIds": ["monte"],
+      "summary": "4 pedaços, até 2 sabores",
+      "status": "demo",
+      "variants": [
+        {
+          "id": "pizza-broto-4",
+          "label": "Broto",
+          "slices": 4,
+          "pricing": { "type": "fraction_sum", "table": "broto", "status": "demo" },
+          "flavors": {
+            "min": 1,
+            "max": 2,
+            "table": "broto",
+            "options": ["calabresa", "mussarela", "presunto", "tres-queijos", "quatro-queijos", "portuguesa", "frango-catupiry", "nutella"]
+          },
+          "status": "demo",
+          "sources": ["levantamento:broto-ate-2"]
+        }
+      ]
+    },
+    {
+      "id": "pizza-trem",
+      "slug": "pizza-trem",
+      "name": "Pizza Trem + refri 2 L",
+      "kind": "combo",
+      "categoryIds": ["gigantes", "combos"],
+      "featured": true,
+      "status": "observed",
+      "variants": [
+        {
+          "id": "pizza-trem-70",
+          "label": "70 cm",
+          "slices": 32,
+          "pricing": { "type": "fixed", "priceCents": 15990 },
+          "description": "Pizza de 70 cm com 32 pedaços e 4 sabores, feita com ingredientes frescos. Acompanha 1 refrigerante de 2 litros.",
+          "ingredients": null,
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17848515416a62ac5530dab_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Trem com quatro sabores em uma tábua comprida" },
+          "comboGroups": [
+            { "id": "sabores", "label": "Sabores", "hint": "Escolha 4 sabores", "pick": "flavor", "min": 4, "max": 4, "table": "grande", "options": ["calabresa", "mussarela", "presunto", "tres-queijos", "quatro-queijos", "portuguesa", "frango-catupiry", "bella-tare", "nutella"], "status": "demo" },
+            { "id": "refri", "label": "Refrigerante 2 L", "hint": "Escolha 1", "pick": "product", "min": 1, "max": 1, "options": ["guarana-2l", "conquista-2l"], "status": "demo" }
+          ],
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-015"]
+        }
+      ]
+    },
+    {
+      "id": "mega-trem",
+      "slug": "mega-trem",
+      "name": "Mega Trem",
+      "kind": "simple",
+      "categoryIds": ["gigantes"],
+      "status": "observed",
+      "variants": [
+        {
+          "id": "mega-trem-unica",
+          "label": "Inteira",
+          "pricing": { "type": "fixed", "priceCents": 26990 },
+          "description": "A maior pizza da região, agora também no delivery. Sabor inigualável em cada pedaço.",
+          "ingredients": null,
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/1748124646683243e63a7fe_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza Mega Trem" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-016"],
+          "note": "Sabores, dimensões e número de pedaços não publicados."
+        }
+      ]
+    },
+    {
+      "id": "pizza-de-churros",
+      "slug": "pizza-de-churros",
+      "name": "Pizza de Churros",
+      "kind": "pizza",
+      "categoryIds": ["doces"],
+      "featured": true,
+      "status": "observed",
+      "variants": [
+        {
+          "id": "churros-broto",
+          "label": "Broto",
+          "slices": 4,
+          "pricing": { "type": "fixed", "priceCents": 2990 },
+          "description": "Massa artesanal, doce de leite cremoso e um toque de canela.",
+          "ingredients": ["Massa artesanal", "Doce de leite cremoso", "Canela"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17915870026ac972baa3713_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza de Churros broto com doce de leite" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-013"],
+          "note": "Publicação cita até 2 coberturas à escolha, opções não levantadas."
+        },
+        {
+          "id": "churros-grande",
+          "label": "Grande",
+          "slices": 8,
+          "pricing": { "type": "fixed", "priceCents": 4990 },
+          "description": "Massa artesanal, doce de leite cremoso, açúcar e canela.",
+          "ingredients": ["Massa artesanal", "Doce de leite cremoso", "Açúcar", "Canela"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17915869066ac9725a9430e_75_75.jpeg", "width": 400, "height": 400, "alt": "Pizza de Churros grande com açúcar e canela" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-014"],
+          "note": "Publicação cita cobertura à escolha, opções não levantadas."
+        }
+      ]
+    },
+    {
+      "id": "esfiha-churros",
+      "slug": "esfiha-de-churros",
+      "name": "Esfiha de Churros",
+      "kind": "simple",
+      "unit": "unidade",
+      "categoryIds": ["doces", "esfihas"],
+      "status": "observed",
+      "variants": [
+        {
+          "id": "esfiha-churros-un",
+          "label": "Unidade",
+          "pricing": { "type": "fixed", "priceCents": 499 },
+          "description": "Massa artesanal, doce de leite cremoso e um toque de canela.",
+          "ingredients": ["Massa artesanal", "Doce de leite cremoso", "Canela"],
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17915870876ac9730f20586_75_75.jpeg", "width": 400, "height": 400, "alt": "Esfiha de Churros" },
+          "status": "observed",
+          "sources": ["instadelivery:bella-insta-017"]
+        }
+      ]
+    },
+    {
+      "id": "esfiha-carne",
+      "slug": "esfiha-de-carne",
+      "name": "Esfiha de Carne",
+      "kind": "simple",
+      "unit": "unidade",
+      "categoryIds": ["esfihas"],
+      "status": "demo",
+      "variants": [
+        { "id": "esfiha-carne-un", "label": "Unidade", "pricing": { "type": "fixed", "priceCents": 490 }, "ingredients": null, "status": "demo", "sources": ["levantamento:esfihas-salgadas"] }
+      ]
+    },
+    {
+      "id": "esfiha-frango-catupiry",
+      "slug": "esfiha-de-frango-com-catupiry",
+      "name": "Esfiha de Frango com Catupiry",
+      "kind": "simple",
+      "unit": "unidade",
+      "categoryIds": ["esfihas"],
+      "status": "demo",
+      "variants": [
+        { "id": "esfiha-frango-catupiry-un", "label": "Unidade", "pricing": { "type": "fixed", "priceCents": 590 }, "ingredients": null, "status": "demo", "sources": ["levantamento:esfihas-salgadas"] }
+      ]
+    },
+    {
+      "id": "esfiha-calabresa",
+      "slug": "esfiha-de-calabresa",
+      "name": "Esfiha de Calabresa com Queijo",
+      "kind": "simple",
+      "unit": "unidade",
+      "categoryIds": ["esfihas"],
+      "status": "demo",
+      "variants": [
+        { "id": "esfiha-calabresa-un", "label": "Unidade", "pricing": { "type": "fixed", "priceCents": 590 }, "ingredients": null, "status": "demo", "sources": ["levantamento:esfihas-salgadas"] }
+      ]
+    },
+    {
+      "id": "esfiha-queijo",
+      "slug": "esfiha-de-queijo",
+      "name": "Esfiha de Queijo",
+      "kind": "simple",
+      "unit": "unidade",
+      "categoryIds": ["esfihas"],
+      "status": "demo",
+      "variants": [
+        { "id": "esfiha-queijo-un", "label": "Unidade", "pricing": { "type": "fixed", "priceCents": 540 }, "ingredients": null, "status": "demo", "sources": ["levantamento:esfihas-salgadas"] }
+      ]
+    },
+    {
+      "id": "esfiha-chocolate",
+      "slug": "esfiha-de-chocolate",
+      "name": "Esfiha de Chocolate",
+      "kind": "simple",
+      "unit": "unidade",
+      "categoryIds": ["esfihas", "doces"],
+      "status": "demo",
+      "variants": [
+        { "id": "esfiha-chocolate-un", "label": "Unidade", "pricing": { "type": "fixed", "priceCents": 890 }, "ingredients": null, "status": "demo", "sources": ["levantamento:esfihas-doces"] }
+      ]
+    },
+    {
+      "id": "combo-da-semana",
+      "slug": "combo-da-semana",
+      "name": "Combo da Semana",
+      "kind": "combo",
+      "categoryIds": ["combos"],
+      "featured": true,
+      "status": "conflicting",
+      "variants": [
+        {
+          "id": "combo-da-semana-unico",
+          "label": "Combo",
+          "pricing": { "type": "fixed", "priceCents": 9990 },
+          "description": "1 pizza grande de 8 pedaços, 1 broto doce e 1 refrigerante de 2 litros.",
+          "ingredients": null,
+          "image": { "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17863890246a7a2220c4d14_75_75.jpeg", "width": 400, "height": 400, "alt": "Combo da Semana com pizza grande, broto doce e refrigerante" },
+          "comboGroups": [
+            { "id": "pizza", "label": "Pizza grande", "hint": "Escolha 1 sabor", "pick": "flavor", "min": 1, "max": 1, "table": "grande", "options": ["calabresa", "mussarela", "presunto", "tres-queijos", "quatro-queijos", "portuguesa", "frango-catupiry"], "status": "demo" },
+            { "id": "broto-doce", "label": "Broto doce", "hint": "Escolha 1 sabor", "pick": "flavor", "min": 1, "max": 1, "table": "broto", "options": ["churros", "nutella"], "status": "demo" },
+            { "id": "refri", "label": "Refrigerante 2 L", "hint": "Escolha 1", "pick": "product", "min": 1, "max": 1, "options": ["guarana-2l", "conquista-2l"], "status": "demo" }
+          ],
+          "status": "conflicting",
+          "sources": ["instadelivery:bella-insta-018", "moohappy:combo-da-semana"],
+          "note": "InstaDelivery R$ 99,90 e Moohappy R$ 89,90. Usado o valor do InstaDelivery."
+        }
+      ]
+    },
+    {
+      "id": "combo-solteiro",
+      "slug": "combo-solteiro",
+      "name": "Combo Solteiro",
+      "kind": "combo",
+      "categoryIds": ["combos", "esfihas"],
+      "summary": "10 esfihas salgadas",
+      "status": "observed",
+      "variants": [
+        {
+          "id": "combo-solteiro-10",
+          "label": "10 esfihas",
+          "pricing": { "type": "fixed", "priceCents": 5990 },
+          "description": "10 esfihas salgadas à sua escolha.",
+          "ingredients": null,
+          "comboGroups": [
+            { "id": "esfihas", "label": "Esfihas", "hint": "Escolha 10 esfihas", "pick": "quantity", "min": 10, "max": 10, "options": ["esfiha-carne", "esfiha-frango-catupiry", "esfiha-calabresa", "esfiha-queijo"], "status": "demo" }
+          ],
+          "status": "observed",
+          "sources": ["instadelivery:combo-solteiro"]
+        }
+      ]
+    },
+    {
+      "id": "combo-casal",
+      "slug": "combo-casal",
+      "name": "Combo Casal",
+      "kind": "combo",
+      "categoryIds": ["combos", "esfihas"],
+      "summary": "20 esfihas salgadas",
+      "featured": true,
+      "status": "observed",
+      "variants": [
+        {
+          "id": "combo-casal-20",
+          "label": "20 esfihas",
+          "pricing": { "type": "fixed", "priceCents": 7990 },
+          "description": "20 esfihas salgadas à sua escolha.",
+          "ingredients": null,
+          "comboGroups": [
+            { "id": "esfihas", "label": "Esfihas", "hint": "Escolha 20 esfihas", "pick": "quantity", "min": 20, "max": 20, "options": ["esfiha-carne", "esfiha-frango-catupiry", "esfiha-calabresa", "esfiha-queijo"], "status": "demo" }
+          ],
+          "status": "observed",
+          "sources": ["instadelivery:combo-casal"]
+        }
+      ]
+    },
+    {
+      "id": "combo-familia",
+      "slug": "combo-familia",
+      "name": "Combo Família",
+      "kind": "combo",
+      "categoryIds": ["combos", "esfihas"],
+      "summary": "30 esfihas salgadas",
+      "status": "observed",
+      "variants": [
+        {
+          "id": "combo-familia-30",
+          "label": "30 esfihas",
+          "pricing": { "type": "fixed", "priceCents": 11990 },
+          "description": "30 esfihas salgadas à sua escolha.",
+          "ingredients": null,
+          "comboGroups": [
+            { "id": "esfihas", "label": "Esfihas", "hint": "Escolha 30 esfihas", "pick": "quantity", "min": 30, "max": 30, "options": ["esfiha-carne", "esfiha-frango-catupiry", "esfiha-calabresa", "esfiha-queijo"], "status": "demo" }
+          ],
+          "status": "observed",
+          "sources": ["instadelivery:combo-familia"]
+        }
+      ]
+    },
+    {
+      "id": "combo-doce",
+      "slug": "combo-esfihas-doces",
+      "name": "Combo Doce",
+      "kind": "combo",
+      "categoryIds": ["combos", "esfihas", "doces"],
+      "summary": "10 esfihas doces",
+      "status": "observed",
+      "variants": [
+        {
+          "id": "combo-doce-10",
+          "label": "10 esfihas",
+          "pricing": { "type": "fixed", "priceCents": 7990 },
+          "description": "10 esfihas doces à sua escolha.",
+          "ingredients": null,
+          "comboGroups": [
+            { "id": "esfihas", "label": "Esfihas doces", "hint": "Escolha 10 esfihas", "pick": "quantity", "min": 10, "max": 10, "options": ["esfiha-churros", "esfiha-chocolate"], "status": "demo" }
+          ],
+          "status": "observed",
+          "sources": ["instadelivery:combo-10-doces"]
+        }
+      ]
+    },
+    {
+      "id": "big-combo",
+      "slug": "big-combo",
+      "name": "Big Combo",
+      "kind": "combo",
+      "categoryIds": ["combos", "esfihas"],
+      "summary": "50 esfihas e 2 refris de 2 L",
+      "status": "observed",
+      "variants": [
+        {
+          "id": "big-combo-50",
+          "label": "50 esfihas",
+          "pricing": { "type": "fixed", "priceCents": 19990 },
+          "description": "50 esfihas salgadas à sua escolha e 2 refrigerantes de 2 litros.",
+          "ingredients": null,
+          "comboGroups": [
+            { "id": "esfihas", "label": "Esfihas", "hint": "Escolha 50 esfihas", "pick": "quantity", "min": 50, "max": 50, "options": ["esfiha-carne", "esfiha-frango-catupiry", "esfiha-calabresa", "esfiha-queijo"], "status": "demo" },
+            { "id": "refri", "label": "Refrigerantes 2 L", "hint": "Escolha 2", "pick": "quantity", "min": 2, "max": 2, "options": ["guarana-2l", "conquista-2l"], "status": "demo" }
+          ],
+          "status": "observed",
+          "sources": ["instadelivery:big-combo"]
+        }
+      ]
+    },
+    {
+      "id": "coca-lata",
+      "slug": "coca-cola-lata",
+      "name": "Coca-Cola lata",
+      "kind": "simple",
+      "categoryIds": ["bebidas"],
+      "status": "observed",
+      "variants": [
+        { "id": "coca-lata-un", "label": "Lata", "pricing": { "type": "fixed", "priceCents": 790 }, "ingredients": null, "status": "observed", "sources": ["instadelivery:modal-bebidas", "moohappy:bebidas"] }
+      ]
+    },
+    {
+      "id": "coca-600",
+      "slug": "coca-cola-600",
+      "name": "Coca-Cola 600 ml",
+      "kind": "simple",
+      "categoryIds": ["bebidas"],
+      "status": "observed",
+      "variants": [
+        { "id": "coca-600-un", "label": "600 ml", "pricing": { "type": "fixed", "priceCents": 1190 }, "ingredients": null, "status": "observed", "sources": ["instadelivery:modal-bebidas", "moohappy:bebidas"] }
+      ]
+    },
+    {
+      "id": "guarana-1l",
+      "slug": "guarana-antarctica-1l",
+      "name": "Guaraná Antarctica 1 L",
+      "kind": "simple",
+      "categoryIds": ["bebidas"],
+      "status": "observed",
+      "variants": [
+        { "id": "guarana-1l-un", "label": "1 L", "pricing": { "type": "fixed", "priceCents": 1190 }, "ingredients": null, "status": "observed", "sources": ["instadelivery:modal-bebidas", "moohappy:bebidas"] }
+      ]
+    },
+    {
+      "id": "guarana-2l",
+      "slug": "guarana-antarctica-2l",
+      "name": "Guaraná Antarctica 2 L",
+      "kind": "simple",
+      "categoryIds": ["bebidas"],
+      "status": "observed",
+      "variants": [
+        { "id": "guarana-2l-un", "label": "2 L", "pricing": { "type": "fixed", "priceCents": 1690 }, "ingredients": null, "status": "observed", "sources": ["instadelivery:modal-bebidas", "moohappy:bebidas"] }
+      ]
+    },
+    {
+      "id": "conquista-2l",
+      "slug": "conquista-2l",
+      "name": "Conquista 2 L",
+      "kind": "simple",
+      "categoryIds": ["bebidas"],
+      "status": "observed",
+      "variants": [
+        { "id": "conquista-2l-un", "label": "2 L", "pricing": { "type": "fixed", "priceCents": 1290 }, "ingredients": null, "status": "observed", "sources": ["instadelivery:modal-bebidas", "moohappy:bebidas"] }
+      ]
+    }
+  ],
+  "sources": [
+    { "id": "instadelivery:loja", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "dados da loja" },
+    { "id": "moohappy:loja", "channel": "moohappy", "url": "https://bellamassa.moohappy.com.br/", "observedOn": "2026-11-03", "field": "dados da loja" },
+    { "id": "instadelivery:modal-grande-2", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "modal pizza grande até 2 sabores", "note": "Valores exibidos por sabor compatíveis com metade do preço inteiro. Total montado não verificado." },
+    { "id": "instadelivery:modal-bebidas", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "bebidas no modal" },
+    { "id": "moohappy:bebidas", "channel": "moohappy", "url": "https://bellamassa.moohappy.com.br/", "observedOn": "2026-11-03", "field": "categoria bebidas" },
+    { "id": "moohappy:combo-da-semana", "channel": "moohappy", "url": "https://bellamassa.moohappy.com.br/", "observedOn": "2026-11-03", "field": "Combo da Semana", "observedValue": "R$ 89,90" },
+    { "id": "instadelivery:combo-solteiro", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "Combo Solteiro 10 esfihas", "observedValue": "R$ 59,90" },
+    { "id": "instadelivery:combo-casal", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "Combo Casal 20 esfihas", "observedValue": "R$ 79,90" },
+    { "id": "instadelivery:combo-familia", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "Combo Família 30 esfihas", "observedValue": "R$ 119,90" },
+    { "id": "instadelivery:combo-10-doces", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "Combo 10 esfihas doces", "observedValue": "R$ 79,90" },
+    { "id": "instadelivery:big-combo", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "Big Combo 50 esfihas e 2 refri 2 L", "observedValue": "R$ 199,90" },
+    { "id": "levantamento:grande-1a4", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "pizza grande de 1 a 4 sabores", "observedValue": "a partir de R$ 56,90" },
+    { "id": "levantamento:broto-ate-2", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "broto 4 pedaços", "observedValue": "a partir de R$ 39,80" },
+    { "id": "levantamento:esfihas-salgadas", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "esfihas salgadas", "observedValue": "a partir de R$ 4,90", "note": "Sabores não levantados. Sabores do seed são ilustrativos." },
+    { "id": "levantamento:esfihas-doces", "channel": "instadelivery", "url": "https://instadelivery.com.br/bellamassapizzaseesfihas", "observedOn": "2026-11-03", "field": "esfihas doces", "observedValue": "a partir de R$ 8,90", "note": "Sabores não levantados. Sabores do seed são ilustrativos." }
+  ]
+}
