@@ -1,0 +1,28 @@
+{
+  "name": "bella-massa",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/web"
+  ],
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "npm run dev -w @bella/web",
+    "dev:api": "dotnet run --project apps/api/src/BellaMassa.Api",
+    "build": "npm run build -w @bella/web",
+    "typecheck": "tsc -p packages/domain && tsc -p apps/web",
+    "test": "vitest run",
+    "test:api": "dotnet test apps/api/BellaMassa.slnx",
+    "check:text": "node scripts/check-text.mjs",
+    "check": "npm run check:text && npm run typecheck && npm test && npm run test:api && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "typescript": "7.0.2",
+    "vitest": "5.1.0"
+  }
+}
