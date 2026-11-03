@@ -118,6 +118,8 @@ export interface Product {
   /* What the variants mean to the customer: Tamanho, Sabor or Bebida. */
   variantLabel?: string;
   image?: Image;
+  /* Short highlight shown on the card, such as Novidade. */
+  badge?: string;
   categoryIds: string[];
   summary?: string;
   featured?: boolean;

@@ -711,7 +711,8 @@
           ]
         }
       ],
-      "variantLabel": "Tamanho"
+      "variantLabel": "Tamanho",
+      "badge": "Novidade"
     },
     {
       "id": "costela-desfiada",
@@ -2403,6 +2404,20 @@
     }
   ],
   "promotions": [
+    {
+      "id": "novidade-bella-tare",
+      "productId": "bella-tare",
+      "title": "Novidade no cardápio",
+      "image": {
+        "url": "novidade.webp",
+        "width": 1600,
+        "height": 718,
+        "alt": "Novidade no cardápio da Bella Massa: pizza Bella Tarê"
+      },
+      "status": "approved",
+      "sources": [],
+      "note": "Arte fornecida pela equipe do projeto."
+    },
     {
       "id": "combo-da-semana",
       "productId": "combo-da-semana",
