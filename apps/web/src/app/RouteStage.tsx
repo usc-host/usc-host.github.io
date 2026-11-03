@@ -101,7 +101,7 @@ export function RouteStage() {
 
   return (
     <>
-      <Suspense fallback={<BrandLoader variant="inline" />}>
+      <Suspense fallback={<BrandLoader brief />}>
         <Routes location={shown}>
           {routes.map(({ path, Component }) => (
             <Route key={path} path={path} element={<Component key={shown.pathname} />} />
