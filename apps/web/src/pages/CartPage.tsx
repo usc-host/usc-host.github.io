@@ -1,13 +1,13 @@
 import { defaultIndex, formatBRL, isDirectAdd, primaryImage, type LineQuote } from '@bella/domain';
-import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, RedoOutlined } from '@ant-design/icons';
-import { Button, Popconfirm } from 'antd';
+import { DeleteOutlined, EditOutlined, RedoOutlined, SyncOutlined } from '@ant-design/icons';
+import { Button, Popconfirm, Tooltip } from 'antd';
 import { useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router';
 import { BrandStatus } from '../components/brand/BrandLoader';
 import { PageNav } from '../components/layout/PageNav';
 import { EmptyState } from '../components/ui/EmptyState';
-import { imagesForFlavors, PizzaSplitImage } from '../components/ui/PizzaSplitImage';
+import { imagesForFlavors, pickFlavorImage, PizzaSplitImage } from '../components/ui/PizzaSplitImage';
 import { artKindFor } from '../components/ui/ProductArt';
 import { ProductImage } from '../components/ui/ProductImage';
 import { QuantityStepper } from '../components/ui/QuantityStepper';
@@ -23,61 +23,77 @@ function LineItem({ line, preview, server }: { line: CartLine; preview?: LineQuo
   const unavailable = shown ? !shown.ok : true;
   const changed = server && preview && server.ok && preview.ok && server.unitCents !== preview.unitCents;
   const image = variant?.image ?? (product ? primaryImage(product) : null);
-  const flavors = line.config.flavorIds ?? [];
+  const flavorPhotos = imagesForFlavors(line.config.flavorIds ?? []);
   const name = shown?.name ?? 'Item indisponível';
+  const details = shown?.summary.join('; ') ?? '';
+
+  function remove() {
+    cart.remove(line.id);
+    toast('Item removido', { id: `rm-${line.id}` });
+  }
 
   return (
     <li className={`cart-line${unavailable ? ' is-unavailable' : ''}`}>
-      <Link to={product ? `/produto/${product.slug}` : '/cardapio'} className="cart-line__media" tabIndex={-1} aria-hidden="true">
-        {product?.kind === 'builder' && flavors.length ? (
-          <PizzaSplitImage images={imagesForFlavors(flavors)} alt={name} />
-        ) : (
-          <ProductImage image={image} art={artKindFor(product?.categoryIds ?? [])} />
-        )}
-      </Link>
-      <div className="cart-line__body">
-        <div className="cart-line__top">
-          <div className="cart-line__title">
-            <h2>{name}</h2>
-            {product && product.variants.length > 1 && <span className="tag">{variant?.label}</span>}
+      <div className="cart-line__content" inert={unavailable} aria-hidden={unavailable}>
+        <Link to={product ? `/produto/${product.slug}` : '/cardapio'} className="cart-line__media" tabIndex={-1} aria-hidden="true">
+          {product?.kind === 'builder' ? (
+            <PizzaSplitImage images={flavorPhotos.length ? flavorPhotos : [pickFlavorImage(0)!].filter(Boolean)} alt={name} />
+          ) : (
+            <ProductImage image={image} art={artKindFor(product?.categoryIds ?? [])} />
+          )}
+        </Link>
+        <div className="cart-line__body">
+          <div className="cart-line__top">
+            <div className="cart-line__title">
+              <h2 title={name}>{name}</h2>
+              {product && product.variants.length > 1 && <span className="tag">{variant?.label}</span>}
+            </div>
+            <span className="cart-line__price price">
+              {changed && (
+                <Tooltip title="Valor atualizado conforme o cardápio">
+                  <SyncOutlined className="cart-line__changed" aria-label="Valor atualizado conforme o cardápio" />
+                </Tooltip>
+              )}
+              {shown?.totalCents != null ? formatBRL(shown.totalCents) : ''}
+            </span>
           </div>
-          <span className="cart-line__price price">{shown?.totalCents != null ? formatBRL(shown.totalCents) : ''}</span>
-        </div>
-        {shown && shown.summary.length > 0 && (
-          <ul className="cart-line__summary">
-            {shown.summary.map(s => <li key={s}>{s}</li>)}
-          </ul>
-        )}
-        {unavailable && (
-          <p className="cart-line__warn"><ExclamationCircleOutlined /> {shown?.issues[0]?.message ?? 'Este item não está mais disponível.'}</p>
-        )}
-        {changed && <p className="cart-line__note">Valor atualizado conforme o cardápio.</p>}
-        <div className="cart-line__bottom">
-          <div className="cart-line__actions">
-            {product && !isDirectAdd(product) && !unavailable && (
-              <Link to={`/produto/${product.slug}?editar=${line.id}`} className="icon-text">
-                <EditOutlined /> Editar
-              </Link>
-            )}
-            <Popconfirm
-              title="Deseja remover esse item do carrinho?"
-              okText="Remover"
-              cancelText="Cancelar"
-              okButtonProps={{ danger: true }}
-              placement="topLeft"
-              onConfirm={() => {
-                cart.remove(line.id);
-                toast('Item removido', { id: `rm-${line.id}` });
-              }}
-            >
-              <button type="button" className="icon-text icon-text--danger">
-                <DeleteOutlined /> Remover
-              </button>
-            </Popconfirm>
+          <p className="cart-line__summary" title={details || undefined}>
+            {product && product.variants.length > 1 && <span className="cart-line__variant">{variant?.label}{details ? '; ' : ''}</span>}
+            {details}
+          </p>
+          <div className="cart-line__bottom">
+            <div className="cart-line__actions">
+              {product && !isDirectAdd(product) && (
+                <Link to={`/produto/${product.slug}?editar=${line.id}`} className="icon-text" aria-label={`Editar ${name}`}>
+                  <EditOutlined /> <span className="icon-text__label">Editar</span>
+                </Link>
+              )}
+              <Popconfirm
+                title="Deseja remover esse item do carrinho?"
+                okText="Remover"
+                cancelText="Cancelar"
+                okButtonProps={{ danger: true }}
+                placement="topLeft"
+                onConfirm={remove}
+              >
+                <button type="button" className="icon-text icon-text--danger" aria-label={`Remover ${name}`}>
+                  <DeleteOutlined /> <span className="icon-text__label">Remover</span>
+                </button>
+              </Popconfirm>
+            </div>
+            <QuantityStepper size="sm" value={line.config.quantity} onChange={q => cart.setQuantity(line.id, q)} label={`Quantidade de ${name}`} />
           </div>
-          <QuantityStepper size="sm" value={line.config.quantity} onChange={q => cart.setQuantity(line.id, q)} label={`Quantidade de ${name}`} />
         </div>
       </div>
+      {unavailable && (
+        <div className="cart-line__overlay" role="alert">
+          <strong>Ops!</strong>
+          <p>{shown?.issues[0]?.message ?? 'Este item não está mais disponível.'}</p>
+          <Button danger type="primary" shape="round" icon={<DeleteOutlined />} onClick={remove} aria-label={`Remover ${name} do carrinho`}>
+            Remover
+          </Button>
+        </div>
+      )}
     </li>
   );
 }
