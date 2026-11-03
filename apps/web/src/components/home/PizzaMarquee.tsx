@@ -180,10 +180,12 @@ export function PizzaMarquee() {
         </div>
         <Link to="/cardapio?categoria=premium" className="text-link">Ver todas <ArrowRightOutlined /></Link>
       </div>
-      <div className="marquee" ref={viewport}>
-        <div className="marquee__track" ref={track}>
-          {pizzas.map(p => <Tile key={p.id} product={p} />)}
-          {pizzas.map(p => <Tile key={`${p.id}-copy`} product={p} hidden />)}
+      <div className="container">
+        <div className="marquee" ref={viewport}>
+          <div className="marquee__track" ref={track}>
+            {pizzas.map(p => <Tile key={p.id} product={p} />)}
+            {pizzas.map(p => <Tile key={`${p.id}-copy`} product={p} hidden />)}
+          </div>
         </div>
       </div>
     </section>
