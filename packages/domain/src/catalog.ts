@@ -84,11 +84,11 @@ export function comboOptionName(index: CatalogIndex, group: ComboGroup, id: stri
   return group.source === 'flavor' ? index.flavor(id)?.name : index.item(id)?.variant.label;
 }
 
-/* Label for a fixed price line: a size joins the product name, a flavor or a
-   drink stands on its own. */
+/* Label for a fixed price line: a flavor or a drink stands on its own, any
+   other choice (size, type) joins the product name. */
 export function variantDisplayName(product: Product, variant: Variant): string {
   if (product.variants.length === 1) return product.name;
-  return (product.variantLabel ?? 'Tamanho') === 'Tamanho' ? `${product.name} ${variant.label.toLowerCase()}` : variant.label;
+  return ['Sabor', 'Bebida'].includes(product.variantLabel ?? '') ? variant.label : `${product.name} ${variant.label.toLowerCase()}`;
 }
 
 export function productDescription(product: Product): string {

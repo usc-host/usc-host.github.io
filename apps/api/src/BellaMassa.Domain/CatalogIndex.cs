@@ -74,11 +74,12 @@ public sealed class CatalogIndex
     public static bool IsBaseIngredient(string name) =>
         name.StartsWith("massa", StringComparison.OrdinalIgnoreCase) || name.StartsWith("molho de tomate", StringComparison.OrdinalIgnoreCase);
 
-    /* A size joins the product name; a flavor or a drink stands on its own. */
+    /* A flavor or a drink stands on its own; any other choice (size, type)
+       joins the product name. */
     public static string VariantDisplayName(Product product, Variant variant) =>
         product.Variants.Count == 1 ? product.Name
-        : (product.VariantLabel ?? "Tamanho") == "Tamanho" ? $"{product.Name} {variant.Label.ToLowerInvariant()}"
-        : variant.Label;
+        : product.VariantLabel is "Sabor" or "Bebida" ? variant.Label
+        : $"{product.Name} {variant.Label.ToLowerInvariant()}";
 
     public static string Description(Product product) =>
         product.Summary ?? product.Variants.FirstOrDefault(v => v.Description is not null)?.Description ?? string.Empty;

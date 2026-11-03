@@ -1,5 +1,5 @@
 {
-  "version": "2026.11.03.5",
+  "version": "2026.11.03.6",
   "currency": "BRL",
   "store": {
     "name": "Bella Massa",
@@ -2277,6 +2277,50 @@
             "instadelivery:modal-bebidas",
             "moohappy:bebidas"
           ]
+        }
+      ]
+    },
+    {
+      "id": "agua-crystal",
+      "slug": "agua-crystal",
+      "name": "Água mineral Crystal 500 ml",
+      "kind": "simple",
+      "categoryIds": [
+        "bebidas"
+      ],
+      "summary": "Água mineral natural, com ou sem gás",
+      "variantLabel": "Tipo",
+      "status": "demo",
+      "image": {
+        "url": "agua.webp",
+        "width": 800,
+        "height": 800,
+        "alt": "Garrafa de água mineral Crystal 500 ml no gelo"
+      },
+      "variants": [
+        {
+          "id": "agua-sem-gas",
+          "label": "Sem gás",
+          "pricing": {
+            "type": "fixed",
+            "priceCents": 500
+          },
+          "ingredients": null,
+          "status": "demo",
+          "sources": [],
+          "note": "Preço ilustrativo."
+        },
+        {
+          "id": "agua-com-gas",
+          "label": "Com gás",
+          "pricing": {
+            "type": "fixed",
+            "priceCents": 550
+          },
+          "ingredients": null,
+          "status": "demo",
+          "sources": [],
+          "note": "Preço ilustrativo."
         }
       ]
     }

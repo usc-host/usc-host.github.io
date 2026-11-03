@@ -297,6 +297,11 @@
       "totalCents": 3380
     },
     {
+      "name": "água exige escolher com ou sem gás e soma o tipo ao nome",
+      "line": { "productId": "agua-crystal", "variantId": "agua-com-gas", "quantity": 2 },
+      "ok": true, "unitCents": 550, "totalCents": 1100
+    },
+    {
       "name": "esfiha escolhida pelo sabor",
       "line": {
         "productId": "esfihas-doces",
