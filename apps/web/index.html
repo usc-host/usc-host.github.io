@@ -6,7 +6,7 @@
     <meta name="description" content="Pizzas premium, esfihas e combos da Bella Massa, em Barra Bonita. Monte sua pizza e peça ajuda ao nosso assistente." />
     <meta name="theme-color" content="#FFF9F0" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#141311" media="(prefers-color-scheme: dark)" />
-    <link rel="icon" type="image/png" href="https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/stores/logo/16474038186231632a9ce3f_medium.png" />
+    <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="preconnect" href="https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com" crossorigin />
     <title>Bella Massa | Pizzas e esfihas artesanais</title>
     <script>
@@ -24,11 +24,23 @@
     <style>
       /* Brand loader styles live here so the boot screen paints before any bundle.
          The React BrandLoader reuses these same classes for page transitions. */
-      :root { --boot-bg: #fff9f0; --boot-text: #62594f; --boot-plate: #fffdf8; --boot-ring: rgba(25, 23, 20, 0.08); }
-      :root[data-theme='dark'] { --boot-bg: #141311; --boot-text: #c2b8aa; --boot-plate: #fff9f0; --boot-ring: rgba(255, 249, 240, 0.08); }
+      :root { --boot-bg: #fff9f0; --boot-text: #62594f; }
+      :root[data-theme='dark'] { --boot-bg: #141311; --boot-text: #c2b8aa; }
       html, body { margin: 0; background: var(--boot-bg); }
       html.boot-active, html.boot-active body { overflow: hidden; }
+
+      /* Each drop is a circle in the logo mask. The center opens first and the
+         others land a moment later around it, like drops spreading. */
+      @property --d1 { syntax: '<length>'; inherits: false; initial-value: 0px; }
+      @property --d2 { syntax: '<length>'; inherits: false; initial-value: 0px; }
+      @property --d3 { syntax: '<length>'; inherits: false; initial-value: 0px; }
+      @property --d4 { syntax: '<length>'; inherits: false; initial-value: 0px; }
+      @property --d5 { syntax: '<length>'; inherits: false; initial-value: 0px; }
+      @property --d6 { syntax: '<length>'; inherits: false; initial-value: 0px; }
+      @property --d7 { syntax: '<length>'; inherits: false; initial-value: 0px; }
+
       .bm-loader {
+        --bm-speed: 1;
         position: fixed; inset: 0; z-index: 2000;
         display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
         background: var(--boot-bg); color: var(--boot-text);
@@ -38,33 +50,48 @@
         transition: opacity 220ms ease, visibility 0s linear 220ms;
       }
       .bm-loader.is-leaving { opacity: 0; visibility: hidden; }
+      .bm-loader--brief { --bm-speed: 0.6; }
       .bm-loader--inline { position: static; background: transparent; padding: 48px 16px; animation: none; }
       .bm-loader__plate {
-        position: relative; overflow: hidden;
-        width: min(250px, 62vw); aspect-ratio: 355 / 214;
-        padding: 12px 16px; border-radius: 22px;
-        background: var(--boot-plate);
-        box-shadow: 0 0 0 1px var(--boot-ring), 0 18px 40px -22px rgba(60, 30, 10, 0.45);
-        animation: bm-plate-in 420ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
+        position: relative;
+        width: min(260px, 64vw); aspect-ratio: 355 / 214;
+        filter: drop-shadow(0 14px 22px rgba(60, 30, 10, 0.18));
       }
-      .bm-loader--compact .bm-loader__plate { width: 132px; padding: 8px 10px; border-radius: 14px; box-shadow: 0 0 0 1px var(--boot-ring); }
+      .bm-loader--compact .bm-loader__plate { width: 132px; }
       .bm-loader__logo {
         display: block; width: 100%; height: 100%; object-fit: contain;
-        -webkit-mask-image: linear-gradient(90deg, #000 0 45%, transparent 55% 100%);
-        mask-image: linear-gradient(90deg, #000 0 45%, transparent 55% 100%);
-        -webkit-mask-size: 260% 100%; mask-size: 260% 100%;
-        -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-        animation: bm-reveal 560ms cubic-bezier(0.25, 0.8, 0.25, 1) 120ms both;
+        -webkit-mask-image:
+          radial-gradient(circle var(--d1) at 50% 50%, #000 86%, transparent),
+          radial-gradient(circle var(--d2) at 28% 38%, #000 82%, transparent),
+          radial-gradient(circle var(--d3) at 73% 62%, #000 82%, transparent),
+          radial-gradient(circle var(--d4) at 50% 14%, #000 82%, transparent),
+          radial-gradient(circle var(--d5) at 46% 88%, #000 82%, transparent),
+          radial-gradient(circle var(--d6) at 9% 56%, #000 82%, transparent),
+          radial-gradient(circle var(--d7) at 92% 42%, #000 82%, transparent);
+        mask-image:
+          radial-gradient(circle var(--d1) at 50% 50%, #000 86%, transparent),
+          radial-gradient(circle var(--d2) at 28% 38%, #000 82%, transparent),
+          radial-gradient(circle var(--d3) at 73% 62%, #000 82%, transparent),
+          radial-gradient(circle var(--d4) at 50% 14%, #000 82%, transparent),
+          radial-gradient(circle var(--d5) at 46% 88%, #000 82%, transparent),
+          radial-gradient(circle var(--d6) at 9% 56%, #000 82%, transparent),
+          radial-gradient(circle var(--d7) at 92% 42%, #000 82%, transparent);
+        animation:
+          bm-d1 calc(var(--bm-speed) * 720ms) cubic-bezier(0.3, 1.25, 0.5, 1) calc(var(--bm-speed) * 60ms) both,
+          bm-d2 calc(var(--bm-speed) * 460ms) cubic-bezier(0.34, 1.5, 0.6, 1) calc(var(--bm-speed) * 170ms) both,
+          bm-d3 calc(var(--bm-speed) * 480ms) cubic-bezier(0.34, 1.5, 0.6, 1) calc(var(--bm-speed) * 230ms) both,
+          bm-d4 calc(var(--bm-speed) * 420ms) cubic-bezier(0.34, 1.5, 0.6, 1) calc(var(--bm-speed) * 300ms) both,
+          bm-d5 calc(var(--bm-speed) * 440ms) cubic-bezier(0.34, 1.5, 0.6, 1) calc(var(--bm-speed) * 270ms) both,
+          bm-d6 calc(var(--bm-speed) * 420ms) cubic-bezier(0.34, 1.5, 0.6, 1) calc(var(--bm-speed) * 360ms) both,
+          bm-d7 calc(var(--bm-speed) * 400ms) cubic-bezier(0.34, 1.5, 0.6, 1) calc(var(--bm-speed) * 390ms) both;
       }
-      .bm-loader--brief .bm-loader__plate { animation-duration: 200ms; }
-      .bm-loader--brief .bm-loader__logo { animation-duration: 320ms; animation-delay: 40ms; }
-      .bm-loader__plate::after {
-        content: ''; position: absolute; inset: 0; pointer-events: none;
-        background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.55) 50%, transparent 62%);
-        transform: translateX(-130%);
-        animation: bm-shine 2.8s ease-in-out 1.4s infinite;
-      }
-      .bm-loader--brief .bm-loader__plate::after { display: none; }
+      @keyframes bm-d1 { to { --d1: 180px; } }
+      @keyframes bm-d2 { to { --d2: 70px; } }
+      @keyframes bm-d3 { to { --d3: 74px; } }
+      @keyframes bm-d4 { to { --d4: 54px; } }
+      @keyframes bm-d5 { to { --d5: 58px; } }
+      @keyframes bm-d6 { to { --d6: 48px; } }
+      @keyframes bm-d7 { to { --d7: 50px; } }
       .bm-loader__wordmark {
         display: none; height: 100%; align-items: center; justify-content: center;
         font: 700 28px/1 'Fraunces Variable', Georgia, serif; color: #b92c28;
@@ -82,16 +109,11 @@
         min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid transparent;
         font: inherit; font-weight: 700; cursor: pointer; background: #b92c28; color: #fff;
       }
-      .bm-loader__button--ghost { background: transparent; color: inherit; border-color: currentColor; }
       .bm-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
       @keyframes bm-fade-in { from { opacity: 0; } }
-      @keyframes bm-plate-in { from { opacity: 0; transform: translateY(6px) scale(0.98); } }
-      @keyframes bm-reveal { from { -webkit-mask-position: 100% 0; mask-position: 100% 0; } to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
-      @keyframes bm-shine { 0% { transform: translateX(-130%); } 55%, 100% { transform: translateX(130%); } }
       @media (prefers-reduced-motion: reduce) {
-        .bm-loader, .bm-loader__plate { animation: bm-fade-in 120ms ease-out both; }
+        .bm-loader { animation: bm-fade-in 120ms ease-out both; }
         .bm-loader__logo { animation: none; -webkit-mask-image: none; mask-image: none; }
-        .bm-loader__plate::after { display: none; }
       }
     </style>
   </head>
@@ -101,7 +123,7 @@
       <div class="bm-loader__plate" id="boot-plate">
         <img
           class="bm-loader__logo"
-          src="https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/stores/logo/16474038186231632a9ce3f_medium.png"
+          src="/logo.png"
           alt=""
           width="355"
           height="214"
@@ -132,8 +154,8 @@
         window.__bellaBoot = {
           done: function () {
             clearTimeout(timer);
-            /* Let the reveal finish so the logo never blinks on fast connections. */
-            var wait = Math.max(0, 680 - (performance.now() - started));
+            /* Let the drops finish so the logo never blinks on fast connections. */
+            var wait = Math.max(0, 860 - (performance.now() - started));
             setTimeout(function () {
               boot.classList.add('is-leaving');
               document.documentElement.classList.remove('boot-active');

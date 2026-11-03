@@ -1,5 +1,6 @@
 import { catalog } from '@bella/domain';
 import { useState } from 'react';
+import { asset } from '../../lib/asset';
 
 /* The full logo file with its own background, on a cream plate so it reads
    the same in both themes. Falls back to a wordmark if the image fails. */
@@ -11,7 +12,7 @@ export function Logo({ size = 'md' }: { size?: 'sm' | 'md' }) {
       {failed ? (
         <span className="logo-plate__wordmark">Bella Massa</span>
       ) : (
-        <img src={logo.url} width={logo.width} height={logo.height} alt={logo.alt} onError={() => setFailed(true)} />
+        <img src={asset(logo.url)} width={logo.width} height={logo.height} alt={logo.alt} onError={() => setFailed(true)} />
       )}
     </span>
   );

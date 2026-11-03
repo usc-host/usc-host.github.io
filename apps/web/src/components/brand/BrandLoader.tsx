@@ -1,6 +1,7 @@
 import { catalog } from '@bella/domain';
 import { Button } from 'antd';
 import { useState } from 'react';
+import { asset } from '../../lib/asset';
 import { useDots } from '../../lib/hooks';
 
 interface BrandLoaderProps {
@@ -32,7 +33,7 @@ export function BrandLoader({ variant = 'overlay', brief = false, leaving = fals
     <div className={classes} role="status">
       <span className="bm-sr-only">{error ? '' : `${label} página`}</span>
       <div className={`bm-loader__plate${failed ? ' is-fallback' : ''}`}>
-        <img className="bm-loader__logo" src={logo.url} alt="" width={logo.width} height={logo.height} onError={() => setFailed(true)} />
+        <img className="bm-loader__logo" src={asset(logo.url)} alt="" width={logo.width} height={logo.height} onError={() => setFailed(true)} />
         <span className="bm-loader__wordmark" aria-hidden="true">Bella Massa</span>
       </div>
       <span className="bm-loader__label" aria-hidden="true">

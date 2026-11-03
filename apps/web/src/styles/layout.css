@@ -62,10 +62,6 @@ html.chat-modal body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--plate);
-  border-radius: 12px;
-  box-shadow: 0 0 0 1px var(--border);
-  padding: 3px 8px;
 }
 
 .logo-plate img {

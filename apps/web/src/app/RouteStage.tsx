@@ -3,8 +3,8 @@ import { Route, Routes, useLocation, useNavigate, useNavigationType, type Locati
 import { BrandLoader } from '../components/brand/BrandLoader';
 import { isLoaded, matchRoute, routes } from './routes';
 
-const BRIEF_MS = 380;
-const FULL_MS = 700;
+const BRIEF_MS = 480;
+const FULL_MS = 860;
 const LEAVE_MS = 240;
 const TIMEOUT_MS = 12000;
 
