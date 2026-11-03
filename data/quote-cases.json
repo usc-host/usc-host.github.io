@@ -3,62 +3,62 @@
   "cases": [
     {
       "name": "um sabor cobra o preço inteiro",
-      "line": { "productId": "pizza-grande", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa"] },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa"] },
       "ok": true, "unitCents": 5690, "totalCents": 5690, "parts": [5690]
     },
     {
       "name": "dois sabores somam metades exatas",
-      "line": { "productId": "pizza-grande", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa", "cupim-supremo"] },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa", "cupim-supremo"] },
       "ok": true, "unitCents": 7340, "parts": [2845, 4495]
     },
     {
       "name": "três sabores arredondam cada fração para o centavo mais próximo",
-      "line": { "productId": "pizza-grande", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa", "mussarela", "presunto"] },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa", "mussarela", "presunto"] },
       "ok": true, "unitCents": 5691, "parts": [1897, 1897, 1897]
     },
     {
       "name": "quatro sabores no limite da grande",
-      "line": { "productId": "pizza-grande", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa", "mussarela", "portuguesa", "nutella"] },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa", "mussarela", "portuguesa", "nutella"] },
       "ok": true, "unitCents": 6294, "parts": [1423, 1423, 1575, 1873]
     },
     {
       "name": "cinco sabores excedem a grande",
-      "line": { "productId": "pizza-grande", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa", "mussarela", "presunto", "portuguesa", "tres-queijos"] },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa", "mussarela", "presunto", "portuguesa", "tres-queijos"] },
       "ok": false, "issues": ["FLAVORS_EXCEEDED"]
     },
     {
       "name": "broto aceita no máximo dois sabores",
-      "line": { "productId": "pizza-broto", "variantId": "pizza-broto-4", "quantity": 1, "flavorIds": ["calabresa", "mussarela", "presunto"] },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-broto-4", "quantity": 1, "flavorIds": ["calabresa", "mussarela", "presunto"] },
       "ok": false, "issues": ["FLAVORS_EXCEEDED"]
     },
     {
       "name": "pizza montada sem sabor",
-      "line": { "productId": "pizza-grande", "variantId": "pizza-grande-8", "quantity": 1 },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-grande-8", "quantity": 1 },
       "ok": false, "issues": ["FLAVORS_MISSING"]
     },
     {
       "name": "sabor repetido",
-      "line": { "productId": "pizza-grande", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa", "calabresa"] },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["calabresa", "calabresa"] },
       "ok": false, "issues": ["FLAVOR_REPEATED"]
     },
     {
       "name": "sabor fora do tamanho",
-      "line": { "productId": "pizza-broto", "variantId": "pizza-broto-4", "quantity": 1, "flavorIds": ["cupim-supremo"] },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-broto-4", "quantity": 1, "flavorIds": ["cupim-supremo"] },
       "ok": false, "issues": ["FLAVOR_UNAVAILABLE"]
     },
     {
       "name": "borda soma e quantidade multiplica",
-      "line": { "productId": "pizza-grande", "variantId": "pizza-grande-8", "quantity": 3, "flavorIds": ["mussarela"], "optionIds": ["borda-chocolate"] },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-grande-8", "quantity": 3, "flavorIds": ["mussarela"], "optionIds": ["borda-chocolate"] },
       "ok": true, "unitCents": 7089, "totalCents": 21267
     },
     {
       "name": "duas bordas excedem o grupo",
-      "line": { "productId": "pizza-grande", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["mussarela"], "optionIds": ["borda-cheddar", "borda-requeijao"] },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-grande-8", "quantity": 1, "flavorIds": ["mussarela"], "optionIds": ["borda-cheddar", "borda-requeijao"] },
       "ok": false, "issues": ["OPTION_EXCEEDED"]
     },
     {
       "name": "borda não disponível na broto",
-      "line": { "productId": "pizza-broto", "variantId": "pizza-broto-4", "quantity": 1, "flavorIds": ["mussarela"], "optionIds": ["borda-cheddar"] },
+      "line": { "productId": "monte-sua-pizza", "variantId": "pizza-broto-4", "quantity": 1, "flavorIds": ["mussarela"], "optionIds": ["borda-cheddar"] },
       "ok": false, "issues": ["OPTION_UNAVAILABLE"]
     },
     {
@@ -67,23 +67,53 @@
       "ok": true, "unitCents": 6290, "totalCents": 12580
     },
     {
+      "name": "adicionais somam ao preço da pizza",
+      "line": { "productId": "cupim-supremo", "variantId": "cupim-supremo-broto", "quantity": 1, "optionIds": ["add-bacon", "add-milho"] },
+      "ok": true, "unitCents": 7490, "parts": [6290, 800, 400]
+    },
+    {
+      "name": "retirar ingredientes não muda o preço",
+      "line": { "productId": "cupim-supremo", "variantId": "cupim-supremo-grande", "quantity": 1, "removedIngredients": ["Mel", "Cebola roxa"] },
+      "ok": true, "unitCents": 8990
+    },
+    {
+      "name": "massa e molho não podem ser retirados",
+      "line": { "productId": "cupim-supremo", "variantId": "cupim-supremo-grande", "quantity": 1, "removedIngredients": ["Molho de tomate artesanal"] },
+      "ok": false, "issues": ["INGREDIENT_UNAVAILABLE"]
+    },
+    {
+      "name": "ingrediente que não está na receita",
+      "line": { "productId": "cupim-supremo", "variantId": "cupim-supremo-grande", "quantity": 1, "removedIngredients": ["Bacon"] },
+      "ok": false, "issues": ["INGREDIENT_UNAVAILABLE"]
+    },
+    {
+      "name": "bebida escolhida entre os itens do produto",
+      "line": { "productId": "bebidas", "variantId": "guarana-2l-un", "quantity": 2 },
+      "ok": true, "unitCents": 1690, "totalCents": 3380
+    },
+    {
+      "name": "esfiha escolhida pelo sabor",
+      "line": { "productId": "esfihas-doces", "variantId": "esfiha-churros-un", "quantity": 3 },
+      "ok": true, "unitCents": 499, "totalCents": 1497
+    },
+    {
       "name": "combo com esfihas faltando",
-      "line": { "productId": "combo-casal", "variantId": "combo-casal-20", "quantity": 1, "combo": { "esfihas": { "esfiha-carne": 12 } } },
+      "line": { "productId": "combo-casal", "variantId": "combo-casal-20", "quantity": 1, "combo": { "esfihas": { "esfiha-queijo": 12 } } },
       "ok": false, "issues": ["COMBO_INCOMPLETE"]
     },
     {
       "name": "combo com esfihas sobrando",
-      "line": { "productId": "combo-casal", "variantId": "combo-casal-20", "quantity": 1, "combo": { "esfihas": { "esfiha-carne": 15, "esfiha-queijo": 6 } } },
+      "line": { "productId": "combo-casal", "variantId": "combo-casal-20", "quantity": 1, "combo": { "esfihas": { "esfiha-queijo": 15, "esfiha-pizza": 6 } } },
       "ok": false, "issues": ["COMBO_EXCEEDED"]
     },
     {
       "name": "combo completo",
-      "line": { "productId": "combo-casal", "variantId": "combo-casal-20", "quantity": 1, "combo": { "esfihas": { "esfiha-carne": 14, "esfiha-queijo": 6 } } },
+      "line": { "productId": "combo-casal", "variantId": "combo-casal-20", "quantity": 1, "combo": { "esfihas": { "esfiha-queijo": 14, "esfiha-pizza": 6 } } },
       "ok": true, "unitCents": 7990
     },
     {
       "name": "item de outro grupo no combo",
-      "line": { "productId": "combo-casal", "variantId": "combo-casal-20", "quantity": 1, "combo": { "esfihas": { "esfiha-carne": 19, "esfiha-churros": 1 } } },
+      "line": { "productId": "combo-casal", "variantId": "combo-casal-20", "quantity": 1, "combo": { "esfihas": { "esfiha-queijo": 19, "esfiha-churros-un": 1 } } },
       "ok": false, "issues": ["COMBO_OPTION_UNAVAILABLE", "COMBO_INCOMPLETE"]
     },
     {
@@ -93,17 +123,17 @@
     },
     {
       "name": "Combo da Semana completo",
-      "line": { "productId": "combo-da-semana", "variantId": "combo-da-semana-unico", "quantity": 1, "combo": { "pizza": { "calabresa": 1 }, "broto-doce": { "churros": 1 }, "refri": { "guarana-2l": 1 } } },
+      "line": { "productId": "combo-da-semana", "variantId": "combo-da-semana-unico", "quantity": 1, "combo": { "pizza": { "calabresa": 1 }, "broto-doce": { "churros": 1 }, "refri": { "guarana-2l-un": 1 } } },
       "ok": true, "unitCents": 9990
     },
     {
       "name": "Pizza Trem com sabor repetido",
-      "line": { "productId": "pizza-trem", "variantId": "pizza-trem-70", "quantity": 1, "combo": { "sabores": { "calabresa": 4 }, "refri": { "conquista-2l": 1 } } },
+      "line": { "productId": "pizza-trem", "variantId": "pizza-trem-70", "quantity": 1, "combo": { "sabores": { "calabresa": 4 }, "refri": { "conquista-2l-un": 1 } } },
       "ok": false, "issues": ["COMBO_REPEATED"]
     },
     {
       "name": "Big Combo aceita dois refris iguais",
-      "line": { "productId": "big-combo", "variantId": "big-combo-50", "quantity": 1, "combo": { "esfihas": { "esfiha-carne": 50 }, "refri": { "guarana-2l": 2 } } },
+      "line": { "productId": "big-combo", "variantId": "big-combo-50", "quantity": 1, "combo": { "esfihas": { "esfiha-queijo": 50 }, "refri": { "guarana-2l-un": 2 } } },
       "ok": true, "unitCents": 19990
     },
     {
@@ -118,7 +148,7 @@
     },
     {
       "name": "quantidade zero",
-      "line": { "productId": "coca-lata", "variantId": "coca-lata-un", "quantity": 0 },
+      "line": { "productId": "bebidas", "variantId": "coca-lata-un", "quantity": 0 },
       "ok": false, "issues": ["QUANTITY_INVALID"]
     }
   ]

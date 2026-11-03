@@ -1,4 +1,4 @@
-import type { CatalogIndex } from './catalog.ts';
+import { comboOptionName, isBaseIngredient, variantDisplayName, type CatalogIndex } from './catalog.ts';
 import { fraction } from './money.ts';
 import type { LineConfig, LineIssue, LineQuote, PricePart, Quote, Variant } from './types.ts';
 
@@ -46,6 +46,17 @@ function optionParts(index: CatalogIndex, variant: Variant, ids: string[], issue
   if (ids.some(id => !seen.has(id))) issues.push({ field: 'options', code: 'OPTION_UNAVAILABLE', message: 'Um dos adicionais escolhidos não está disponível para este produto.' });
 }
 
+function ingredientIssues(variant: Variant, removed: string[], issues: LineIssue[], summary: string[]) {
+  if (!removed.length) return;
+  const listed = variant.ingredients ?? [];
+  if (new Set(removed).size !== removed.length || removed.some(r => !listed.includes(r) || isBaseIngredient(r))) {
+    issues.push({ field: 'ingredients', code: 'INGREDIENT_UNAVAILABLE', message: 'Só dá para retirar ingredientes listados neste produto.' });
+    return;
+  }
+  // Recipe order, so the kitchen always reads it the same way.
+  summary.push(`Sem: ${listed.filter(i => removed.includes(i)).map(i => i.toLowerCase()).join(', ')}`);
+}
+
 function comboIssues(index: CatalogIndex, variant: Variant, combo: LineConfig['combo'], issues: LineIssue[], summary: string[]) {
   const groups = variant.comboGroups ?? [];
   const selections = combo ?? {};
@@ -61,17 +72,17 @@ function comboIssues(index: CatalogIndex, variant: Variant, combo: LineConfig['c
         issues.push({ field: 'combo', code: 'COMBO_QUANTITY_INVALID', groupId: group.id, message: 'Quantidade inválida no combo.' });
         continue;
       }
-      if (group.pick !== 'quantity' && qty > 1) {
+      if (!group.repeat && qty > 1) {
         issues.push({ field: 'combo', code: 'COMBO_REPEATED', groupId: group.id, message: `Em ${group.label.toLowerCase()}, cada opção pode ser escolhida uma vez.` });
       }
-      const name = group.pick === 'flavor' ? index.flavor(id)?.name : index.product(id)?.name;
-      const priced = group.pick !== 'flavor' || !group.table || index.flavor(id)?.prices[group.table] !== undefined;
+      const name = comboOptionName(index, group, id);
+      const priced = group.source !== 'flavor' || !group.table || index.flavor(id)?.prices[group.table] !== undefined;
       if (!group.options.includes(id) || !name || !priced) {
         issues.push({ field: 'combo', code: 'COMBO_OPTION_UNAVAILABLE', groupId: group.id, message: `Uma escolha em ${group.label.toLowerCase()} não está disponível.` });
         continue;
       }
       total += qty;
-      names.push(group.pick === 'quantity' ? `${qty}x ${name}` : name);
+      names.push(group.repeat ? `${qty}x ${name}` : name);
     }
     if (total < group.min) {
       issues.push({ field: 'combo', code: 'COMBO_INCOMPLETE', groupId: group.id, message: `${group.label}: ${plural(group.min - total, 'escolha restante', 'escolhas restantes')}.` });
@@ -123,7 +134,7 @@ export function quoteLine(index: CatalogIndex, config: LineConfig): LineQuote {
 
   const pricing = variant.pricing;
   if (pricing.type === 'fixed') {
-    parts.push({ label: product.variants.length > 1 ? `${product.name} ${variant.label.toLowerCase()}` : product.name, cents: pricing.priceCents });
+    parts.push({ label: variantDisplayName(product, variant), cents: pricing.priceCents });
   } else if (pricing.type === 'fraction_sum') {
     const n = flavorIds.length;
     // Invalid flavors already explain the problem; pricing them would only add noise.
@@ -145,6 +156,7 @@ export function quoteLine(index: CatalogIndex, config: LineConfig): LineQuote {
     summary.push(`${flavorIds.length === 1 ? 'Sabor' : 'Sabores'}: ${flavorIds.map(id => index.flavor(id)?.name ?? id).join(', ')}`);
   }
 
+  ingredientIssues(variant, config.removedIngredients ?? [], issues, summary);
   optionParts(index, variant, config.optionIds ?? [], issues, parts, summary);
   comboIssues(index, variant, config.combo, issues, summary);
   if (config.note?.trim()) summary.push(`Observação: ${config.note.trim()}`);
@@ -165,6 +177,7 @@ export function lineKey(config: LineConfig): string {
     config.variantId,
     config.flavorIds ?? [],
     [...(config.optionIds ?? [])].sort(),
+    [...(config.removedIngredients ?? [])].sort(),
     combo,
     (config.note ?? '').trim()
   ]);

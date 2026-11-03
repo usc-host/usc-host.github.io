@@ -74,13 +74,15 @@ export interface FlavorRule {
   options: string[];
 }
 
-/* "flavor" and "product" groups take each choice at most once,
-   "quantity" groups accept repeated units of the same choice. */
+/* Options are flavor ids ("flavor") or variant ids of another product
+   ("item", such as a drink or an esfiha). repeat allows several units of the
+   same option; otherwise each one is taken at most once. */
 export interface ComboGroup {
   id: string;
   label: string;
   hint: string;
-  pick: 'flavor' | 'product' | 'quantity';
+  source: 'flavor' | 'item';
+  repeat: boolean;
   min: number;
   max: number;
   table?: string;
@@ -113,6 +115,9 @@ export interface Product {
   name: string;
   kind: ProductKind;
   unit?: string;
+  /* What the variants mean to the customer: Tamanho, Sabor or Bebida. */
+  variantLabel?: string;
+  image?: Image;
   categoryIds: string[];
   summary?: string;
   featured?: boolean;
@@ -130,6 +135,16 @@ export interface SourceRecord {
   note?: string;
 }
 
+export interface Promotion {
+  id: string;
+  productId: string;
+  title: string;
+  image: Image;
+  status: RecordStatus;
+  sources: string[];
+  note?: string;
+}
+
 export interface Catalog {
   version: string;
   currency: 'BRL';
@@ -138,6 +153,7 @@ export interface Catalog {
   flavors: Flavor[];
   optionGroups: OptionGroup[];
   products: Product[];
+  promotions: Promotion[];
   sources: SourceRecord[];
 }
 
@@ -149,11 +165,13 @@ export interface LineConfig {
   quantity: number;
   flavorIds?: string[];
   optionIds?: string[];
+  /* Listed ingredients the customer asked to leave out. */
+  removedIngredients?: string[];
   combo?: Record<string, Record<string, number>>;
   note?: string;
 }
 
-export type IssueField = 'product' | 'variant' | 'quantity' | 'flavors' | 'options' | 'combo' | 'note' | 'price';
+export type IssueField = 'product' | 'variant' | 'quantity' | 'flavors' | 'options' | 'ingredients' | 'combo' | 'note' | 'price';
 
 export interface LineIssue {
   field: IssueField;

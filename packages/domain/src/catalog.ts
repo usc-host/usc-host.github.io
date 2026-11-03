@@ -1,5 +1,5 @@
 import raw from '../../../data/catalog.json' with { type: 'json' };
-import type { Catalog, Flavor, OptionGroup, Product, Variant } from './types.ts';
+import type { Catalog, ComboGroup, Flavor, OptionGroup, Product, Variant } from './types.ts';
 
 export const catalog = raw as Catalog;
 
@@ -10,6 +10,8 @@ export interface CatalogIndex {
   variant(productId: string, variantId: string): Variant | undefined;
   flavor(id: string): Flavor | undefined;
   optionGroup(id: string): OptionGroup | undefined;
+  /* Any variant by its id, with the product it belongs to. */
+  item(variantId: string): { product: Product; variant: Variant } | undefined;
 }
 
 export function indexCatalog(source: Catalog): CatalogIndex {
@@ -17,13 +19,15 @@ export function indexCatalog(source: Catalog): CatalogIndex {
   const slugs = new Map(source.products.map(p => [p.slug, p]));
   const flavors = new Map(source.flavors.map(f => [f.id, f]));
   const groups = new Map(source.optionGroups.map(g => [g.id, g]));
+  const items = new Map(source.products.flatMap(product => product.variants.map(variant => [variant.id, { product, variant }] as const)));
   return {
     catalog: source,
     product: id => products.get(id),
     productBySlug: slug => slugs.get(slug),
     variant: (productId, variantId) => products.get(productId)?.variants.find(v => v.id === variantId),
     flavor: id => flavors.get(id),
-    optionGroup: id => groups.get(id)
+    optionGroup: id => groups.get(id),
+    item: id => items.get(id)
   };
 }
 
@@ -60,7 +64,23 @@ export function isDirectAdd(product: Product): boolean {
 }
 
 export function primaryImage(product: Product) {
-  return product.variants.find(v => v.image)?.image ?? null;
+  return product.image ?? product.variants.find(v => v.image)?.image ?? null;
+}
+
+/* Dough and sauce make the pizza; they are listed but cannot be removed. */
+export function isBaseIngredient(name: string): boolean {
+  return /^(massa|molho de tomate)/i.test(name);
+}
+
+export function comboOptionName(index: CatalogIndex, group: ComboGroup, id: string): string | undefined {
+  return group.source === 'flavor' ? index.flavor(id)?.name : index.item(id)?.variant.label;
+}
+
+/* Label for a fixed price line: a size joins the product name, a flavor or a
+   drink stands on its own. */
+export function variantDisplayName(product: Product, variant: Variant): string {
+  if (product.variants.length === 1) return product.name;
+  return (product.variantLabel ?? 'Tamanho') === 'Tamanho' ? `${product.name} ${variant.label.toLowerCase()}` : variant.label;
 }
 
 export function productDescription(product: Product): string {
