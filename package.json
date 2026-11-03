@@ -16,7 +16,7 @@
     "build": "npm run build -w @bella/web",
     "typecheck": "tsc -p packages/domain && tsc -p apps/web",
     "test": "vitest run",
-    "test:api": "dotnet test apps/api/BellaMassa.slnx",
+    "test:api": "dotnet test --solution apps/api/BellaMassa.slnx",
     "check:text": "node scripts/check-text.mjs",
     "check": "npm run check:text && npm run typecheck && npm test && npm run test:api && npm run build"
   },
