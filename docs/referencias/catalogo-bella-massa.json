@@ -1,0 +1,689 @@
+{
+  "schema_version": 1,
+  "title": "Bella Massa - amostra de produtos com imagens",
+  "observed_on": "2026-11-03",
+  "timezone": "America/Sao_Paulo",
+  "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+  "status": "observed_not_commercially_approved",
+  "scope": "16 registros de pizzas/variantes, 1 esfiha e 1 combo; não é exportação integral do cardápio.",
+  "notes": [
+    "URLs extraídas diretamente do DOM; não foram inventadas versões de maior resolução.",
+    "Grafia dos ingredientes normalizada sem acrescentar ingredientes. Texto original preservado.",
+    "Imagens não baixadas. Dimensões das 16 fotos de pizza lidas no navegador, apesar do sufixo _75_75.",
+    "Descrições completas como publicadas não equivalem a fichas técnicas de ingredientes ou alérgenos.",
+    "Ocorrências com mesmo sabor e fotos/descrições diferentes foram preservadas."
+  ],
+  "brand": {
+    "logo_url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/stores/logo/16474038186231632a9ce3f_medium.png",
+    "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+    "downloaded": false
+  },
+  "products": [
+    {
+      "id": "bella-insta-001",
+      "name": "Bella Tarê (Grande 8 pedaços)",
+      "category": "pizza",
+      "slices": 8,
+      "description_original": "molho de tomate artesanal, mussarela, atum ralado, cream cheese, molho tarê, cheiro verde e gergelim",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Mussarela",
+        "Atum ralado",
+        "Cream cheese",
+        "Molho tarê",
+        "Cheiro-verde",
+        "Gergelim"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 6990,
+        "previous_amount_cents": 8590,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17880312116a9330ebec817_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": []
+    },
+    {
+      "id": "bella-insta-002",
+      "name": "Bella Tarê (Broto 4 pedaços)",
+      "category": "pizza",
+      "slices": 4,
+      "description_original": "Molho de tomate artesanal, mussarela, atum ralado, cream cheese, molho tarê, cheiro verde e gergelim",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Mussarela",
+        "Atum ralado",
+        "Cream cheese",
+        "Molho tarê",
+        "Cheiro-verde",
+        "Gergelim"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 4890,
+        "previous_amount_cents": 5990,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17880318736a933381f1f46_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": []
+    },
+    {
+      "id": "bella-insta-003",
+      "name": "Cupim Supremo (Grande 8 pedaços)",
+      "category": "pizza",
+      "slices": 8,
+      "description_original": "molho de tomate artesanal,cupim desfiado, pasta de alho Santa Massa, cebolas roxa, muussarela, queijo coalho e um toque de mel pra finalizar",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Cupim desfiado",
+        "Pasta de alho Santa Massa",
+        "Cebola roxa",
+        "Mussarela",
+        "Queijo coalho",
+        "Mel"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 8990,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17916652366acaa45423028_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": []
+    },
+    {
+      "id": "bella-insta-004",
+      "name": "Cupim Supremo (Broto 4 pedaços)",
+      "category": "pizza",
+      "slices": 4,
+      "description_original": "molho de tomate artesnal, cupim desfiado, pasta de alho Santa Massa, cebolas roxas, mussarela, queijo coalho e um toque de mel pra finalizar.",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Cupim desfiado",
+        "Pasta de alho Santa Massa",
+        "Cebola roxa",
+        "Mussarela",
+        "Queijo coalho",
+        "Mel"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 6290,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17916652786acaa47e1012f_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": []
+    },
+    {
+      "id": "bella-insta-005",
+      "name": "Alcatra Acebolada",
+      "category": "pizza",
+      "slices": null,
+      "description_original": "molho de tomate artesanal, mussarela, alcatra em tiras, catupiry oruginal, cebola , oregano e azeitonas",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Mussarela",
+        "Alcatra em tiras",
+        "Catupiry Original",
+        "Cebola",
+        "Orégano",
+        "Azeitonas"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 8590,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929566186ade58ca0e0cf_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": []
+    },
+    {
+      "id": "bella-insta-006",
+      "name": "Nordestina",
+      "category": "pizza",
+      "slices": null,
+      "description_original": "molho de tomate artesanal. mussarela, carne seca desfiada, catupiry original,cebola , oregano e azeteitonas",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Mussarela",
+        "Carne seca desfiada",
+        "Catupiry Original",
+        "Cebola",
+        "Orégano",
+        "Azeitonas"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 8590,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929567146ade592add11b_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": []
+    },
+    {
+      "id": "bella-insta-007",
+      "name": "Escondidinho de Carne Seca",
+      "category": "pizza",
+      "slices": null,
+      "description_original": "Molho de tomate artesanal, carne seca desfiada,requeijão cremoso, pure de batata, mussarela, oregano e azxeitonas",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Carne seca desfiada",
+        "Requeijão cremoso",
+        "Purê de batata",
+        "Mussarela",
+        "Orégano",
+        "Azeitonas"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 8590,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929567596ade5957c38f6_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": []
+    },
+    {
+      "id": "bella-insta-008",
+      "name": "Costela Desfiada",
+      "category": "pizza",
+      "slices": null,
+      "description_original": "molho de tomate artesanal, costela desfiada, catupiry original, cebola, tomate cereja, mussarela, oregano e azeitonas",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Costela desfiada",
+        "Catupiry Original",
+        "Cebola",
+        "Tomate cereja",
+        "Mussarela",
+        "Orégano",
+        "Azeitonas"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 8590,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929568026ade59820257e_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": []
+    },
+    {
+      "id": "bella-insta-009",
+      "name": "Strogonoff de Frango",
+      "category": "pizza",
+      "slices": null,
+      "description_original": "molho de tomate artesanal, mussarela, strogonoff de frango, catupiry original, batata palha crocante, oregano e azeitonas",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Mussarela",
+        "Strogonoff de frango",
+        "Catupiry Original",
+        "Batata palha crocante",
+        "Orégano",
+        "Azeitonas"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 8590,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929570186ade5a5a16079_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": []
+    },
+    {
+      "id": "bella-insta-010",
+      "name": "Nordestina Especial",
+      "category": "pizza",
+      "slices": null,
+      "description_original": "molho de tomate artesanal, mussarela, carne seca desfiada, cebola ,queijo coalho, pimenta biquinho, orégano e azeitonas",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Mussarela",
+        "Carne seca desfiada",
+        "Cebola",
+        "Queijo coalho",
+        "Pimenta biquinho",
+        "Orégano",
+        "Azeitonas"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 8990,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929570556ade5a7f48d04_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": []
+    },
+    {
+      "id": "bella-insta-011",
+      "name": "Bella Tarê",
+      "category": "pizza",
+      "slices": null,
+      "description_original": "Molho de tomate artesanal ,atum ralado, cream cheese, finalizada com molho tarê, cheiro verde e gergelim.",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Atum ralado",
+        "Cream cheese",
+        "Molho tarê",
+        "Cheiro-verde",
+        "Gergelim"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 6990,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929571176ade5abda1c86_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": [
+        "A descrição desta ocorrência não menciona mussarela; não foi completada com ingredientes de outra variante."
+      ]
+    },
+    {
+      "id": "bella-insta-012",
+      "name": "Cupim Supremo",
+      "category": "pizza",
+      "slices": null,
+      "description_original": "molho de tomate artesanal, cupim desfiado, pasta de alho Santa Massa, cebola roxa, mussarela, queijo coalho e finalizada com mel, oregano e azeitonas",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Molho de tomate artesanal",
+        "Cupim desfiado",
+        "Pasta de alho Santa Massa",
+        "Cebola roxa",
+        "Mussarela",
+        "Queijo coalho",
+        "Mel",
+        "Orégano",
+        "Azeitonas"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 8990,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17929574016ade5bd900ed6_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": []
+    },
+    {
+      "id": "bella-insta-013",
+      "name": "Pizza de Churros Broto 4 pedaços",
+      "category": "pizza",
+      "slices": 4,
+      "description_original": "Massa artesanal, doce de leite cremoso, toque de canela e até 2 coberturas de sua preferência",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Massa artesanal",
+        "Doce de leite cremoso",
+        "Canela"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 2990,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17915870026ac972baa3713_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": [
+        "Coberturas escolhidas à parte; opções não coletadas. Campanha sem vigência confirmada."
+      ]
+    },
+    {
+      "id": "bella-insta-014",
+      "name": "Pizza de Churros Grande 8 pedaços",
+      "category": "pizza",
+      "slices": 8,
+      "description_original": "Massa artesanal, Doce de leite cremoso , açúcar com canela e cobertura de sua preferência",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Massa artesanal",
+        "Doce de leite cremoso",
+        "Açúcar",
+        "Canela"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 4990,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17915869066ac9725a9430e_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": [
+        "Coberturas escolhidas à parte; opções não coletadas. Campanha sem vigência confirmada."
+      ]
+    },
+    {
+      "id": "bella-insta-015",
+      "name": "Pizza Trem + 1 Refri 2lts",
+      "category": "pizza",
+      "slices": 32,
+      "description_original": "Deliciosa pizza Trem de 70cm , 32 pedaços e 4 sabores feitas com ingredientes frescos",
+      "description_status": "complete_as_published",
+      "ingredients": null,
+      "ingredients_status": "not_specified",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 15990,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17848515416a62ac5530dab_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": [
+        "Descrição informa 70 cm e 4 sabores; ingredientes dependem das escolhas."
+      ]
+    },
+    {
+      "id": "bella-insta-016",
+      "name": "Mega Trem A maior pizza da região agora com Delivery tambem",
+      "category": "pizza",
+      "slices": null,
+      "description_original": "\"Experimente a Mega Trem, a maior pizza da região, agora disponível para delivery! Sabor inigualável em cada pedaço.\"",
+      "description_status": "complete_as_published",
+      "ingredients": null,
+      "ingredients_status": "not_specified",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 26990,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/1748124646683243e63a7fe_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": 400,
+        "height": 400,
+        "dimensions_verified_in_browser": true,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "product_modal_description_and_listing_price",
+      "notes": [
+        "Ingredientes, dimensões e número de pedaços não especificados na descrição coletada."
+      ]
+    },
+    {
+      "id": "bella-insta-017",
+      "name": "Esfiha de Churros",
+      "category": "esfiha",
+      "slices": null,
+      "description_original": "Massa artesanal, doce de leite cremoso, toque de canela e 1 cobertura de sua preferência",
+      "description_status": "complete_as_published",
+      "ingredients": [
+        "Massa artesanal",
+        "Doce de leite cremoso",
+        "Canela"
+      ],
+      "ingredients_status": "extracted_from_published_description_not_exhaustive",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 499,
+        "previous_amount_cents": null,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17915870876ac9730f20586_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": null,
+        "height": null,
+        "dimensions_verified_in_browser": false,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "listing_card",
+      "notes": [
+        "Coberturas escolhidas à parte; opções não coletadas. Campanha sem vigência confirmada."
+      ]
+    },
+    {
+      "id": "bella-insta-018",
+      "name": "Combo da Semana",
+      "category": "combo",
+      "slices": null,
+      "description_original": "1 Pizza grande (8 pedaços)\n\n1 Broto doce\n\n1 Refri 2lts",
+      "description_status": "complete_as_published",
+      "ingredients": null,
+      "ingredients_status": "not_specified",
+      "price": {
+        "currency": "BRL",
+        "amount_cents": 9990,
+        "previous_amount_cents": 12990,
+        "kind": "displayed_product_price",
+        "includes_extras": false,
+        "commercial_validation": "pending",
+        "observed_on": "2026-11-03"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17863890246a7a2220c4d14_75_75.jpeg",
+        "source": "observed_img_src",
+        "width": null,
+        "height": null,
+        "dimensions_verified_in_browser": false,
+        "downloaded": false
+      },
+      "source_url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "source_detail": "listing_card",
+      "notes": [
+        "No Moohappy, o combo foi observado por R$ 89,90 na consulta anterior. Não unificar preços dos canais."
+      ]
+    }
+  ]
+}
