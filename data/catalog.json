@@ -6,10 +6,11 @@
     "displayName": "Bella Massa Pizzas e Esfihas",
     "tagline": "Pizzas e esfihas artesanais",
     "logo": {
-      "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/stores/logo/16474038186231632a9ce3f_medium.png",
+      "url": "logo.png",
       "width": 355,
       "height": 214,
-      "alt": "Bella Massa Pizzas e Esfihas"
+      "alt": "Bella Massa Pizzas e Esfihas",
+      "note": "Arquivo do InstaDelivery com 20 pixels soltos removidos das bordas."
     },
     "info": [
       {
@@ -2423,16 +2424,16 @@
       "productId": "combo-da-semana",
       "title": "Combo da Semana",
       "image": {
-        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/groups/17863890006a7a2208d1c21.jpeg",
-        "width": 1000,
-        "height": 450,
+        "url": "combo-da-semana.webp",
+        "width": 1600,
+        "height": 718,
         "alt": "Combo da Semana da Bella Massa: 1 pizza grande, 1 broto doce e 1 refrigerante 2 L"
       },
       "status": "observed",
       "sources": [
         "instadelivery:bella-insta-018"
       ],
-      "note": "Banner publicado no InstaDelivery. Vigência da campanha não confirmada."
+      "note": "Arte fornecida pela equipe do projeto. Vigência da campanha não confirmada."
     }
   ]
 }
