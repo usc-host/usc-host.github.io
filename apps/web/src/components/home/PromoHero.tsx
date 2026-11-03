@@ -1,7 +1,7 @@
 import { catalog, defaultIndex, formatBRL, fromPriceCents, productDescription, type Promotion } from '@bella/domain';
 import { ArrowRightOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { asset } from '../../lib/asset';
 import { useReducedMotion } from '../../lib/hooks';
@@ -44,17 +44,42 @@ const SLIDES = slides();
 
 export function PromoHero() {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const reduced = useReducedMotion();
   const navigate = useNavigate();
   const count = SLIDES.length;
   const go = useCallback((n: number) => setActive(((n % count) + count) % count), [count]);
 
+  // Progress lives outside React state: the bar is painted every frame and
+  // pausing simply stops the clock, so it resumes where it was.
+  const fills = useRef<(HTMLSpanElement | null)[]>([]);
+  const progress = useRef(0);
+  const activeRef = useRef(active);
+  const paused = useRef(false);
+
   useEffect(() => {
-    if (paused || reduced || count < 2) return;
-    const t = setTimeout(() => go(active + 1), SLIDE_MS);
-    return () => clearTimeout(t);
-  }, [active, paused, reduced, count, go]);
+    activeRef.current = active;
+    progress.current = 0;
+  }, [active]);
+
+  useEffect(() => {
+    if (count < 2) return;
+    let last = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const dt = now - last;
+      last = now;
+      if (!paused.current && !reduced) progress.current = Math.min(1, progress.current + dt / SLIDE_MS);
+      const bar = fills.current[activeRef.current];
+      if (bar) bar.style.transform = `scaleX(${reduced ? 1 : progress.current})`;
+      if (progress.current >= 1) {
+        progress.current = 0;
+        go(activeRef.current + 1);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [count, reduced, go]);
 
   const slide = SLIDES[active];
   if (!slide) return null;
@@ -64,10 +89,10 @@ export function PromoHero() {
       className="promo"
       aria-roledescription="carrossel"
       aria-label="Destaques da Bella Massa"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
+      onMouseEnter={() => { paused.current = true; }}
+      onMouseLeave={() => { paused.current = false; }}
+      onFocus={() => { paused.current = true; }}
+      onBlur={() => { paused.current = false; }}
     >
       <h1 className="sr-only">Bella Massa, pizzas e esfihas em Barra Bonita</h1>
       <div className="container promo__grid">
@@ -92,33 +117,44 @@ export function PromoHero() {
               />
             </button>
           ))}
+          {count > 1 && (
+            <>
+              <button type="button" className="promo__nav promo__nav--prev" onClick={() => go(active - 1)} aria-label="Destaque anterior">
+                <LeftOutlined />
+              </button>
+              <button type="button" className="promo__nav promo__nav--next" onClick={() => go(active + 1)} aria-label="Próximo destaque">
+                <RightOutlined />
+              </button>
+            </>
+          )}
         </div>
 
         <div className="promo__card">
           <div className="promo__top">
             <span key={`${slide.promo.id}-eyebrow`} className="promo__eyebrow">{slide.eyebrow}</span>
             {count > 1 && (
-              <div className="promo__controls">
-                <div className="promo__dots" role="tablist" aria-label="Escolher destaque">
-                  {SLIDES.map((s, i) => (
-                    <button
-                      key={s.promo.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={i === active}
-                      aria-label={s.eyebrow}
-                      className={`promo__dot${i === active ? ' is-active' : ''}${paused || reduced ? ' is-paused' : ''}`}
-                      style={{ '--slide-ms': `${SLIDE_MS}ms` } as React.CSSProperties}
-                      onClick={() => go(i)}
-                    >
-                      <span />
-                    </button>
-                  ))}
-                </div>
-                <div className="promo__arrows">
-                  <button type="button" onClick={() => go(active - 1)} aria-label="Destaque anterior"><LeftOutlined /></button>
-                  <button type="button" onClick={() => go(active + 1)} aria-label="Próximo destaque"><RightOutlined /></button>
-                </div>
+              <div className="promo__dots" role="tablist" aria-label="Escolher destaque">
+                {SLIDES.map((s, i) => (
+                  <button
+                    key={s.promo.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === active}
+                    aria-label={s.eyebrow}
+                    className={`promo__dot${i === active ? ' is-active' : ''}`}
+                    onClick={() => go(i)}
+                  >
+                    {/* Bars before the current one stay full, the current one
+                        fills with time and the next ones wait empty. */}
+                    <span className="promo__bar">
+                      <span
+                        className="promo__fill"
+                        ref={el => { fills.current[i] = el; }}
+                        style={i === active ? undefined : { transform: `scaleX(${i < active ? 1 : 0})` }}
+                      />
+                    </span>
+                  </button>
+                ))}
               </div>
             )}
           </div>
