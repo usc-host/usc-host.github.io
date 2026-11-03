@@ -484,27 +484,6 @@
 }
 
 /* Product page */
-.crumbs {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--text-2);
-}
-
-.crumbs a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-}
-
-.crumbs a:hover {
-  color: var(--red-ink);
-}
-
 .product-layout {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
