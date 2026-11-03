@@ -73,7 +73,7 @@ public static class AssistantTools
               "type": "OBJECT",
               "properties": {
                 "query": { "type": "STRING", "description": "Palavras de busca, por exemplo queijo coalho ou frango" },
-                "category": { "type": "STRING", "enum": ["premium", "monte", "gigantes", "doces", "esfihas", "combos", "bebidas"] },
+                "category": { "type": "STRING", "enum": ["novidades", "premium", "monte", "gigantes", "doces", "esfihas", "combos", "bebidas"] },
                 "kind": { "type": "STRING", "enum": ["salgada", "doce"] },
                 "max_price_reais": { "type": "NUMBER", "description": "Valor máximo em reais para o preço inicial do produto" }
               }

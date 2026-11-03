@@ -18,7 +18,7 @@ public sealed record StoreInfo(
 
 public sealed record Store(string Name, string DisplayName, string Tagline, Image Logo, List<StoreInfo> Info);
 
-public sealed record Category(string Id, string Name, string Description);
+public sealed record Category(string Id, string Name, string Description, bool Collection = false);
 
 public sealed record Flavor(
     string Id,
