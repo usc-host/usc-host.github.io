@@ -1,5 +1,6 @@
 import type { Image } from '@bella/domain';
 import { useState } from 'react';
+import { asset } from '../../lib/asset';
 import { ProductArt, type ArtKind } from './ProductArt';
 
 interface Props {
@@ -19,7 +20,7 @@ export function ProductImage({ image, art, priority = false, className = '' }: P
     <span className={`product-image ${className}${loaded ? ' is-loaded' : ''}`}>
       {image && !failed ? (
         <img
-          src={image.url}
+          src={asset(image.url)}
           alt={image.alt}
           width={image.width}
           height={image.height}

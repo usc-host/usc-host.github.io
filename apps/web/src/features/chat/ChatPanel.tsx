@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Link } from 'react-router';
 import { BrandStatus } from '../../components/brand/BrandLoader';
 import { pickFlavorImage } from '../../components/ui/PizzaSplitImage';
+import { asset } from '../../lib/asset';
 import { ProductArt, artKindFor } from '../../components/ui/ProductArt';
 import { useIsMobile, useMediaQuery } from '../../lib/hooks';
 import { useChat, type UiMessage } from './ChatProvider';
@@ -34,7 +35,7 @@ function Message({ message, isLast }: { message: UiMessage; isLast: boolean }) {
                 {(() => {
                   // A built pizza borrows a house pizza photo, picked by the message so it stays put.
                   const url = p.imageUrl ?? (defaultIndex.product(p.productId)?.kind === 'builder' ? pickFlavorImage((message.id.charCodeAt(0) % 9) / 9)?.url : undefined);
-                  return url ? <img src={url} alt="" width={64} height={64} loading="lazy" /> : <ProductArt kind={artKindFor(defaultIndex.product(p.productId)?.categoryIds ?? [])} />;
+                  return url ? <img src={asset(url)} alt="" width={64} height={64} loading="lazy" /> : <ProductArt kind={artKindFor(defaultIndex.product(p.productId)?.categoryIds ?? [])} />;
                 })()}
               </span>
               <span className="chat-product__body">

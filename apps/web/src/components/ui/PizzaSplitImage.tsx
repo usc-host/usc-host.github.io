@@ -1,5 +1,6 @@
 import { catalog, defaultIndex, flavorImage, type Image } from '@bella/domain';
 import { useMemo } from 'react';
+import { asset } from '../../lib/asset';
 
 const flavorImages = () =>
   catalog.flavors
@@ -45,7 +46,7 @@ export function PizzaSplitImage({ images, alt, className = '', priority = false 
       {images.map((img, i) => (
         <img
           key={`${signature}-${i}`}
-          src={img.url}
+          src={asset(img.url)}
           alt=""
           width={img.width}
           height={img.height}

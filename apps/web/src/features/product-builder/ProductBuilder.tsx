@@ -23,6 +23,7 @@ import { artKindFor } from '../../components/ui/ProductArt';
 import { imagesForFlavors, PizzaSplitImage } from '../../components/ui/PizzaSplitImage';
 import { ProductImage } from '../../components/ui/ProductImage';
 import { QuantityStepper } from '../../components/ui/QuantityStepper';
+import { asset } from '../../lib/asset';
 import { useCart } from '../cart/CartProvider';
 import { FlavorPreview } from './FlavorPreview';
 
@@ -75,7 +76,14 @@ function FlavorChoice({ name, selected, full, single, extra, onToggle, onPreview
 }
 
 function Thumb({ src, alt }: { src?: string; alt: string }) {
-  return src ? <img className="choice-row__thumb" src={src} alt={alt} width={44} height={44} loading="lazy" /> : null;
+  return src ? <img className="choice-row__thumb" src={asset(src)} alt={alt} width={44} height={44} loading="lazy" /> : null;
+}
+
+/* A note example that fits what is being ordered. */
+function notePlaceholder(product: Product): string {
+  if (product.categoryIds.includes('bebidas')) return 'Ex.: bem gelada';
+  if (product.categoryIds.includes('esfihas')) return 'Ex.: bem assadas';
+  return 'Ex.: bem assada, cortar em 12 pedaços';
 }
 
 interface Props {
@@ -414,7 +422,7 @@ export function ProductBuilder({ product, variant, onVariant, initial, editingId
           maxLength={MAX_NOTE}
           showCount
           autoSize={{ minRows: 2, maxRows: 4 }}
-          placeholder="Ex.: bem assada, cortar em 12 pedaços"
+          placeholder={notePlaceholder(product)}
           aria-label="Observação para a cozinha"
         />
       </fieldset>

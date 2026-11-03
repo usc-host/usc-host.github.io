@@ -2,6 +2,7 @@ import { catalog, defaultIndex, formatBRL, fromPriceCents, primaryImage, type Pr
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router';
+import { asset } from '../../lib/asset';
 import { readOrderStats } from '../../lib/stats';
 
 const SPEED = 38; // px per second
@@ -28,7 +29,7 @@ function Tile({ product, hidden }: { product: Product; hidden?: boolean }) {
       draggable={false}
       title={product.name}
     >
-      {image && <img src={image.url} alt={hidden ? '' : image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" draggable={false} />}
+      {image && <img src={asset(image.url)} alt={hidden ? '' : image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" draggable={false} />}
       {product.badge && <span className="marquee-tile__badge">{product.badge}</span>}
       <span className="marquee-tile__info">
         <strong>{product.name}</strong>
