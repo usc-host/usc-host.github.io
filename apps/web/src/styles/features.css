@@ -124,33 +124,51 @@
   gap: 12px;
 }
 
-.promo__controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.promo__arrows {
-  display: flex;
-  gap: 6px;
-}
-
-.promo__arrows button {
+/* Arrows on the banner edges, vertically centered */
+.promo__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--border);
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 999px;
-  background: var(--surface);
-  color: var(--text);
+  background: rgba(20, 16, 12, 0.42);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 15px;
   cursor: pointer;
-  transition: border-color 0.18s ease, background-color 0.18s ease;
+  opacity: 0.88;
+  transform: translateY(-50%);
+  transition: opacity 0.18s ease, background-color 0.18s ease, transform 0.18s var(--ease-out);
 }
 
-.promo__arrows button:hover {
-  border-color: var(--red);
-  background: var(--red-soft);
+.promo__nav--prev {
+  left: 14px;
+}
+
+.promo__nav--next {
+  right: 14px;
+}
+
+.promo__nav:hover {
+  opacity: 1;
+  background: rgba(20, 16, 12, 0.66);
+}
+
+.promo__nav--prev:hover {
+  transform: translate(-2px, -50%);
+}
+
+.promo__nav--next:hover {
+  transform: translate(2px, -50%);
+}
+
+.promo__nav:active {
+  transform: translateY(-50%) scale(0.94);
 }
 
 /* The banner sets the row height; the card never grows past it, so both
@@ -247,44 +265,44 @@
 
 .promo__dots {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .promo__dot {
-  position: relative;
-  width: 28px;
-  height: 20px;
+  display: flex;
+  align-items: center;
+  width: 40px;
+  height: 24px;
   padding: 0;
   border: 0;
   background: none;
   cursor: pointer;
 }
 
-.promo__dot span {
-  position: absolute;
-  inset: 8px 0;
+.promo__bar {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 4px;
   border-radius: 4px;
   background: var(--border-strong);
   overflow: hidden;
 }
 
-.promo__dot.is-active span::after {
-  content: "";
+/* Bars that become full or empty animate there; the current bar is painted
+   frame by frame, so it has no transition of its own. */
+.promo__fill {
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background: var(--red);
+  transform: scaleX(0);
   transform-origin: left;
-  animation: promo-progress var(--slide-ms) linear both;
+  transition: transform 0.45s var(--ease-out);
 }
 
-.promo__dot.is-active.is-paused span::after {
-  animation: none;
-}
-
-@keyframes promo-progress {
-  from {
-    transform: scaleX(0);
-  }
+.promo__dot.is-active .promo__fill {
+  transition: none;
 }
 
 @keyframes promo-in {
