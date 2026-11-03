@@ -89,6 +89,10 @@ describe('busca', () => {
     expect(searchProducts(index, { query: 'guarana' }).map(p => p.id)).toContain('bebidas');
   });
 
+  it('Novidades reúne os produtos marcados como novidade', () => {
+    expect(searchProducts(index, { categoryId: 'novidades' }).map(p => p.id)).toEqual(['bella-tare']);
+  });
+
   it('filtra por teto de preço', () => {
     const ids = searchProducts(index, { categoryId: 'premium', maxPriceCents: 6000 }).map(p => p.id);
     expect(ids).toContain('bella-tare');

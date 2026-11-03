@@ -32,6 +32,9 @@ export interface Category {
   id: string;
   name: string;
   description: string;
+  /* A collection gathers products that live in another category too,
+     like Novidades; the menu lists them in both places. */
+  collection?: boolean;
 }
 
 export interface Flavor {

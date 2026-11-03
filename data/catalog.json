@@ -1,5 +1,5 @@
 {
-  "version": "2026.11.03.4",
+  "version": "2026.11.03.5",
   "currency": "BRL",
   "store": {
     "name": "Bella Massa",
@@ -118,6 +118,12 @@
     ]
   },
   "categories": [
+    {
+      "id": "novidades",
+      "name": "Novidades",
+      "description": "Os sabores que acabaram de chegar",
+      "collection": true
+    },
     {
       "id": "premium",
       "name": "Premium",
@@ -639,7 +645,8 @@
       "name": "Bella Tarê",
       "kind": "pizza",
       "categoryIds": [
-        "premium"
+        "premium",
+        "novidades"
       ],
       "featured": true,
       "status": "observed",

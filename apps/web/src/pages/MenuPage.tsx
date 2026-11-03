@@ -113,7 +113,7 @@ export default function MenuPage() {
         </EmptyState>
       ) : grouped ? (
         catalog.categories.map(c => {
-          const items = results.filter(p => p.categoryIds[0] === c.id);
+          const items = results.filter(p => (c.collection ? p.categoryIds.includes(c.id) : p.categoryIds[0] === c.id));
           if (!items.length) return null;
           return (
             <section key={c.id} className="menu-section" aria-labelledby={`cat-${c.id}`}>
