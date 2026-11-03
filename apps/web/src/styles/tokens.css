@@ -1,0 +1,84 @@
+/* Brand tokens. Light: cream and warm white. Dark: warm charcoal.
+   Red drives actions, green supports, yellow only in small highlights. */
+:root,
+:root[data-theme='light'] {
+  --bg: #fff9f0;
+  --bg-soft: #f7eedf;
+  --surface: #ffffff;
+  --surface-2: #fbf5ec;
+  --plate: #fffdf8;
+  --text: #191714;
+  --text-2: #62594f;
+  --border: #e9dfd1;
+  --border-strong: #d8cbb8;
+  --red: #b92c28;
+  --red-hover: #a02420;
+  --red-soft: #fbe9e4;
+  --red-ink: #a3241f;
+  --on-red: #ffffff;
+  --green: #236544;
+  --green-soft: #e5f1ea;
+  --yellow: #f2bf4b;
+  --yellow-soft: #fcf1d3;
+  --on-yellow: #3a2a00;
+  --focus: #b92c28;
+  --scrim: rgba(25, 18, 10, 0.42);
+  --shadow-sm: 0 1px 2px rgba(60, 35, 10, 0.06), 0 6px 16px -10px rgba(60, 35, 10, 0.18);
+  --shadow-md: 0 22px 44px -26px rgba(60, 35, 10, 0.42);
+  --shadow-lg: 0 30px 70px -30px rgba(60, 35, 10, 0.5);
+  --art-crust: #e8b56a;
+  --art-sauce: #c8462f;
+  --art-cheese: #f6d98b;
+  --art-leaf: #3f7d4f;
+
+  --font-ui: 'Manrope Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --radius-lg: 24px;
+  --radius: 20px;
+  --radius-sm: 14px;
+  --radius-xs: 10px;
+  --header-h: 72px;
+  --bottom-nav-h: 64px;
+  --chat-w: 400px;
+  --container: 1240px;
+  --gutter: clamp(16px, 4vw, 32px);
+  --ease-out: cubic-bezier(0.22, 0.8, 0.2, 1);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+:root[data-theme='dark'] {
+  --bg: #141311;
+  --bg-soft: #1a1815;
+  --surface: #211e1a;
+  --surface-2: #2a2621;
+  --plate: #fff9f0;
+  --text: #f7f0e7;
+  --text-2: #c2b8aa;
+  --border: #38322b;
+  --border-strong: #4a4239;
+  --red: #c43a31;
+  --red-hover: #d0473d;
+  --red-soft: #3a1e1b;
+  --red-ink: #ef756b;
+  --on-red: #ffffff;
+  --green: #7bc49a;
+  --green-soft: #1d2e24;
+  --yellow: #f2bf4b;
+  --yellow-soft: #3a3020;
+  --on-yellow: #241a00;
+  --focus: #ef756b;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 16px -10px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 22px 44px -26px rgba(0, 0, 0, 0.8);
+  --shadow-lg: 0 30px 70px -30px rgba(0, 0, 0, 0.85);
+  --art-crust: #c99652;
+  --art-sauce: #b5402b;
+  --art-cheese: #e9c879;
+  --art-leaf: #5d9a6c;
+}
+
+@media (max-width: 860px) {
+  :root {
+    --header-h: 60px;
+  }
+}
