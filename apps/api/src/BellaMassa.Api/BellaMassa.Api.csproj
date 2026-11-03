@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <UserSecretsId>bella-massa-api</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BellaMassa.Domain\BellaMassa.Domain.csproj" />
+  </ItemGroup>
+
+  <!-- The catalog is shared with the web app and copied next to the binaries. -->
+  <ItemGroup>
+    <Content Include="..\..\..\..\data\catalog.json" Link="data\catalog.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="BellaMassa.Tests" />
+  </ItemGroup>
+
+</Project>
