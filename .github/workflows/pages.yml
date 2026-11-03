@@ -1,0 +1,60 @@
+name: Site e testes
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  api:
+    name: Testes da API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet test --solution apps/api/BellaMassa.slnx
+
+  web:
+    name: Build do site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run check:text
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL || 'https://bella-massa-api.onrender.com' }}
+          VITE_ORDER_WHATSAPP: ${{ vars.VITE_ORDER_WHATSAPP }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/web/dist
+
+  deploy:
+    name: Publicar no Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: [api, web]
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
