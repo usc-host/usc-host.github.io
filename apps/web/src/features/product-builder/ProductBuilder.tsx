@@ -14,15 +14,17 @@ import {
   type Product,
   type Variant
 } from '@bella/domain';
-import { CheckOutlined, LockOutlined } from '@ant-design/icons';
+import { CheckOutlined, EyeOutlined, LockOutlined } from '@ant-design/icons';
 import { Button, Input, Modal } from 'antd';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 import { artKindFor } from '../../components/ui/ProductArt';
+import { imagesForFlavors, PizzaSplitImage } from '../../components/ui/PizzaSplitImage';
 import { ProductImage } from '../../components/ui/ProductImage';
 import { QuantityStepper } from '../../components/ui/QuantityStepper';
 import { useCart } from '../cart/CartProvider';
+import { FlavorPreview } from './FlavorPreview';
 
 const index = defaultIndex;
 
@@ -38,6 +40,40 @@ function Required() {
   return <span className="required">obrigatório</span>;
 }
 
+/* A choice with an eye button on the far right that opens the flavor photo.
+   Two sibling buttons, since a button cannot hold another one. */
+function FlavorChoice({ name, selected, full, single, extra, onToggle, onPreview, onFull }: {
+  name: string;
+  selected: boolean;
+  full: boolean;
+  single: boolean;
+  extra?: React.ReactNode;
+  onToggle: () => void;
+  onPreview: () => void;
+  onFull: () => void;
+}) {
+  return (
+    <div className={`choice-row choice-row--split${selected ? ' is-selected' : ''}${full ? ' is-full' : ''}`}>
+      <button
+        type="button"
+        className="choice-row__main"
+        role={single ? 'radio' : undefined}
+        aria-checked={single ? selected : undefined}
+        aria-pressed={single ? undefined : selected}
+        aria-disabled={full}
+        onClick={() => (full ? onFull() : onToggle())}
+      >
+        <span className={single ? 'choice-row__radio' : 'choice-row__check'} aria-hidden="true">{!single && selected && <CheckOutlined />}</span>
+        <span className="choice-row__name">{name}</span>
+        {extra}
+      </button>
+      <button type="button" className="choice-row__eye" onClick={onPreview} aria-label={`Ver foto de ${name}`} title="Ver foto">
+        <EyeOutlined />
+      </button>
+    </div>
+  );
+}
+
 function Thumb({ src, alt }: { src?: string; alt: string }) {
   return src ? <img className="choice-row__thumb" src={src} alt={alt} width={44} height={44} loading="lazy" /> : null;
 }
@@ -48,9 +84,11 @@ interface Props {
   onVariant: (id: string) => void;
   initial?: LineConfig;
   editingId?: string;
+  /* Lets the page redraw the pizza photo with the chosen flavors. */
+  onFlavorsChange?: (ids: string[]) => void;
 }
 
-export function ProductBuilder({ product, variant, onVariant, initial, editingId }: Props) {
+export function ProductBuilder({ product, variant, onVariant, initial, editingId, onFlavorsChange }: Props) {
   const cart = useCart();
   const navigate = useNavigate();
   const [flavorIds, setFlavorIds] = useState<string[]>(initial?.flavorIds ?? []);
@@ -60,6 +98,11 @@ export function ProductBuilder({ product, variant, onVariant, initial, editingId
   const [note, setNote] = useState(initial?.note ?? '');
   const [quantity, setQuantity] = useState(initial?.quantity ?? 1);
   const [added, setAdded] = useState<LineQuote | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    onFlavorsChange?.(flavorIds);
+  }, [flavorIds, onFlavorsChange]);
 
   const choosable = product.variants.length > 1;
   const variantLabel = product.variantLabel ?? 'Tamanho';
@@ -205,21 +248,22 @@ export function ProductBuilder({ product, variant, onVariant, initial, editingId
               const full = !selected && rule.max > 1 && flavorIds.length >= rule.max;
               const price = flavor.prices[rule.table];
               return (
-                <button
+                <FlavorChoice
                   key={id}
-                  type="button"
-                  className={`choice-row${selected ? ' is-selected' : ''}`}
-                  aria-pressed={selected}
-                  aria-disabled={full}
-                  onClick={() => (full ? toast(`Limite de ${rule.max} sabores. Remova um para trocar.`, { id: 'flavor-limit' }) : toggleFlavor(id))}
-                >
-                  <span className="choice-row__check" aria-hidden="true">{selected && <CheckOutlined />}</span>
-                  <span className="choice-row__name">
-                    {flavor.name}
-                    {flavor.kind === 'doce' && <span className="tag tag--sweet">doce</span>}
-                  </span>
-                  {price !== undefined && <span className="choice-row__price">{formatBRL(price)}</span>}
-                </button>
+                  name={flavor.name}
+                  selected={selected}
+                  full={full}
+                  single={false}
+                  onToggle={() => toggleFlavor(id)}
+                  onFull={() => toast(`Limite de ${rule.max} sabores. Remova um para trocar.`, { id: 'flavor-limit' })}
+                  onPreview={() => setPreview(id)}
+                  extra={
+                    <>
+                      {flavor.kind === 'doce' && <span className="tag tag--sweet">doce</span>}
+                      {price !== undefined && <span className="choice-row__price">{formatBRL(price)}</span>}
+                    </>
+                  }
+                />
               );
             })}
           </div>
@@ -326,6 +370,20 @@ export function ProductBuilder({ product, variant, onVariant, initial, editingId
                 }
                 const selected = qty > 0;
                 const full = !selected && !single && total >= group.max;
+                if (group.source === 'flavor') {
+                  return (
+                    <FlavorChoice
+                      key={id}
+                      name={name(id)}
+                      selected={selected}
+                      full={full}
+                      single={single}
+                      onToggle={() => setChoice(group, id, selected ? 0 : 1)}
+                      onFull={() => toast(`Limite de ${group.max}. Remova um para trocar.`, { id: 'combo-limit' })}
+                      onPreview={() => setPreview(id)}
+                    />
+                  );
+                }
                 return (
                   <button
                     key={id}
@@ -407,7 +465,11 @@ export function ProductBuilder({ product, variant, onVariant, initial, editingId
             <span className="added__check" aria-hidden="true"><CheckOutlined /></span>
             <h2 className="added__title">Adicionado ao carrinho</h2>
             <div className="added__item">
-              <ProductImage image={modalImage} art={artKindFor(product.categoryIds)} className="added__image" />
+              {product.kind === 'builder' && config?.flavorIds?.length ? (
+                <PizzaSplitImage images={imagesForFlavors(config.flavorIds)} alt={added.name} className="added__image" />
+              ) : (
+                <ProductImage image={modalImage} art={artKindFor(product.categoryIds)} className="added__image" />
+              )}
               <div>
                 <strong>{added.quantity}x {added.name}</strong>
                 {added.variantLabel && product.variants.length > 1 && <span className="muted"> {added.variantLabel}</span>}
@@ -422,6 +484,7 @@ export function ProductBuilder({ product, variant, onVariant, initial, editingId
           </div>
         )}
       </Modal>
+      <FlavorPreview flavorId={preview} onClose={() => setPreview(null)} />
     </div>
   );
 }
