@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router';
 import { BrandStatus } from '../components/brand/BrandLoader';
 import { PageNav } from '../components/layout/PageNav';
 import { EmptyState } from '../components/ui/EmptyState';
+import { imagesForFlavors, PizzaSplitImage } from '../components/ui/PizzaSplitImage';
 import { artKindFor } from '../components/ui/ProductArt';
 import { ProductImage } from '../components/ui/ProductImage';
 import { QuantityStepper } from '../components/ui/QuantityStepper';
@@ -22,16 +23,25 @@ function LineItem({ line, preview, server }: { line: CartLine; preview?: LineQuo
   const unavailable = shown ? !shown.ok : true;
   const changed = server && preview && server.ok && preview.ok && server.unitCents !== preview.unitCents;
   const image = variant?.image ?? (product ? primaryImage(product) : null);
+  const flavors = line.config.flavorIds ?? [];
+  const name = shown?.name ?? 'Item indisponível';
 
   return (
     <li className={`cart-line${unavailable ? ' is-unavailable' : ''}`}>
       <Link to={product ? `/produto/${product.slug}` : '/cardapio'} className="cart-line__media" tabIndex={-1} aria-hidden="true">
-        <ProductImage image={image} art={artKindFor(product?.categoryIds ?? [])} />
+        {product?.kind === 'builder' && flavors.length ? (
+          <PizzaSplitImage images={imagesForFlavors(flavors)} alt={name} />
+        ) : (
+          <ProductImage image={image} art={artKindFor(product?.categoryIds ?? [])} />
+        )}
       </Link>
       <div className="cart-line__body">
-        <div className="cart-line__title">
-          <h2>{shown?.name ?? 'Item indisponível'}</h2>
-          {product && product.variants.length > 1 && <span className="tag">{variant?.label}</span>}
+        <div className="cart-line__top">
+          <div className="cart-line__title">
+            <h2>{name}</h2>
+            {product && product.variants.length > 1 && <span className="tag">{variant?.label}</span>}
+          </div>
+          <span className="cart-line__price price">{shown?.totalCents != null ? formatBRL(shown.totalCents) : ''}</span>
         </div>
         {shown && shown.summary.length > 0 && (
           <ul className="cart-line__summary">
@@ -42,21 +52,32 @@ function LineItem({ line, preview, server }: { line: CartLine; preview?: LineQuo
           <p className="cart-line__warn"><ExclamationCircleOutlined /> {shown?.issues[0]?.message ?? 'Este item não está mais disponível.'}</p>
         )}
         {changed && <p className="cart-line__note">Valor atualizado conforme o cardápio.</p>}
-        <div className="cart-line__controls">
-          <QuantityStepper size="sm" value={line.config.quantity} onChange={q => cart.setQuantity(line.id, q)} label={`Quantidade de ${shown?.name ?? 'item'}`} />
+        <div className="cart-line__bottom">
           <div className="cart-line__actions">
             {product && !isDirectAdd(product) && !unavailable && (
               <Link to={`/produto/${product.slug}?editar=${line.id}`} className="icon-text">
                 <EditOutlined /> Editar
               </Link>
             )}
-            <button type="button" className="icon-text icon-text--danger" onClick={() => { cart.remove(line.id); toast('Item removido', { id: `rm-${line.id}` }); }}>
-              <DeleteOutlined /> Remover
-            </button>
+            <Popconfirm
+              title="Deseja remover esse item do carrinho?"
+              okText="Remover"
+              cancelText="Cancelar"
+              okButtonProps={{ danger: true }}
+              placement="topLeft"
+              onConfirm={() => {
+                cart.remove(line.id);
+                toast('Item removido', { id: `rm-${line.id}` });
+              }}
+            >
+              <button type="button" className="icon-text icon-text--danger">
+                <DeleteOutlined /> Remover
+              </button>
+            </Popconfirm>
           </div>
+          <QuantityStepper size="sm" value={line.config.quantity} onChange={q => cart.setQuantity(line.id, q)} label={`Quantidade de ${name}`} />
         </div>
       </div>
-      <span className="cart-line__price price">{shown?.totalCents != null ? formatBRL(shown.totalCents) : ''}</span>
     </li>
   );
 }
