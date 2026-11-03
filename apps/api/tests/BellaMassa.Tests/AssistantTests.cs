@@ -116,7 +116,7 @@ public class AssistantTests
             ["action"] = "add",
             ["line"] = new JsonObject
             {
-                ["productId"] = "pizza-grande",
+                ["productId"] = "monte-sua-pizza",
                 ["variantId"] = "pizza-grande-8",
                 ["quantity"] = 1,
                 ["flavorIds"] = new JsonArray(flavors.Select(f => (JsonNode)f).ToArray())
@@ -147,7 +147,7 @@ public class AssistantTests
                 ["combo"] = new JsonArray(
                     new JsonObject { ["groupId"] = "pizza", ["optionId"] = "calabresa", ["quantity"] = 1 },
                     new JsonObject { ["groupId"] = "broto-doce", ["optionId"] = "churros", ["quantity"] = 1 },
-                    new JsonObject { ["groupId"] = "refri", ["optionId"] = "guarana-2l", ["quantity"] = 1 })
+                    new JsonObject { ["groupId"] = "refri", ["optionId"] = "guarana-2l-un", ["quantity"] = 1 })
             })
         };
         var (client, gemini) = Create(new ScriptedGemini(ScriptedGemini.Call("quote_cart", args), ScriptedGemini.Text("Fica R$ 99,90.")));
@@ -224,7 +224,7 @@ public class AssistantTests
     public async Task Cotacao_recalcula_no_servidor_e_ignora_totais_enviados()
     {
         var (client, _) = Create(new ScriptedGemini());
-        var response = await client.PostAsJsonAsync("/api/quotes", new { lines = new[] { new { productId = "coca-lata", variantId = "coca-lata-un", quantity = 2, totalCents = 1 } } });
+        var response = await client.PostAsJsonAsync("/api/quotes", new { lines = new[] { new { productId = "bebidas", variantId = "coca-lata-un", quantity = 2, totalCents = 1 } } });
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Equal(1580, (int)(await response.Content.ReadFromJsonAsync<JsonObject>())!["totalCents"]!);
     }

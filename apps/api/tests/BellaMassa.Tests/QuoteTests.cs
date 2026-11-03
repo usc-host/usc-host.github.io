@@ -38,15 +38,15 @@ public class QuoteTests
     [Fact]
     public void Revalida_quando_o_preco_do_catalogo_muda()
     {
-        var line = new LineConfig("guarana-2l", "guarana-2l-un", 2);
+        var line = new LineConfig("bebidas", "guarana-2l-un", 2);
         Assert.Equal(3380, QuoteEngine.QuoteCart(Index, [line]).TotalCents);
 
         var changed = Index.Catalog with
         {
             Version = "teste",
-            Products = Index.Catalog.Products.Select(p => p.Id != "guarana-2l" ? p : p with
+            Products = Index.Catalog.Products.Select(p => p.Id != "bebidas" ? p : p with
             {
-                Variants = [p.Variants[0] with { Pricing = new PricingPolicy("fixed", 1790, null, null) }]
+                Variants = p.Variants.Select(v => v.Id != "guarana-2l-un" ? v : v with { Pricing = new PricingPolicy("fixed", 1790, null, null) }).ToList()
             }).ToList()
         };
         var quote = QuoteEngine.QuoteCart(new CatalogIndex(changed), [line]);
@@ -72,7 +72,7 @@ public class QuoteTests
     [Fact]
     public void Frete_desconhecido_continua_nulo()
     {
-        var quote = QuoteEngine.QuoteCart(Index, [new LineConfig("coca-lata", "coca-lata-un", 1)]);
+        var quote = QuoteEngine.QuoteCart(Index, [new LineConfig("bebidas", "coca-lata-un", 1)]);
         Assert.Null(quote.DeliveryCents);
         Assert.True(quote.Complete);
     }

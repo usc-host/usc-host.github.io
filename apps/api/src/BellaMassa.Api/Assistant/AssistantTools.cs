@@ -16,7 +16,7 @@ public sealed class ToolContext(CatalogIndex index, IReadOnlyList<CartSnapshotLi
 /* The model sends combo choices as a flat list; the domain expects a map. */
 public sealed record ModelComboChoice(string GroupId, string OptionId, int Quantity);
 
-public sealed record ModelLine(string ProductId, string VariantId, int Quantity, List<string>? FlavorIds, List<string>? OptionIds, List<ModelComboChoice>? Combo, string? Note)
+public sealed record ModelLine(string ProductId, string VariantId, int Quantity, List<string>? FlavorIds, List<string>? OptionIds, List<ModelComboChoice>? Combo, string? Note, List<string>? RemovedIngredients = null)
 {
     public LineConfig ToConfig()
     {
@@ -30,7 +30,7 @@ public sealed record ModelLine(string ProductId, string VariantId, int Quantity,
                 group[c.OptionId] = c.Quantity;
             }
         }
-        return new LineConfig(ProductId, VariantId, Quantity, FlavorIds, OptionIds, combo, Note);
+        return new LineConfig(ProductId, VariantId, Quantity, FlavorIds, OptionIds, combo, Note, RemovedIngredients);
     }
 }
 
@@ -46,7 +46,8 @@ public static class AssistantTools
             "variantId": { "type": "STRING", "description": "ID da variante (tamanho) retornado por get_product" },
             "quantity": { "type": "INTEGER", "description": "Quantidade de 1 a 99" },
             "flavorIds": { "type": "ARRAY", "items": { "type": "STRING" }, "description": "IDs de sabores, só para pizzas montadas" },
-            "optionIds": { "type": "ARRAY", "items": { "type": "STRING" }, "description": "IDs de opções como borda" },
+            "optionIds": { "type": "ARRAY", "items": { "type": "STRING" }, "description": "IDs de opções como borda e adicionais" },
+            "removedIngredients": { "type": "ARRAY", "items": { "type": "STRING" }, "description": "Ingredientes a retirar, escritos como em removable_ingredients" },
             "combo": {
               "type": "ARRAY",
               "description": "Escolhas de combo: cada item tem groupId, optionId e quantity",
@@ -168,7 +169,8 @@ public static class AssistantTools
         name = product.Name,
         categories = product.CategoryIds,
         type = product.Kind,
-        sizes = product.Variants.Select(v => v.Label),
+        choose = product.VariantLabel ?? "Tamanho",
+        variants = product.Variants.Select(v => v.Label),
         from_price = Money(index.FromPriceCents(product)),
         description = CatalogIndex.Description(product) is { Length: > 0 } d ? d : null
     };
@@ -203,6 +205,7 @@ public static class AssistantTools
             },
             description = v.Description,
             ingredients = v.Ingredients is null ? (object)"não informados pela loja" : v.Ingredients,
+            removable_ingredients = v.Ingredients?.Where(i => !CatalogIndex.IsBaseIngredient(i)),
             flavors = v.Flavors is null ? null : new
             {
                 min = v.Flavors.Min,
@@ -227,10 +230,10 @@ public static class AssistantTools
                 groupId = g.Id,
                 label = g.Label,
                 rule = g.Hint,
-                repeat_allowed = g.Pick == "quantity",
+                repeat_allowed = g.Repeat,
                 min = g.Min,
                 max = g.Max,
-                options = g.Options.Select(oid => new { optionId = oid, name = g.Pick == "flavor" ? index.Flavor(oid)?.Name : index.Product(oid)?.Name })
+                options = g.Options.Select(oid => new { optionId = oid, name = index.ComboOptionName(g, oid) })
             })
         }), CatalogIndex.Json);
         return brief;

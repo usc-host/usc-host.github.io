@@ -40,12 +40,14 @@ public sealed record PricingPolicy(string Type, int? PriceCents, string? Table, 
 
 public sealed record FlavorRule(int Min, int Max, string Table, List<string> Options);
 
-/* pick: flavor and product take each choice once, quantity accepts repeats. */
+/* Source: flavor ids or item (variant ids of another product, such as a drink
+   or an esfiha). Repeat allows several units of the same option. */
 public sealed record ComboGroup(
     string Id,
     string Label,
     string Hint,
-    string Pick,
+    string Source,
+    bool Repeat,
     int Min,
     int Max,
     string? Table,
@@ -78,9 +80,14 @@ public sealed record Product(
     string? Summary,
     bool Featured,
     string Status,
-    List<Variant> Variants);
+    List<Variant> Variants,
+    string? VariantLabel = null,
+    Image? Image = null,
+    string? Badge = null);
 
 public sealed record SourceRecord(string Id, string Channel, string Url, string ObservedOn, string Field, string? ObservedValue, string? Note);
+
+public sealed record Promotion(string Id, string ProductId, string Title, Image Image, string Status, List<string> Sources, string? Note);
 
 public sealed record MenuCatalog(
     string Version,
@@ -90,4 +97,5 @@ public sealed record MenuCatalog(
     List<Flavor> Flavors,
     List<OptionGroup> OptionGroups,
     List<Product> Products,
-    List<SourceRecord> Sources);
+    List<SourceRecord> Sources,
+    List<Promotion>? Promotions = null);

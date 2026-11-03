@@ -12,7 +12,8 @@ public sealed record LineConfig(
     List<string>? FlavorIds = null,
     List<string>? OptionIds = null,
     Dictionary<string, Dictionary<string, int>>? Combo = null,
-    string? Note = null);
+    string? Note = null,
+    List<string>? RemovedIngredients = null);
 
 public sealed record LineIssue(string Field, string Code, string Message, string? GroupId = null);
 
@@ -70,6 +71,7 @@ public static partial class QuoteEngine
         if (line.Combo is { } c && (c.Count > 6 || !c.All(g => Id(g.Key) && g.Value.Count <= 20 && g.Value.All(e => Id(e.Key) && e.Value is >= 0 and <= MaxQuantity))))
             errors.Add("combo inválido");
         if (line.Note is { Length: > MaxNote }) errors.Add($"note aceita até {MaxNote} caracteres");
+        if (line.RemovedIngredients is { } r && (r.Count > 12 || r.Any(i => i is null || i.Length is 0 or > 60))) errors.Add("removedIngredients inválido");
         return errors;
     }
 
@@ -106,7 +108,7 @@ public static partial class QuoteEngine
         var pricing = variant.Pricing;
         if (pricing is { Type: "fixed", PriceCents: { } fixedPrice })
         {
-            parts.Add(new(product.Variants.Count > 1 ? $"{product.Name} {variant.Label.ToLowerInvariant()}" : product.Name, fixedPrice));
+            parts.Add(new(CatalogIndex.VariantDisplayName(product, variant), fixedPrice));
         }
         else if (pricing is { Type: "fraction_sum", Table: { } table })
         {
@@ -133,6 +135,7 @@ public static partial class QuoteEngine
         if (flavorIds.Count > 0 && variant.Flavors is not null)
             summary.Add($"{(flavorIds.Count == 1 ? "Sabor" : "Sabores")}: {string.Join(", ", flavorIds.Select(id => index.Flavor(id)?.Name ?? id))}");
 
+        IngredientIssues(variant, config.RemovedIngredients ?? [], issues, summary);
         OptionParts(index, variant, config.OptionIds ?? [], issues, parts, summary);
         ComboIssues(index, variant, config.Combo, issues, summary);
         if (!string.IsNullOrWhiteSpace(config.Note)) summary.Add($"Observação: {config.Note.Trim()}");
@@ -181,6 +184,19 @@ public static partial class QuoteEngine
             issues.Add(new("flavors", "FLAVORS_EXCEEDED", $"Este tamanho aceita até {TextTools.Plural(rule.Max, "sabor", "sabores")}."));
     }
 
+    private static void IngredientIssues(Variant variant, List<string> removed, List<LineIssue> issues, List<string> summary)
+    {
+        if (removed.Count == 0) return;
+        var listed = variant.Ingredients ?? [];
+        if (removed.Distinct().Count() != removed.Count || removed.Any(r => !listed.Contains(r) || CatalogIndex.IsBaseIngredient(r)))
+        {
+            issues.Add(new("ingredients", "INGREDIENT_UNAVAILABLE", "Só dá para retirar ingredientes listados neste produto."));
+            return;
+        }
+        // Recipe order, so the kitchen always reads it the same way.
+        summary.Add($"Sem: {string.Join(", ", listed.Where(removed.Contains).Select(i => i.ToLowerInvariant()))}");
+    }
+
     private static void OptionParts(CatalogIndex index, Variant variant, List<string> ids, List<LineIssue> issues, List<PricePart> parts, List<string> summary)
     {
         var seen = new HashSet<string>();
@@ -218,17 +234,17 @@ public static partial class QuoteEngine
                     issues.Add(new("combo", "COMBO_QUANTITY_INVALID", "Quantidade inválida no combo.", group.Id));
                     continue;
                 }
-                if (group.Pick != "quantity" && qty > 1)
+                if (!group.Repeat && qty > 1)
                     issues.Add(new("combo", "COMBO_REPEATED", $"Em {group.Label.ToLowerInvariant()}, cada opção pode ser escolhida uma vez.", group.Id));
-                var name = group.Pick == "flavor" ? index.Flavor(id)?.Name : index.Product(id)?.Name;
-                var priced = group.Pick != "flavor" || group.Table is null || index.Flavor(id)?.Prices.ContainsKey(group.Table) == true;
+                var name = index.ComboOptionName(group, id);
+                var priced = group.Source != "flavor" || group.Table is null || index.Flavor(id)?.Prices.ContainsKey(group.Table) == true;
                 if (!group.Options.Contains(id) || name is null || !priced)
                 {
                     issues.Add(new("combo", "COMBO_OPTION_UNAVAILABLE", $"Uma escolha em {group.Label.ToLowerInvariant()} não está disponível.", group.Id));
                     continue;
                 }
                 total += qty;
-                names.Add(group.Pick == "quantity" ? $"{qty}x {name}" : name);
+                names.Add(group.Repeat ? $"{qty}x {name}" : name);
             }
             if (total < group.Min)
                 issues.Add(new("combo", "COMBO_INCOMPLETE", $"{group.Label}: {TextTools.Plural(group.Min - total, "escolha restante", "escolhas restantes")}.", group.Id));
