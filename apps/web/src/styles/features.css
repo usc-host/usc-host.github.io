@@ -586,3 +586,174 @@
   border-radius: 24px;
   padding: 24px;
 }
+
+/* Cart line: name and price on top, actions bottom left, quantity bottom right */
+.cart-line {
+  grid-template-columns: 96px minmax(0, 1fr);
+}
+
+.cart-line__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cart-line__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cart-line__top .cart-line__price {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.cart-line__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.cart-line__actions {
+  display: flex;
+  gap: 16px;
+}
+
+@media (max-width: 860px) {
+  .cart-line {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .cart-line__top .cart-line__price {
+    grid-column: auto;
+    justify-self: auto;
+  }
+}
+
+/* Flavor choices with the photo button on the far right */
+.choice-row--split {
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+
+.choice-row__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 8px 10px 8px 14px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 650;
+  text-align: left;
+  cursor: pointer;
+}
+
+.choice-row--split.is-full .choice-row__main {
+  opacity: 0.5;
+}
+
+.choice-row__eye {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  align-self: stretch;
+  flex-shrink: 0;
+  border: 0;
+  border-left: 1px solid var(--border);
+  background: none;
+  color: var(--text-2);
+  font-size: 17px;
+  cursor: pointer;
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+
+.choice-row__eye:hover {
+  color: var(--red-ink);
+  background: color-mix(in srgb, var(--red-soft) 70%, transparent);
+}
+
+.choice-row.is-selected .choice-row__eye {
+  border-left-color: color-mix(in srgb, var(--red) 35%, transparent);
+}
+
+.flavor-preview .ant-modal-content {
+  border-radius: 24px;
+  padding: 16px;
+}
+
+.flavor-preview__body {
+  display: grid;
+  gap: 8px;
+}
+
+.flavor-preview__image {
+  border-radius: 18px;
+  margin-bottom: 6px;
+}
+
+.flavor-preview__body h2 {
+  font-size: 1.5rem;
+  padding-inline: 4px;
+}
+
+.flavor-preview__body p {
+  padding: 0 4px 6px;
+}
+
+/* Built pizza photo, one slice per flavor */
+.pizza-split {
+  position: relative;
+}
+
+.pizza-split img {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  animation: split-in 0.45s var(--ease-out) both;
+}
+
+.pizza-split__cuts {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.pizza-split__cuts line {
+  stroke: rgba(255, 249, 240, 0.92);
+  stroke-width: 3px;
+  vector-effect: non-scaling-stroke;
+}
+
+@keyframes split-in {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+}
+
+.build-option__photo {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+@media (max-width: 860px) {
+  .build-option__photo {
+    width: 52px;
+    height: 52px;
+  }
+}
