@@ -5,6 +5,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { PageNav } from '../components/layout/PageNav';
 import { EmptyState } from '../components/ui/EmptyState';
 import { artKindFor } from '../components/ui/ProductArt';
+import { imagesForFlavors, PizzaSplitImage, useRandomFlavorImage } from '../components/ui/PizzaSplitImage';
 import { ProductImage } from '../components/ui/ProductImage';
 import { useCart } from '../features/cart/CartProvider';
 import { ProductBuilder } from '../features/product-builder/ProductBuilder';
@@ -25,6 +26,8 @@ export default function ProductPage() {
     const asked = params.get('tamanho');
     return product.variants.some(v => v.id === asked) ? asked : null;
   });
+  const [flavorIds, setFlavorIds] = useState<string[]>(editing?.config.flavorIds ?? []);
+  const fallbackPizza = useRandomFlavorImage();
   usePageTitle(product?.name ?? 'Produto não encontrado');
 
   if (!product) {
@@ -59,7 +62,16 @@ export default function ProductPage() {
       />
       <div className="product-layout">
         <div className="product-layout__media">
-          <ProductImage key={image?.url ?? 'art'} image={image} art={artKindFor(product.categoryIds)} priority className="product-hero-image" />
+          {product.kind === 'builder' ? (
+            <PizzaSplitImage
+              images={flavorIds.length ? imagesForFlavors(flavorIds) : fallbackPizza ? [fallbackPizza] : []}
+              alt={flavorIds.length ? `Pizza com ${flavorIds.map(id => defaultIndex.flavor(id)?.name).join(', ')}` : 'Pizza da casa'}
+              priority
+              className="product-hero-image"
+            />
+          ) : (
+            <ProductImage key={image?.url ?? 'art'} image={image} art={artKindFor(product.categoryIds)} priority className="product-hero-image" />
+          )}
         </div>
         <div className="product-layout__main">
           <header className="product-head">
@@ -74,6 +86,7 @@ export default function ProductPage() {
             onVariant={setVariantId}
             initial={editing?.config}
             editingId={editing?.id}
+            onFlavorsChange={setFlavorIds}
           />
         </div>
       </div>

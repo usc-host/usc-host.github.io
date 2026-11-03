@@ -4,6 +4,7 @@ import { Button, Input, Popconfirm, Tooltip } from 'antd';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Link } from 'react-router';
 import { BrandStatus } from '../../components/brand/BrandLoader';
+import { pickFlavorImage } from '../../components/ui/PizzaSplitImage';
 import { ProductArt, artKindFor } from '../../components/ui/ProductArt';
 import { useIsMobile, useMediaQuery } from '../../lib/hooks';
 import { useChat, type UiMessage } from './ChatProvider';
@@ -30,7 +31,11 @@ function Message({ message, isLast }: { message: UiMessage; isLast: boolean }) {
           {message.products.map(p => (
             <Link key={p.productId} to={`/produto/${p.slug}`} className="chat-product" onClick={() => mobile && setOpen(false)}>
               <span className="chat-product__media">
-                {p.imageUrl ? <img src={p.imageUrl} alt="" width={64} height={64} loading="lazy" /> : <ProductArt kind={artKindFor(defaultIndex.product(p.productId)?.categoryIds ?? [])} />}
+                {(() => {
+                  // A built pizza borrows a house pizza photo, picked by the message so it stays put.
+                  const url = p.imageUrl ?? (defaultIndex.product(p.productId)?.kind === 'builder' ? pickFlavorImage((message.id.charCodeAt(0) % 9) / 9)?.url : undefined);
+                  return url ? <img src={url} alt="" width={64} height={64} loading="lazy" /> : <ProductArt kind={artKindFor(defaultIndex.product(p.productId)?.categoryIds ?? [])} />;
+                })()}
               </span>
               <span className="chat-product__body">
                 <strong>{p.name}</strong>

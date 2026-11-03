@@ -4,12 +4,14 @@ import { Link } from 'react-router';
 import toast from 'react-hot-toast';
 import { useCart } from '../../features/cart/CartProvider';
 import { artKindFor } from './ProductArt';
+import { useRandomFlavorImage } from './PizzaSplitImage';
 import { ProductImage } from './ProductImage';
 
 const categoryName = (id: string) => defaultIndex.catalog.categories.find(c => c.id === id)?.name ?? '';
 
 export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   const cart = useCart();
+  const housePizza = useRandomFlavorImage();
   const from = fromPriceCents(defaultIndex, product);
   const direct = isDirectAdd(product);
   const variable = product.variants.length > 1 || product.kind === 'builder';
@@ -30,7 +32,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
   return (
     <article className="product-card">
       <Link to={href} className="product-card__media" tabIndex={-1} aria-hidden="true">
-        <ProductImage image={primaryImage(product)} art={artKindFor(product.categoryIds)} priority={priority} />
+        <ProductImage image={primaryImage(product) ?? (product.kind === 'builder' ? housePizza : null)} art={artKindFor(product.categoryIds)} priority={priority} />
         <span className={`product-card__tag${product.badge ? ' is-new' : ''}`}>{product.badge ?? categoryName(product.categoryIds[0] ?? '')}</span>
       </Link>
       <div className="product-card__body">

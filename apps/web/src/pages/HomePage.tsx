@@ -1,9 +1,10 @@
 import { catalog, defaultIndex, formatBRL, variantFromPrice } from '@bella/domain';
 import { ArrowRightOutlined, ClockCircleOutlined, EnvironmentOutlined, MessageOutlined, WhatsAppOutlined } from '@ant-design/icons';
+import { useMemo } from 'react';
 import { Link } from 'react-router';
 import { PizzaMarquee } from '../components/home/PizzaMarquee';
 import { PromoHero } from '../components/home/PromoHero';
-import { ProductArt } from '../components/ui/ProductArt';
+import { pickFlavorImage } from '../components/ui/PizzaSplitImage';
 import { ProductCard } from '../components/ui/ProductCard';
 import { useChat } from '../features/chat/ChatProvider';
 import { usePageTitle, useReveal } from '../lib/hooks';
@@ -26,6 +27,12 @@ export default function HomePage() {
   const area = info('atendimento');
   const eta = info('prazo');
   const whatsapp = info('whatsapp');
+  const pizzas = useMemo(() => {
+    const first = pickFlavorImage();
+    let second = pickFlavorImage();
+    for (let tries = 0; second?.url === first?.url && tries < 5; tries++) second = pickFlavorImage();
+    return [first, second];
+  }, []);
 
   return (
     <>
@@ -53,9 +60,9 @@ export default function HomePage() {
             <p className="muted">Escolha o tamanho, combine sabores, escolha a borda e veja o valor exato antes de adicionar.</p>
           </div>
           <div className="build-band__options">
-            {BUILDER.variants.map(v => (
+            {BUILDER.variants.map((v, i) => (
               <Link key={v.id} to={`/produto/${BUILDER.slug}?tamanho=${v.id}`} className="build-option">
-                <ProductArt kind="pizza" />
+                <img className="build-option__photo" src={pizzas[i]?.url} alt="" width={64} height={64} loading="lazy" />
                 <span>
                   <strong>Pizza {v.label.toLowerCase()}</strong>
                   <span className="muted">{v.slices} pedaços, {v.flavors?.max === 1 ? '1 sabor' : `de 1 a ${v.flavors?.max} sabores`}</span>
