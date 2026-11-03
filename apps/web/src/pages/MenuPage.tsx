@@ -3,6 +3,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Select } from 'antd';
 import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router';
+import { PageNav } from '../components/layout/PageNav';
 import { CategoryRail } from '../components/ui/CategoryRail';
 import { EmptyState } from '../components/ui/EmptyState';
 import { ProductCard } from '../components/ui/ProductCard';
@@ -53,6 +54,10 @@ export default function MenuPage() {
 
   return (
     <div className="container page">
+      <PageNav
+        trail={[{ label: 'Início', to: '/' }, { label: 'Cardápio', to: current ? '/cardapio' : undefined }, ...(current ? [{ label: current.name }] : [])]}
+        fallback="/"
+      />
       <header className="page-head">
         <div>
           <span className="eyebrow">Cardápio</span>

@@ -1,6 +1,7 @@
 import { catalog, defaultIndex, primaryImage } from '@bella/domain';
 import { ClockCircleOutlined, EnvironmentOutlined, MessageOutlined, WhatsAppOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import { PageNav } from '../components/layout/PageNav';
 import { ProductImage } from '../components/ui/ProductImage';
 import { useChat } from '../features/chat/ChatProvider';
 import { usePageTitle } from '../lib/hooks';
@@ -22,6 +23,7 @@ export default function AboutPage() {
 
   return (
     <div className="container page about">
+      <PageNav trail={[{ label: 'Início', to: '/' }, { label: 'Sobre' }]} fallback="/" />
       <div className="about__grid">
         <div className="about__copy">
           <span className="eyebrow">Sobre nós</span>

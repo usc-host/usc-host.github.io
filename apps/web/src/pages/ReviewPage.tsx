@@ -5,6 +5,8 @@ import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router';
 import { BrandStatus } from '../components/brand/BrandLoader';
+import { PageNav } from '../components/layout/PageNav';
+import { recordOrder } from '../lib/stats';
 import { EmptyState } from '../components/ui/EmptyState';
 import { useCart } from '../features/cart/CartProvider';
 import { useServerQuote } from '../features/cart/useServerQuote';
@@ -118,6 +120,7 @@ export default function ReviewPage() {
         navigate('/carrinho');
         return;
       }
+      recordOrder(cart.lines.map(l => l.config));
       setDone({ code, quote: current, text: summaryText(code, current, details) });
       window.scrollTo({ top: 0 });
     } catch {
@@ -129,6 +132,7 @@ export default function ReviewPage() {
 
   return (
     <div className="container page">
+      <PageNav trail={[{ label: 'Cardápio', to: '/cardapio' }, { label: 'Carrinho', to: '/carrinho' }, { label: 'Revisão' }]} fallback="/carrinho" />
       <header className="page-head">
         <div>
           <span className="eyebrow">Quase lá</span>

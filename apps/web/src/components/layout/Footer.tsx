@@ -19,7 +19,7 @@ export function Footer() {
           <h2 className="site-footer__title">Cardápio</h2>
           <ul>
             <li><Link to="/cardapio?categoria=premium">Pizzas premium</Link></li>
-            <li><Link to="/produto/pizza-grande">Monte sua pizza</Link></li>
+            <li><Link to="/produto/monte-sua-pizza">Monte sua pizza</Link></li>
             <li><Link to="/cardapio?categoria=esfihas">Esfihas</Link></li>
             <li><Link to="/combos">Combos</Link></li>
           </ul>

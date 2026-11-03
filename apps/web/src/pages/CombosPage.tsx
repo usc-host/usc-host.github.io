@@ -1,4 +1,5 @@
 import { catalog } from '@bella/domain';
+import { PageNav } from '../components/layout/PageNav';
 import { ProductCard } from '../components/ui/ProductCard';
 import { usePageTitle } from '../lib/hooks';
 
@@ -9,6 +10,7 @@ export default function CombosPage() {
   const esfihas = combos.filter(p => p.categoryIds.includes('esfihas'));
   return (
     <div className="container page">
+      <PageNav trail={[{ label: 'Início', to: '/' }, { label: 'Combos' }]} fallback="/" />
       <header className="page-head">
         <div>
           <span className="eyebrow">Combos</span>

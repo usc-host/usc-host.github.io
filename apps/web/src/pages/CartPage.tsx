@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router';
 import { BrandStatus } from '../components/brand/BrandLoader';
+import { PageNav } from '../components/layout/PageNav';
 import { EmptyState } from '../components/ui/EmptyState';
 import { artKindFor } from '../components/ui/ProductArt';
 import { ProductImage } from '../components/ui/ProductImage';
@@ -81,15 +82,18 @@ export default function CartPage() {
     }
   }, [fresh, server.quote, localTotal]);
 
+  const nav = <PageNav trail={[{ label: 'Início', to: '/' }, { label: 'Cardápio', to: '/cardapio' }, { label: 'Carrinho' }]} fallback="/cardapio" />;
+
   if (!cart.lines.length) {
     return (
       <div className="container page">
+        {nav}
         <EmptyState
           title="Seu carrinho está vazio"
           action={
             <div className="empty__buttons">
               <Button type="primary" shape="round" size="large" onClick={() => navigate('/cardapio')}>Ver cardápio</Button>
-              <Button shape="round" size="large" onClick={() => navigate('/produto/pizza-grande')}>Montar uma pizza</Button>
+              <Button shape="round" size="large" onClick={() => navigate('/produto/monte-sua-pizza')}>Montar uma pizza</Button>
             </div>
           }
         >
@@ -101,6 +105,7 @@ export default function CartPage() {
 
   return (
     <div className="container page">
+      {nav}
       <header className="page-head page-head--row">
         <h1 tabIndex={-1}>Seu carrinho</h1>
         <Popconfirm title="Esvaziar o carrinho?" okText="Esvaziar" cancelText="Cancelar" onConfirm={cart.clear} placement="bottomRight">
