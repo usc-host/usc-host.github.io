@@ -30,6 +30,8 @@
   --art-sauce: #c8462f;
   --art-cheese: #f6d98b;
   --art-leaf: #3f7d4f;
+  --scrollbar: rgba(25, 23, 20, 0.26);
+  --scrollbar-hover: rgba(25, 23, 20, 0.45);
 
   --font-ui: 'Manrope Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
@@ -75,6 +77,8 @@
   --art-sauce: #b5402b;
   --art-cheese: #e9c879;
   --art-leaf: #5d9a6c;
+  --scrollbar: rgba(247, 240, 231, 0.22);
+  --scrollbar-hover: rgba(247, 240, 231, 0.4);
 }
 
 @media (max-width: 860px) {
