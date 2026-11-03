@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: bella-massa-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.8-flash
+      - key: GEMINI_THINKING_LEVEL
+        value: low
+      - key: ALLOWED_ORIGINS
+        value: https://usc-host.github.io
