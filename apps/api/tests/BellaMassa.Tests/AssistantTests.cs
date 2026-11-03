@@ -123,15 +123,15 @@ public class AssistantTests
             }
         };
         var (client, gemini) = Create(new ScriptedGemini(
-            ScriptedGemini.Call("propose_cart_change", Line("calabresa", "mussarela", "presunto", "portuguesa", "nutella")),
-            ScriptedGemini.Call("propose_cart_change", Line("calabresa", "nutella")),
+            ScriptedGemini.Call("propose_cart_change", Line("bella-tare", "cupim-supremo", "alcatra-acebolada", "nordestina", "churros")),
+            ScriptedGemini.Call("propose_cart_change", Line("bella-tare", "cupim-supremo")),
             ScriptedGemini.Text("A proposta está logo abaixo para você confirmar.")));
 
-        var (events, _, _) = await Chat(client, "monta uma grande de calabresa e nutella");
+        var (events, _, _) = await Chat(client, "monta uma grande meia Bella Tarê e meia Cupim");
 
         Assert.False((bool)ToolResponse(gemini, 1)!["ok"]!);
         var proposal = Assert.Single(events, e => (string?)e["type"] == "proposal")["proposal"]!;
-        Assert.Equal(2845 + 3745, (int)proposal["quote"]!["totalCents"]!);
+        Assert.Equal(3495 + 4495, (int)proposal["quote"]!["totalCents"]!);
     }
 
     [Fact]
@@ -145,13 +145,13 @@ public class AssistantTests
                 ["variantId"] = "combo-da-semana-unico",
                 ["quantity"] = 1,
                 ["combo"] = new JsonArray(
-                    new JsonObject { ["groupId"] = "pizza", ["optionId"] = "calabresa", ["quantity"] = 1 },
+                    new JsonObject { ["groupId"] = "pizza", ["optionId"] = "cupim-supremo", ["quantity"] = 1 },
                     new JsonObject { ["groupId"] = "broto-doce", ["optionId"] = "churros", ["quantity"] = 1 },
                     new JsonObject { ["groupId"] = "refri", ["optionId"] = "guarana-2l-un", ["quantity"] = 1 })
             })
         };
         var (client, gemini) = Create(new ScriptedGemini(ScriptedGemini.Call("quote_cart", args), ScriptedGemini.Text("Fica R$ 99,90.")));
-        await Chat(client, "quanto fica o combo da semana?");
+        await Chat(client, "quanto fica o combo da semana com cupim?");
         var result = ToolResponse(gemini, 1)!;
         Assert.True((bool)result["complete"]!);
         Assert.Equal("R$ 99,90", (string?)result["items_total"]);

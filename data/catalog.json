@@ -1,5 +1,5 @@
 {
-  "version": "2026.11.03.2",
+  "version": "2026.11.03.4",
   "currency": "BRL",
   "store": {
     "name": "Bella Massa",
@@ -156,155 +156,22 @@
   ],
   "flavors": [
     {
-      "id": "calabresa",
-      "name": "Calabresa",
-      "kind": "salgada",
-      "ingredients": null,
-      "prices": {
-        "grande": 5690,
-        "broto": 3980
-      },
-      "status": {
-        "grande": "observed",
-        "broto": "demo"
-      },
-      "sources": [
-        "instadelivery:modal-grande-2"
-      ]
-    },
-    {
-      "id": "mussarela",
-      "name": "Mussarela",
-      "kind": "salgada",
-      "ingredients": null,
-      "prices": {
-        "grande": 5690,
-        "broto": 3980
-      },
-      "status": {
-        "grande": "observed",
-        "broto": "demo"
-      },
-      "sources": [
-        "instadelivery:modal-grande-2"
-      ]
-    },
-    {
-      "id": "presunto",
-      "name": "Presunto",
-      "kind": "salgada",
-      "ingredients": null,
-      "prices": {
-        "grande": 5690,
-        "broto": 3980
-      },
-      "status": {
-        "grande": "observed",
-        "broto": "demo"
-      },
-      "sources": [
-        "instadelivery:modal-grande-2"
-      ]
-    },
-    {
-      "id": "tres-queijos",
-      "name": "3 Queijos",
-      "kind": "salgada",
-      "ingredients": null,
-      "prices": {
-        "grande": 6190,
-        "broto": 4280
-      },
-      "status": {
-        "grande": "observed",
-        "broto": "demo"
-      },
-      "sources": [
-        "instadelivery:modal-grande-2"
-      ]
-    },
-    {
-      "id": "quatro-queijos",
-      "name": "4 Queijos",
-      "kind": "salgada",
-      "ingredients": null,
-      "prices": {
-        "grande": 6290,
-        "broto": 4380
-      },
-      "status": {
-        "grande": "observed",
-        "broto": "demo"
-      },
-      "sources": [
-        "instadelivery:modal-grande-2"
-      ]
-    },
-    {
-      "id": "portuguesa",
-      "name": "Portuguesa",
-      "kind": "salgada",
-      "ingredients": null,
-      "prices": {
-        "grande": 6300,
-        "broto": 4380
-      },
-      "status": {
-        "grande": "observed",
-        "broto": "demo"
-      },
-      "sources": [
-        "instadelivery:modal-grande-2"
-      ]
-    },
-    {
-      "id": "frango-catupiry",
-      "name": "Frango com Catupiry",
-      "kind": "salgada",
-      "ingredients": null,
-      "prices": {
-        "grande": 6690,
-        "broto": 4580
-      },
-      "status": {
-        "grande": "observed",
-        "broto": "demo"
-      },
-      "sources": [
-        "instadelivery:modal-grande-2"
-      ]
-    },
-    {
       "id": "bella-tare",
       "name": "Bella Tarê",
       "kind": "salgada",
       "ingredients": null,
       "prices": {
-        "grande": 6990
+        "grande": 6990,
+        "broto": 4890
       },
       "status": {
-        "grande": "observed"
+        "grande": "observed",
+        "broto": "observed"
       },
       "sources": [
-        "instadelivery:modal-grande-2"
+        "catalogo:bella-tare"
       ],
       "productId": "bella-tare"
-    },
-    {
-      "id": "alcatra-acebolada",
-      "name": "Alcatra Acebolada",
-      "kind": "salgada",
-      "ingredients": null,
-      "prices": {
-        "grande": 8590
-      },
-      "status": {
-        "grande": "observed"
-      },
-      "sources": [
-        "instadelivery:modal-grande-2"
-      ],
-      "productId": "alcatra-acebolada"
     },
     {
       "id": "cupim-supremo",
@@ -312,15 +179,35 @@
       "kind": "salgada",
       "ingredients": null,
       "prices": {
-        "grande": 8990
+        "grande": 8990,
+        "broto": 6290
       },
       "status": {
-        "grande": "observed"
+        "grande": "observed",
+        "broto": "observed"
       },
       "sources": [
-        "instadelivery:modal-grande-2"
+        "catalogo:cupim-supremo"
       ],
       "productId": "cupim-supremo"
+    },
+    {
+      "id": "alcatra-acebolada",
+      "name": "Alcatra Acebolada",
+      "kind": "salgada",
+      "ingredients": null,
+      "prices": {
+        "grande": 8590,
+        "broto": 5990
+      },
+      "status": {
+        "grande": "observed",
+        "broto": "demo"
+      },
+      "sources": [
+        "catalogo:alcatra-acebolada"
+      ],
+      "productId": "alcatra-acebolada"
     },
     {
       "id": "nordestina-especial",
@@ -328,52 +215,165 @@
       "kind": "salgada",
       "ingredients": null,
       "prices": {
-        "grande": 8590
+        "grande": 8990,
+        "broto": 6290
       },
       "status": {
-        "grande": "conflicting"
+        "grande": "conflicting",
+        "broto": "demo"
       },
       "sources": [
-        "instadelivery:modal-grande-2",
-        "instadelivery:bella-insta-010"
+        "catalogo:nordestina-especial"
       ],
       "productId": "nordestina-especial",
-      "note": "Fração de R$ 42,95 no modal, card avulso por R$ 89,90."
+      "note": "Card avulso R$ 89,90, fração de R$ 42,95 no modal. Usado o valor do card."
     },
     {
-      "id": "nutella",
-      "name": "Nutella",
-      "kind": "doce",
+      "id": "costela-desfiada",
+      "name": "Costela Desfiada",
+      "kind": "salgada",
       "ingredients": null,
       "prices": {
-        "grande": 7490,
-        "broto": 4990
+        "grande": 8590,
+        "broto": 5990
       },
       "status": {
         "grande": "observed",
         "broto": "demo"
       },
       "sources": [
-        "instadelivery:modal-grande-2"
+        "catalogo:costela-desfiada"
+      ],
+      "productId": "costela-desfiada"
+    },
+    {
+      "id": "strogonoff-de-frango",
+      "name": "Strogonoff de Frango",
+      "kind": "salgada",
+      "ingredients": null,
+      "prices": {
+        "grande": 8590,
+        "broto": 5990
+      },
+      "status": {
+        "grande": "observed",
+        "broto": "demo"
+      },
+      "sources": [
+        "catalogo:strogonoff-de-frango"
+      ],
+      "productId": "strogonoff-de-frango"
+    },
+    {
+      "id": "nordestina",
+      "name": "Nordestina",
+      "kind": "salgada",
+      "ingredients": null,
+      "prices": {
+        "grande": 8590,
+        "broto": 5990
+      },
+      "status": {
+        "grande": "observed",
+        "broto": "demo"
+      },
+      "sources": [
+        "catalogo:nordestina"
+      ],
+      "productId": "nordestina"
+    },
+    {
+      "id": "escondidinho-de-carne-seca",
+      "name": "Escondidinho de Carne Seca",
+      "kind": "salgada",
+      "ingredients": null,
+      "prices": {
+        "grande": 8590,
+        "broto": 5990
+      },
+      "status": {
+        "grande": "observed",
+        "broto": "demo"
+      },
+      "sources": [
+        "catalogo:escondidinho-de-carne-seca"
+      ],
+      "productId": "escondidinho-de-carne-seca"
+    },
+    {
+      "id": "tres-queijos",
+      "name": "3 Queijos",
+      "kind": "salgada",
+      "description": "Molho artesanal, mussarela, requeijão cremoso, provolone, azeitonas e orégano.",
+      "ingredients": [
+        "Molho artesanal",
+        "Mussarela",
+        "Requeijão cremoso",
+        "Provolone",
+        "Azeitonas",
+        "Orégano"
+      ],
+      "prices": {
+        "grande": 6190,
+        "broto": 4290
+      },
+      "status": {
+        "grande": "observed",
+        "broto": "demo"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17880331346a93386ecf4b3_75_75.jpeg",
+        "width": 300,
+        "height": 300,
+        "alt": "Pizza 3 Queijos"
+      },
+      "sources": [
+        "instadelivery:sabores-pizza"
+      ]
+    },
+    {
+      "id": "banana-nevada",
+      "name": "Banana Nevada",
+      "kind": "doce",
+      "description": "Banana coberta com chocolate branco gratinado.",
+      "ingredients": [
+        "Banana",
+        "Chocolate branco"
+      ],
+      "prices": {
+        "grande": 6490,
+        "broto": 4490
+      },
+      "status": {
+        "grande": "observed",
+        "broto": "demo"
+      },
+      "image": {
+        "url": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17880331416a9338753704c_75_75.jpeg",
+        "width": 300,
+        "height": 300,
+        "alt": "Pizza doce Banana Nevada"
+      },
+      "sources": [
+        "instadelivery:sabores-pizza"
       ]
     },
     {
       "id": "churros",
       "name": "Churros",
       "kind": "doce",
-      "ingredients": [
-        "Massa artesanal",
-        "Doce de leite cremoso",
-        "Canela"
-      ],
+      "ingredients": null,
       "prices": {
+        "grande": 4990,
         "broto": 2990
       },
       "status": {
+        "grande": "observed",
         "broto": "observed"
       },
       "sources": [
-        "instadelivery:bella-insta-013"
+        "instadelivery:bella-insta-013",
+        "instadelivery:bella-insta-014"
       ],
       "productId": "pizza-de-churros"
     }
@@ -1137,18 +1137,17 @@
             "max": 4,
             "table": "grande",
             "options": [
-              "calabresa",
-              "mussarela",
-              "presunto",
-              "tres-queijos",
-              "quatro-queijos",
-              "portuguesa",
-              "frango-catupiry",
               "bella-tare",
-              "alcatra-acebolada",
               "cupim-supremo",
+              "alcatra-acebolada",
               "nordestina-especial",
-              "nutella"
+              "costela-desfiada",
+              "strogonoff-de-frango",
+              "nordestina",
+              "escondidinho-de-carne-seca",
+              "tres-queijos",
+              "banana-nevada",
+              "churros"
             ]
           },
           "optionGroupIds": [
@@ -1175,14 +1174,17 @@
             "max": 2,
             "table": "broto",
             "options": [
-              "calabresa",
-              "mussarela",
-              "presunto",
+              "bella-tare",
+              "cupim-supremo",
+              "alcatra-acebolada",
+              "nordestina-especial",
+              "costela-desfiada",
+              "strogonoff-de-frango",
+              "nordestina",
+              "escondidinho-de-carne-seca",
               "tres-queijos",
-              "quatro-queijos",
-              "portuguesa",
-              "frango-catupiry",
-              "nutella"
+              "banana-nevada",
+              "churros"
             ]
           },
           "status": "demo",
@@ -1234,15 +1236,17 @@
               "max": 4,
               "table": "grande",
               "options": [
-                "calabresa",
-                "mussarela",
-                "presunto",
-                "tres-queijos",
-                "quatro-queijos",
-                "portuguesa",
-                "frango-catupiry",
                 "bella-tare",
-                "nutella"
+                "cupim-supremo",
+                "alcatra-acebolada",
+                "nordestina-especial",
+                "costela-desfiada",
+                "strogonoff-de-frango",
+                "nordestina",
+                "escondidinho-de-carne-seca",
+                "tres-queijos",
+                "banana-nevada",
+                "churros"
               ],
               "status": "demo",
               "source": "flavor",
@@ -1405,13 +1409,15 @@
               "max": 1,
               "table": "grande",
               "options": [
-                "calabresa",
-                "mussarela",
-                "presunto",
-                "tres-queijos",
-                "quatro-queijos",
-                "portuguesa",
-                "frango-catupiry"
+                "bella-tare",
+                "cupim-supremo",
+                "alcatra-acebolada",
+                "nordestina-especial",
+                "costela-desfiada",
+                "strogonoff-de-frango",
+                "nordestina",
+                "escondidinho-de-carne-seca",
+                "tres-queijos"
               ],
               "status": "demo",
               "source": "flavor",
@@ -1420,13 +1426,13 @@
             {
               "id": "broto-doce",
               "label": "Broto doce",
-              "hint": "Escolha 1 sabor",
+              "hint": "Escolha 1 sabor doce",
               "min": 1,
               "max": 1,
               "table": "broto",
               "options": [
                 "churros",
-                "nutella"
+                "banana-nevada"
               ],
               "status": "demo",
               "source": "flavor",
@@ -2402,6 +2408,14 @@
       "observedOn": "2026-11-03",
       "field": "sabores de esfiha doce nos combos",
       "note": "Sabores e fotos observados. Preço unitário por sabor não levantado."
+    },
+    {
+      "id": "instadelivery:sabores-pizza",
+      "channel": "instadelivery",
+      "url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "observedOn": "2026-11-03",
+      "field": "sabores de pizza com foto, descrição e preço da grande",
+      "note": "Enviado pela equipe. Preço da broto ilustrativo."
     }
   ],
   "promotions": [

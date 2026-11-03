@@ -67,6 +67,14 @@ export function primaryImage(product: Product) {
   return product.image ?? product.variants.find(v => v.image)?.image ?? null;
 }
 
+/* A flavor shows its own photo or the photo of the house pizza it comes from. */
+export function flavorImage(index: CatalogIndex, flavorId: string) {
+  const flavor = index.flavor(flavorId);
+  if (flavor?.image) return flavor.image;
+  const product = index.product(flavor?.productId ?? '');
+  return product ? primaryImage(product) : null;
+}
+
 /* Dough and sauce make the pizza; they are listed but cannot be removed. */
 export function isBaseIngredient(name: string): boolean {
   return /^(massa|molho de tomate)/i.test(name);

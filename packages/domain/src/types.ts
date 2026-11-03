@@ -38,7 +38,10 @@ export interface Flavor {
   id: string;
   name: string;
   kind: 'salgada' | 'doce';
+  description?: string;
   ingredients: string[] | null;
+  /* Own photo, for flavors that are not sold as a separate product. */
+  image?: Image;
   prices: Record<string, number>;
   status: Record<string, RecordStatus>;
   sources: string[];

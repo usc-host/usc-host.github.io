@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { catalog, defaultIndex as index, fromPriceCents, indexCatalog, primaryImage } from './catalog.ts';
+import { catalog, defaultIndex as index, flavorImage, fromPriceCents, indexCatalog, primaryImage } from './catalog.ts';
 import { formatBRL } from './money.ts';
 import { lineKey, quoteCart, quoteLine } from './quote.ts';
 import { searchProducts } from './search.ts';
@@ -54,13 +54,17 @@ describe('carrinho e catálogo', () => {
   });
 
   it('preço a partir de considera broto e o sabor mais barato', () => {
-    expect(fromPriceCents(index, index.product('monte-sua-pizza')!)).toBe(3980);
+    expect(fromPriceCents(index, index.product('monte-sua-pizza')!)).toBe(2990);
     expect(fromPriceCents(index, index.product('bebidas')!)).toBe(790);
   });
 
   it('toda pizza da casa tem grande e broto', () => {
     const pizzas = catalog.products.filter(p => p.categoryIds.includes('premium'));
     for (const p of pizzas) expect(p.variants.map(v => v.label)).toEqual(['Grande', 'Broto']);
+  });
+
+  it('todo sabor de pizza tem foto', () => {
+    for (const f of catalog.flavors) expect(flavorImage(index, f.id), f.id).not.toBeNull();
   });
 
   it('combos e esfihas têm foto', () => {
