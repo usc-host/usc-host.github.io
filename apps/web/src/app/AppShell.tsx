@@ -4,6 +4,7 @@ import { useLocation } from 'react-router';
 import { BottomNav } from '../components/layout/BottomNav';
 import { Footer } from '../components/layout/Footer';
 import { Header } from '../components/layout/Header';
+import { AuthSheet } from '../features/account/AuthSheet';
 import { ChatPanel } from '../features/chat/ChatPanel';
 import { useIsMobile } from '../lib/hooks';
 import { warmUpApi } from '../lib/api';
@@ -29,6 +30,7 @@ export function AppShell() {
       <Footer />
       {mobile && !ownBar && <BottomNav />}
       <ChatPanel />
+      <AuthSheet />
       <Toaster
         position={mobile ? 'top-center' : 'bottom-right'}
         containerStyle={mobile ? { top: 'calc(var(--header-h) + 8px)' } : { bottom: 24, right: 24 }}

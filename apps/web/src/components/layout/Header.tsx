@@ -1,7 +1,8 @@
-import { MessageOutlined, ShoppingOutlined } from '@ant-design/icons';
+import { MessageOutlined, ShoppingOutlined, StarFilled, UserOutlined } from '@ant-design/icons';
 import { Badge } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router';
+import { useAccount } from '../../features/account/AccountProvider';
 import { useCart } from '../../features/cart/CartProvider';
 import { useChat } from '../../features/chat/ChatProvider';
 import { AnimatedThemeToggler } from '../../features/theme/AnimatedThemeToggler';
@@ -12,6 +13,7 @@ const NAV = [
   { to: '/', label: 'Início', end: true },
   { to: '/cardapio', label: 'Cardápio' },
   { to: '/combos', label: 'Combos' },
+  { to: '/fidelidade', label: 'Fidelidade' },
   { to: '/sobre', label: 'Sobre' }
 ];
 
@@ -19,6 +21,7 @@ export function Header() {
   const { theme, setTheme } = useTheme();
   const { count } = useCart();
   const chat = useChat();
+  const account = useAccount();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -47,6 +50,15 @@ export function Header() {
             <span>Ajuda para escolher</span>
           </button>
           <AnimatedThemeToggler className="icon-button" theme={theme} onThemeChange={setTheme} />
+          {account.profile ? (
+            <Link to="/fidelidade" className="points-pill" aria-label={`Fidelidade, ${account.profile.points} pontos`}>
+              <StarFilled /> <span>{account.profile.points.toLocaleString('pt-BR')}</span>
+            </Link>
+          ) : (
+            <button type="button" className="icon-button" onClick={() => account.openAuth()} aria-label="Entrar na sua conta">
+              <UserOutlined />
+            </button>
+          )}
           <Link to="/carrinho" className="icon-button cart-button" aria-label={count ? `Carrinho, ${count} ${count === 1 ? 'item' : 'itens'}` : 'Carrinho vazio'}>
             <Badge count={count} size="small" offset={[2, -2]} color="var(--red)">
               <ShoppingOutlined />

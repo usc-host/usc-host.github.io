@@ -40,6 +40,7 @@ export const routes: AppRoute[] = [
   page('/carrinho', () => import('../pages/CartPage')),
   page('/revisao', () => import('../pages/ReviewPage')),
   page('/sobre', () => import('../pages/AboutPage')),
+  page('/fidelidade', () => import('../pages/LoyaltyPage')),
   page('*', () => import('../pages/NotFoundPage'))
 ];
 

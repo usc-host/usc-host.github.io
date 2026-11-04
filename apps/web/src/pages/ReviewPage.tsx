@@ -7,6 +7,9 @@ import { Link, useNavigate } from 'react-router';
 import { BrandStatus } from '../components/brand/BrandLoader';
 import { PageNav } from '../components/layout/PageNav';
 import { recordOrder } from '../lib/stats';
+import { GiftOutlined } from '@ant-design/icons';
+import { accountApi } from '../features/account/accountApi';
+import { useAccount } from '../features/account/AccountProvider';
 import { EmptyState } from '../components/ui/EmptyState';
 import { useCart } from '../features/cart/CartProvider';
 import { useServerQuote } from '../features/cart/useServerQuote';
@@ -58,7 +61,8 @@ export default function ReviewPage() {
   const [form] = Form.useForm<Details>();
   const mode = Form.useWatch('mode', form) ?? 'entrega';
   const payment = Form.useWatch('payment', form);
-  const [done, setDone] = useState<{ code: string; quote: Quote; text: string } | null>(null);
+  const account = useAccount();
+  const [done, setDone] = useState<{ code: string; quote: Quote; text: string; earned?: number } | null>(null);
   const [sending, setSending] = useState(false);
   const code = useMemo(() => `BM${Date.now().toString(36).slice(-5).toUpperCase()}`, []);
 
@@ -70,6 +74,9 @@ export default function ReviewPage() {
           <span className="eyebrow">Pedido {done.code}</span>
           <h1 tabIndex={-1}>Seu pedido está pronto</h1>
           <p className="muted">Envie o resumo para a loja confirmar o pedido e informar a taxa de entrega.</p>
+          {done.earned !== undefined && (
+            <p className="earned"><GiftOutlined /> Você ganhou <strong>{done.earned} pontos</strong> neste pedido.</p>
+          )}
           <pre className="done-card__summary">{done.text}</pre>
           <div className="done-card__actions">
             {ORDER_WHATSAPP && (
@@ -121,7 +128,18 @@ export default function ReviewPage() {
         return;
       }
       recordOrder(cart.lines.map(l => l.config));
-      setDone({ code, quote: current, text: summaryText(code, current, details) });
+      // Points are credited on the server from the recalculated total.
+      let earned: number | undefined;
+      if (account.token) {
+        try {
+          const result = await accountApi.earn(account.token, code, cart.lines.map(l => l.config));
+          earned = result.earned;
+          account.setProfile(result.profile);
+        } catch {
+          toast.error('Não foi possível somar os pontos agora.');
+        }
+      }
+      setDone({ code, quote: current, text: summaryText(code, current, details), earned });
       window.scrollTo({ top: 0 });
     } catch {
       toast.error('Não foi possível confirmar os valores. Tente de novo.');
@@ -140,7 +158,7 @@ export default function ReviewPage() {
         </div>
       </header>
       <div className="cart-layout">
-        <Form form={form} layout="vertical" requiredMark={false} className="review-form" initialValues={{ mode: 'entrega', payment: 'pix' }} onFinish={finish}>
+        <Form form={form} name="review" layout="vertical" requiredMark={false} className="review-form" initialValues={{ mode: 'entrega', payment: 'pix' }} onFinish={finish}>
           <section className="review-block">
             <h2>Seus dados</h2>
             <Form.Item name="name" label="Nome" rules={[{ required: true, whitespace: true, message: 'Informe seu nome.' }]}>
@@ -188,6 +206,19 @@ export default function ReviewPage() {
 
         <aside className="cart-summary" aria-label="Resumo do pedido">
           <h2>Seu pedido</h2>
+          {quote && (
+            account.profile ? (
+              <p className="points-hint"><GiftOutlined /> Este pedido vale <strong>{Math.floor(quote.totalCents / 100)} pontos</strong></p>
+            ) : (
+              <button
+                type="button"
+                className="points-hint points-hint--action"
+                onClick={() => account.openAuth({ reason: `Entre para ganhar ${Math.floor(quote.totalCents / 100)} pontos neste pedido.` })}
+              >
+                <GiftOutlined /> Entre e ganhe <strong>{Math.floor(quote.totalCents / 100)} pontos</strong> neste pedido
+              </button>
+            )
+          )}
           {quote ? (
             <ul className="review-items">
               {quote.lines.map((l, i) => (
