@@ -66,8 +66,9 @@ public sealed class GeminiClient(IHttpClientFactory factory, AssistantSettings s
         var models = new[] { settings.Model, settings.FallbackModel }.Where(m => m.Length > 0).Distinct().ToList();
         var client = factory.CreateClient(HttpClientName);
         var temporaryMessage = string.Empty;
-        foreach (var model in models)
+        for (var m = 0; m < models.Count; m++)
         {
+            var model = models[m];
             for (var attempt = 1; attempt <= settings.Retries; attempt++)
             {
                 using var request = new HttpRequestMessage(HttpMethod.Post,
@@ -87,6 +88,9 @@ public sealed class GeminiClient(IHttpClientFactory factory, AssistantSettings s
                 {
                     // A network failure or timeout is temporary as well.
                     temporaryMessage = error is OperationCanceledException ? "O assistente demorou demais para responder." : "Falha de conexão com o assistente.";
+                    // A model that hangs once usually hangs again: with a fallback
+                    // configured, it gets the remaining time instead.
+                    if (error is OperationCanceledException && m < models.Count - 1) break;
                     if (attempt < settings.Retries) await Task.Delay(RetryDelay(attempt), ct);
                     continue;
                 }

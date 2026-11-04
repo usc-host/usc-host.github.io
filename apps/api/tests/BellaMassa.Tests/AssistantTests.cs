@@ -21,6 +21,8 @@ public sealed class ScriptedGemini(params object[] turns) : HttpMessageHandler
     {
         Requests.Add((request.RequestUri!.ToString(), JsonNode.Parse(await request.Content!.ReadAsStringAsync(ct))!));
         var turn = _turns.Dequeue();
+        // A TimeSpan turn is a model that hangs until the call times out.
+        if (turn is TimeSpan hang) await Task.Delay(hang, ct);
         if (turn is HttpStatusCode status)
             return new HttpResponseMessage(status) { Content = new StringContent("""{"error":{"status":"UNAVAILABLE"}}""") };
         var sse = new StringBuilder();
@@ -241,6 +243,17 @@ public class AssistantTests
             ("GEMINI_FALLBACK_MODEL", "gemini-reserva"));
         var (_, text, _) = await Chat(client, "tem pizza doce?");
         Assert.Equal("Olá!", text);
+        Assert.Contains("gemini-reserva", gemini.Requests[1].Url);
+    }
+
+    [Fact]
+    public async Task Modelo_travado_passa_direto_para_o_reserva()
+    {
+        var (client, gemini) = Create(new ScriptedGemini(TimeSpan.FromMinutes(1), ScriptedGemini.Text("Olá!")),
+            ("GEMINI_FALLBACK_MODEL", "gemini-reserva"), ("GEMINI_TIMEOUT_MS", "5000"));
+        var (_, text, _) = await Chat(client, "tem pizza doce?");
+        Assert.Equal("Olá!", text);
+        Assert.Equal(2, gemini.Requests.Count);
         Assert.Contains("gemini-reserva", gemini.Requests[1].Url);
     }
 
