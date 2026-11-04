@@ -92,6 +92,8 @@ internal sealed class JsonGuard
 
 public sealed class ChatOrchestrator(GeminiClient gemini, AssistantSettings settings, CatalogIndex index)
 {
+    public const string ShownFallback = "Separei essas opções pra você. Quer saber mais de alguma delas?";
+
     /* Keeps the newest messages within the configured count and size. The
        first kept message is always from the customer, as Gemini expects. */
     public static List<ChatMessage> TrimHistory(IReadOnlyList<ChatMessage> messages, int maxMessages, int maxChars)
@@ -130,7 +132,8 @@ public sealed class ChatOrchestrator(GeminiClient gemini, AssistantSettings sett
 
         for (var round = 0; round <= settings.ToolCallsPerTurn; round++)
         {
-            var allowTools = toolCalls < settings.ToolCallsPerTurn;
+            // The last round never offers tools, so the model has to answer.
+            var allowTools = toolCalls < settings.ToolCallsPerTurn && round < settings.ToolCallsPerTurn;
             var body = new JsonObject
             {
                 ["systemInstruction"] = new JsonObject { ["parts"] = new JsonArray(new JsonObject { ["text"] = SystemPrompt.Text }) },
@@ -183,10 +186,19 @@ public sealed class ChatOrchestrator(GeminiClient gemini, AssistantSettings sett
             }
 
             var calls = modelParts.Where(p => p["functionCall"] is JsonObject).ToList();
-            if (calls.Count == 0)
+            // Out of tools, a call is ignored: whatever was already written or
+            // shown is the answer, never thrown away.
+            if (calls.Count == 0 || !allowTools)
             {
-                if (blocked || !wroteText) throw new GeminiException("Não consegui responder a essa mensagem. Pode tentar de outro jeito?", true);
-                return model;
+                if (wroteText) return model;
+                if (ctx.Shown.Count > 0 || ctx.Proposals > 0)
+                {
+                    await Write(ShownFallback);
+                    return model;
+                }
+                throw new GeminiException(blocked
+                    ? "Não consegui responder a essa mensagem. Pode tentar de outro jeito?"
+                    : "Não consegui fechar a resposta agora. Pode perguntar de novo?", true);
             }
 
             // Parts go back exactly as received so thought signatures stay valid.
@@ -207,6 +219,6 @@ public sealed class ChatOrchestrator(GeminiClient gemini, AssistantSettings sett
             }
             contents.Add(new JsonObject { ["role"] = "user", ["parts"] = responses });
         }
-        throw new GeminiException("A resposta ficou longa demais. Tente uma pergunta mais direta.", true);
+        throw new GeminiException("Não consegui fechar a resposta agora. Pode perguntar de novo?", true);
     }
 }
