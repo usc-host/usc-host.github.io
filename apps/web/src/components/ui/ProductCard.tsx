@@ -40,7 +40,8 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           <Link to={href}>{product.name}</Link>
         </h3>
         <p className="product-card__desc">{productDescription(product)}</p>
-        {meta && <p className="product-card__meta">{meta}</p>}
+        {/* Always rendered, so every card keeps the same height. */}
+        <p className="product-card__meta" aria-hidden={!meta}>{meta}</p>
         <div className="product-card__foot">
           <span className="product-card__price">
             {from !== null ? (
