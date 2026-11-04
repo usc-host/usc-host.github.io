@@ -1,9 +1,14 @@
 import { CloseOutlined } from '@ant-design/icons';
+import { ConfigProvider } from 'antd';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 const CLOSE_DISTANCE = 120;
 const CLOSE_SPEED = 0.6; // px per ms
+
+/* The sheet sits at z-index 1100, above antd's popups (1000 and up), so
+   dropdowns, pickers and confirms opened from inside it are lifted over it. */
+const POPUPS_OVER_SHEET = { token: { zIndexPopupBase: 1150 } };
 
 /* Panel that rises from the bottom on phones. It can be dragged down by its
    top area to close, the X slides it back down, and it stays above the
@@ -98,7 +103,9 @@ export function BottomSheet({ open, onClose, title, children }: { open: boolean;
             </button>
           </div>
         </div>
-        <div className="sheet__body">{children}</div>
+        <div className="sheet__body">
+          <ConfigProvider theme={POPUPS_OVER_SHEET}>{children}</ConfigProvider>
+        </div>
       </div>
     </div>,
     document.body
