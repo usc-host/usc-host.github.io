@@ -32,8 +32,8 @@ export function AppShell() {
       <ChatPanel />
       <AuthSheet />
       <Toaster
-        position={mobile ? 'top-center' : 'bottom-right'}
-        containerStyle={mobile ? { top: 'calc(var(--header-h) + 8px)' } : { bottom: 24, right: 24 }}
+        position="top-center"
+        containerStyle={{ top: 'calc(var(--header-h) + 8px)' }}
         toastOptions={{
           duration: 2800,
           className: 'bm-toast',
