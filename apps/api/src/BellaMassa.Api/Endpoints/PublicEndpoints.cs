@@ -98,7 +98,12 @@ public static class PublicEndpoints
 
         try
         {
-            if (settings.Mode == "local")
+            if (QuickReplies.For(body.Messages!) is { } quick)
+            {
+                await Emit(ChatEvents.Text(quick));
+                await Emit(ChatEvents.Done(settings.Mode));
+            }
+            else if (settings.Mode == "local")
             {
                 await LocalAssistant.RunAsync(index, body, Emit);
                 await Emit(ChatEvents.Done("local"));

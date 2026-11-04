@@ -125,7 +125,7 @@ public class AssistantTests
     public async Task Texto_comum_com_chaves_no_meio_continua_igual()
     {
         var (client, _) = Create(new ScriptedGemini((object)ScriptedGemini.Text("Combo com {pizza} e refri.")));
-        var (_, text, _) = await Chat(client, "oi");
+        var (_, text, _) = await Chat(client, "tem combo?");
         Assert.Equal("Combo com {pizza} e refri.", text);
     }
 
@@ -228,7 +228,7 @@ public class AssistantTests
     public async Task Falha_do_provedor_vira_erro_recuperavel_sem_expor_a_chave()
     {
         var (client, _) = Create(new ScriptedGemini(HttpStatusCode.ServiceUnavailable));
-        var (events, _, _) = await Chat(client, "oi");
+        var (events, _, _) = await Chat(client, "tem pizza doce?");
         var error = Assert.Single(events, e => (string?)e["type"] == "error");
         Assert.True((bool)error["retryable"]!);
         Assert.DoesNotContain(Key, string.Join("", events.Select(e => e.ToJsonString())));
@@ -239,7 +239,7 @@ public class AssistantTests
     {
         var (client, gemini) = Create(new ScriptedGemini(HttpStatusCode.ServiceUnavailable, ScriptedGemini.Text("Olá!")),
             ("GEMINI_FALLBACK_MODEL", "gemini-reserva"));
-        var (_, text, _) = await Chat(client, "oi");
+        var (_, text, _) = await Chat(client, "tem pizza doce?");
         Assert.Equal("Olá!", text);
         Assert.Contains("gemini-reserva", gemini.Requests[1].Url);
     }
@@ -250,9 +250,44 @@ public class AssistantTests
         var (client, _) = Create(new ScriptedGemini(ScriptedGemini.Text("a")), ("CHAT_RATE_PER_MINUTE", "2"));
         var longa = await client.PostAsJsonAsync("/api/chat", new { messages = new[] { new { role = "user", text = new string('x', 700) } } });
         Assert.Equal(HttpStatusCode.BadRequest, longa.StatusCode);
-        await Chat(client, "oi");
-        var (_, _, third) = await Chat(client, "oi");
+        await Chat(client, "tem pizza doce?");
+        var (_, _, third) = await Chat(client, "tem pizza doce?");
         Assert.Equal(HttpStatusCode.TooManyRequests, third.StatusCode);
+    }
+
+    [Theory]
+    [InlineData("Oui")]
+    [InlineData("oii, tudo bem?")]
+    [InlineData("Boa noite!")]
+    [InlineData("valeu")]
+    public async Task Saudacao_e_agradecimento_respondem_sem_chamar_o_modelo(string message)
+    {
+        var (client, gemini) = Create(new ScriptedGemini());
+        var (events, text, _) = await Chat(client, message);
+        Assert.Empty(gemini.Requests);
+        Assert.False(string.IsNullOrWhiteSpace(text));
+        Assert.Contains(events, e => (string?)e["type"] == "done");
+    }
+
+    [Theory]
+    [InlineData("oi, tem pizza doce?")]
+    [InlineData("ok")]
+    [InlineData("pode ser")]
+    public void Mensagem_com_pedido_vai_para_o_modelo(string message)
+    {
+        Assert.Null(QuickReplies.For(message));
+    }
+
+    [Fact]
+    public async Task Saudacao_depois_de_pergunta_sem_resposta_vai_para_o_modelo()
+    {
+        var (client, gemini) = Create(new ScriptedGemini((object)ScriptedGemini.Text("Separei três sugestões.")));
+        var response = await client.PostAsJsonAsync("/api/chat", new
+        {
+            messages = new[] { new { role = "user", text = "me recomenda uma pizza" }, new { role = "user", text = "oui" } }
+        });
+        Assert.DoesNotContain("assistente da Bella Massa", await response.Content.ReadAsStringAsync());
+        Assert.Single(gemini.Requests);
     }
 
     [Fact]
