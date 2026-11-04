@@ -1,4 +1,4 @@
-import { formatBRL, type Quote } from '@bella/domain';
+import { catalog, formatBRL, type Quote } from '@bella/domain';
 import {
   CheckCircleFilled,
   CopyOutlined,
@@ -22,7 +22,7 @@ import { useAccount } from '../features/account/AccountProvider';
 import { useCart } from '../features/cart/CartProvider';
 import { useServerQuote } from '../features/cart/useServerQuote';
 import { AddressEditor } from '../features/checkout/AddressEditor';
-import { formatAddress, useCheckoutBook, type Address, type Contact } from '../features/checkout/addressBook';
+import { addressZone, formatAddress, useCheckoutBook, type Address, type Contact } from '../features/checkout/addressBook';
 import { requestQuote } from '../lib/api';
 import { usePageTitle } from '../lib/hooks';
 import { recordOrder } from '../lib/stats';
@@ -30,12 +30,14 @@ import { recordOrder } from '../lib/stats';
 type Mode = 'entrega' | 'retirada';
 
 interface Payment {
-  payment: 'pix' | 'cartao' | 'dinheiro';
+  payment: string;
   change?: string;
   note?: string;
 }
 
-const PAYMENTS = { pix: 'Pix', cartao: 'Cartão na entrega', dinheiro: 'Dinheiro' } as const;
+/* Paid on delivery or at the counter, with the methods the store accepts. */
+const PAYMENTS = catalog.store.payments ?? [];
+const paymentLabel = (id: string) => PAYMENTS.find(p => p.id === id)?.label ?? id;
 const ORDER_WHATSAPP = (import.meta.env.VITE_ORDER_WHATSAPP as string | undefined)?.replace(/\D/g, '') ?? '';
 
 function formatPhone(value: string) {
@@ -46,7 +48,7 @@ function formatPhone(value: string) {
   return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
 }
 
-function summaryText(code: string, quote: Quote, contact: Contact, mode: Mode, address: Address | null, pay: Payment) {
+function summaryText(code: string, quote: Quote, contact: Contact, mode: Mode, address: Address | null, feeCents: number, pay: Payment) {
   const lines = quote.lines.map(l => {
     const extra = l.summary.length ? `\n   ${l.summary.join('\n   ')}` : '';
     return `${l.quantity}x ${l.name}${l.variantLabel && l.variantLabel !== 'Inteira' ? ` (${l.variantLabel})` : ''}: ${formatBRL(l.totalCents ?? 0)}${extra}`;
@@ -54,7 +56,7 @@ function summaryText(code: string, quote: Quote, contact: Contact, mode: Mode, a
   const receive = mode === 'entrega' && address
     ? `Entrega: ${formatAddress(address)}${address.reference ? ` (referência: ${address.reference})` : ''}`
     : 'Retirada na loja';
-  const payment = `Pagamento: ${PAYMENTS[pay.payment]}${pay.payment === 'dinheiro' && pay.change ? `, troco para ${pay.change}` : ''}`;
+  const payment = `Pagamento: ${paymentLabel(pay.payment)}${pay.payment === 'dinheiro' && pay.change ? `, troco para ${pay.change}` : ''}`;
   return [
     `Pedido ${code}, Bella Massa`,
     `Nome: ${contact.name}`,
@@ -63,7 +65,8 @@ function summaryText(code: string, quote: Quote, contact: Contact, mode: Mode, a
     ...lines,
     '',
     `Total dos itens: ${formatBRL(quote.totalCents)}`,
-    'Taxa de entrega a confirmar com a loja',
+    ...(mode === 'entrega' ? [`Taxa de entrega: ${formatBRL(feeCents)}`] : []),
+    `Total: ${formatBRL(quote.totalCents + feeCents)}`,
     receive,
     payment,
     ...(pay.note ? [`Observação: ${pay.note}`] : [])
@@ -95,7 +98,7 @@ export default function ReviewPage() {
           <CheckCircleFilled className="done-card__icon" />
           <span className="eyebrow">Pedido {done.code}</span>
           <h1 tabIndex={-1}>Seu pedido está pronto</h1>
-          <p className="muted">Envie o resumo para a loja confirmar o pedido e informar a taxa de entrega.</p>
+          <p className="muted">Envie o resumo para a loja confirmar o pedido.</p>
           {done.earned !== undefined && (
             <p className="earned"><GiftOutlined /> Você ganhou <strong>{done.earned} pontos</strong> neste pedido.</p>
           )}
@@ -138,6 +141,9 @@ export default function ReviewPage() {
   const quote = server.status === 'ready' ? server.quote : null;
   const ready = !!quote && quote.complete && quote.lines.length === cart.lines.length;
   const points = quote ? Math.floor(quote.totalCents / 100) : 0;
+  const zone = mode === 'entrega' && book.selected ? addressZone(book.selected) : undefined;
+  const feeCents = zone?.feeCents ?? 0;
+  const total = quote ? formatBRL(quote.totalCents + feeCents) : '';
 
   async function finish() {
     // Contact: the saved one, or the fields being edited (saved for next time).
@@ -155,6 +161,11 @@ export default function ReviewPage() {
     if (mode === 'entrega' && !book.selected) {
       toast.error('Escolha ou adicione um endereço de entrega.');
       setEditor({ open: !book.addresses.length, address: null });
+      return;
+    }
+    if (mode === 'entrega' && !zone) {
+      toast.error('Escolha o bairro do endereço para calcular a taxa de entrega.');
+      setEditor({ open: true, address: book.selected });
       return;
     }
     let pay: Payment;
@@ -185,7 +196,7 @@ export default function ReviewPage() {
           toast.error('Não foi possível somar os pontos agora.');
         }
       }
-      setDone({ code, quote: current, text: summaryText(code, current, contact!, mode, book.selected, pay), earned });
+      setDone({ code, quote: current, text: summaryText(code, current, contact!, mode, book.selected, feeCents, pay), earned });
       window.scrollTo({ top: 0 });
     } catch {
       toast.error('Não foi possível confirmar os valores. Tente de novo.');
@@ -266,6 +277,7 @@ export default function ReviewPage() {
               <div className="address-list" role="radiogroup" aria-label="Endereço de entrega">
                 {book.addresses.map(a => {
                   const selected = book.selected?.id === a.id;
+                  const fee = addressZone(a)?.feeCents;
                   return (
                     <div key={a.id} className={`address-card${selected ? ' is-selected' : ''}`}>
                       <button type="button" role="radio" aria-checked={selected} className="address-card__main" onClick={() => book.selectAddress(a.id)}>
@@ -274,6 +286,9 @@ export default function ReviewPage() {
                           <strong>{a.label}</strong>
                           <span>{formatAddress(a)}</span>
                           {a.reference && <small>Referência: {a.reference}</small>}
+                          <small className={fee === undefined ? 'address-card__fee is-missing' : 'address-card__fee'}>
+                            {fee === undefined ? 'Escolha o bairro para ver a taxa' : `Taxa de entrega ${formatBRL(fee)}`}
+                          </small>
                         </span>
                       </button>
                       <div className="address-card__tools">
@@ -311,7 +326,7 @@ export default function ReviewPage() {
               <h2>Pagamento</h2>
               <Form.Item name="payment">
                 <Radio.Group className="pay-options">
-                  {Object.entries(PAYMENTS).map(([value, label]) => <Radio.Button key={value} value={value}>{label}</Radio.Button>)}
+                  {PAYMENTS.map(p => <Radio.Button key={p.id} value={p.id} title={p.note}>{p.label}</Radio.Button>)}
                 </Radio.Group>
               </Form.Item>
               {payment === 'dinheiro' && (
@@ -357,11 +372,17 @@ export default function ReviewPage() {
             </div>
           )}
           <dl>
-            <div><dt>Entrega</dt><dd className="muted">{mode === 'retirada' ? 'Retirada na loja' : 'Informada pela loja'}</dd></div>
-            <div className="cart-summary__total"><dt>Total dos itens</dt><dd className="price">{quote ? formatBRL(quote.totalCents) : ''}</dd></div>
+            <div><dt>Itens</dt><dd className="price">{quote ? formatBRL(quote.totalCents) : ''}</dd></div>
+            <div>
+              <dt>{mode === 'retirada' ? 'Retirada' : 'Taxa de entrega'}</dt>
+              {mode === 'retirada'
+                ? <dd className="muted">Sem taxa</dd>
+                : zone ? <dd className="price">{formatBRL(feeCents)}</dd> : <dd className="muted">Escolha o bairro</dd>}
+            </div>
+            <div className="cart-summary__total"><dt>Total</dt><dd className="price">{total}</dd></div>
           </dl>
           <div className="cart-summary__cta">
-            <span className="cart-summary__cta-total price">{quote ? formatBRL(quote.totalCents) : ''}</span>
+            <span className="cart-summary__cta-total price">{total}</span>
             <Button type="primary" size="large" shape="round" block disabled={!ready} loading={sending} onClick={finish}>
               Concluir pedido
             </Button>

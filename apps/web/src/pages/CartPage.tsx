@@ -159,7 +159,7 @@ export default function CartPage() {
           <h2>Resumo</h2>
           <dl>
             <div><dt>Itens</dt><dd className="price">{formatBRL(total)}</dd></div>
-            <div><dt>Entrega</dt><dd className="muted">Informada pela loja</dd></div>
+            <div><dt>Entrega</dt><dd className="muted">Calculada pelo bairro</dd></div>
             <div className="cart-summary__total"><dt>Total dos itens</dt><dd className="price">{formatBRL(total)}</dd></div>
           </dl>
           <div className="cart-summary__status" aria-live="polite">
