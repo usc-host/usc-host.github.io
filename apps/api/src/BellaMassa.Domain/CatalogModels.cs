@@ -35,7 +35,7 @@ public sealed record StoreTimes(string Delivery, string Pickup);
 /* Accepted on delivery or at the counter. The site does not take payments. */
 public sealed record PaymentMethod(string Id, string Label, string? Note);
 
-public sealed record DeliveryZone(string Name, string? Sector, string? City, int FeeCents, string Status, string? Note);
+public sealed record DeliveryZone(string Id, string Name, string? Sector, string City, int FeeCents, string Status, string? Note);
 
 public sealed record Category(string Id, string Name, string Description, bool Collection = false);
 

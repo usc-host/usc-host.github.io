@@ -98,7 +98,14 @@ public static class AssistantTools
           {
             "name": "get_delivery_fee",
             "description": "Taxa de entrega de um bairro de Barra Bonita ou Igaraçu do Tietê, pela lista da loja. Aceita o nome escrito de qualquer jeito.",
-            "parameters": { "type": "OBJECT", "properties": { "district": { "type": "STRING", "description": "Nome do bairro, podendo incluir a cidade" } }, "required": ["district"] }
+            "parameters": {
+              "type": "OBJECT",
+              "properties": {
+                "district": { "type": "STRING", "description": "Nome do bairro" },
+                "city": { "type": "STRING", "enum": ["Barra Bonita", "Igaraçu do Tietê"], "description": "Cidade, quando o cliente disser" }
+              },
+              "required": ["district"]
+            }
           },
           {
             "name": "propose_cart_change",
@@ -138,7 +145,7 @@ public static class AssistantTools
     private sealed record ProductArgs(string? Product_id);
     private sealed record QuoteArgs(List<ModelLine>? Lines);
     private sealed record StoreArgs(string? Topic);
-    private sealed record DeliveryArgs(string? District);
+    private sealed record DeliveryArgs(string? District, string? City);
     private sealed record ProposeArgs(string? Action, ModelLine? Line, string? Line_id, int? Quantity);
     private sealed record ShowArgs(List<string>? Product_ids, List<string>? Reasons);
 
@@ -331,16 +338,17 @@ public static class AssistantTools
 
     private static JsonObject DeliveryFee(DeliveryArgs args, ToolContext ctx)
     {
-        if (args.District is not { Length: >= 2 and <= 80 }) return Error("Informe o nome do bairro.");
+        if (args.District is not { Length: >= 2 and <= 80 } || args.City is { Length: > 40 }) return Error("Informe o nome do bairro.");
         var store = ctx.Index.Catalog.Store;
         var whatsapp = store.Info.FirstOrDefault(i => i.Topic == "whatsapp")?.Value;
-        var result = StoreRules.FindDeliveryFee(store, args.District);
+        var result = StoreRules.FindDeliveryFee(store, args.District, args.City);
         return result.Status switch
         {
             DeliveryLookupStatus.Found => Obj(new
             {
                 status = "encontrado",
                 district = result.Zones[0].Name,
+                city = result.Zones[0].City,
                 fee = Money(result.FeeCents),
                 note = "Taxa da lista da loja, somada ao total do pedido."
             }),
@@ -348,7 +356,7 @@ public static class AssistantTools
             {
                 status = "varias_opcoes",
                 options = result.Zones.Select(z => new { district = z.Name, city = z.City, fee = z.Status == "approved" ? Money(z.FeeCents) : "a confirmar" }),
-                next_step = "Mostre as opções e pergunte qual é o bairro certo ou a cidade. Se a dúvida continuar, oriente confirmar com a loja."
+                next_step = "Mostre as opções e pergunte qual é o bairro certo ou a cidade. No site, a taxa aparece ao escolher o bairro no endereço de entrega."
             }),
             DeliveryLookupStatus.Confirm => Obj(new
             {

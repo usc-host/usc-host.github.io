@@ -5,7 +5,7 @@ using BellaMassa.Domain;
 
 namespace BellaMassa.Tests;
 
-public sealed record DeliveryCase(string Name, string District, string Status, int? FeeCents, int? Options)
+public sealed record DeliveryCase(string Name, string District, string? City, string Status, int? FeeCents, int? Options)
 {
     public override string ToString() => Name;
 }
@@ -29,7 +29,7 @@ public class StoreRulesTests
     [MemberData(nameof(Cases))]
     public void Taxa_por_bairro_compartilhada(DeliveryCase c)
     {
-        var r = StoreRules.FindDeliveryFee(Store, c.District);
+        var r = StoreRules.FindDeliveryFee(Store, c.District, c.City);
         var status = r.Status switch
         {
             DeliveryLookupStatus.Found => "found",
@@ -59,7 +59,7 @@ public class StoreRulesTests
     [Fact]
     public async Task Ferramenta_de_taxa_responde_com_o_valor_da_lista()
     {
-        var r = await AssistantTools.RunAsync("get_delivery_fee", new JsonObject { ["district"] = "jd panorama" }, Ctx());
+        var r = await AssistantTools.RunAsync("get_delivery_fee", new JsonObject { ["district"] = "jd panorama", ["city"] = "Barra Bonita" }, Ctx());
         Assert.Equal("encontrado", r["status"]!.GetValue<string>());
         Assert.Equal("R$ 8,00", r["fee"]!.GetValue<string>());
     }

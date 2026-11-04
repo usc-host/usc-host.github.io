@@ -44,14 +44,15 @@ public static partial class StoreRules
     /* Exact names win over partial ones, so "Camil" is not mistaken for
        "Conjunto Camilo Saade". When every match costs the same the answer is
        that fee; otherwise the customer picks one of the options. */
-    public static DeliveryLookup FindDeliveryFee(Store store, string district)
+    public static DeliveryLookup FindDeliveryFee(Store store, string district, string? city = null)
     {
         var query = ZoneWords(district);
         if (query.Count == 0) return new(DeliveryLookupStatus.NotFound, []);
-        var zones = store.DeliveryZones ?? [];
+        var zones = (store.DeliveryZones ?? []).Where(z => city is null || TextTools.Normalize(z.City) == TextTools.Normalize(city)).ToList();
         var key = string.Join(' ', query);
         var exact = zones.Where(z => string.Join(' ', ZoneWords(z.Name)) == key).ToList();
-        var matches = exact.Count > 0 ? exact : zones.Where(z => Covers(ZoneWords(z.Name), query)).ToList();
+        // The city may come inside the text, as in "Centro de Igaraçu".
+        var matches = exact.Count > 0 ? exact : zones.Where(z => Covers(ZoneWords($"{z.Name} {z.City}"), query)).ToList();
         if (matches.Count == 0) return new(DeliveryLookupStatus.NotFound, []);
 
         var sameFee = matches.Select(z => z.FeeCents).Distinct().Count() == 1;

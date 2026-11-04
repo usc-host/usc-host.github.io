@@ -50,7 +50,7 @@ public static partial class LocalAssistant
                     ? $"{(open.GetValue<bool>() ? "Estamos abertos agora" : "Agora estamos fechados")}. Hoje: {info["today"]}.{(info["next_opening"] is { } next ? $" Abrimos {next}." : "")}"
                     : info["methods"] is JsonArray methods
                         ? $"Aceitamos {string.Join(", ", methods.Select(m => m!.GetValue<string>()))}. {info["note"]}"
-                        : $"{info["label"]}: {info["value"]}.");
+                        : $"{info["label"]}: {info["value"]?.GetValue<string>().TrimEnd('.')}.");
             return;
         }
 
