@@ -1,5 +1,5 @@
 {
-  "version": "2026.11.03.7",
+  "version": "2026.11.03.8",
   "currency": "BRL",
   "store": {
     "name": "Bella Massa",
@@ -199,796 +199,1044 @@
     ],
     "deliveryZones": [
       {
+        "id": "amyres-bb",
         "name": "Amyres",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 2500,
         "status": "approved"
       },
       {
+        "id": "barra-bonita-camping-bb",
         "name": "Barra Bonita Camping",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "bem-viver-vermelho-bb",
         "name": "Bem Viver",
         "sector": "Vermelho",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "budel-bb",
         "name": "Budel",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 2500,
         "status": "approved"
       },
       {
+        "id": "camil-bb",
         "name": "Camil",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 2500,
         "status": "approved"
       },
       {
+        "id": "campos-salles-bb",
         "name": "Campos Salles",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 2500,
         "status": "approved"
       },
       {
-        "name": "CDHU B. Bonita",
+        "id": "cdhu-b-bonita-vermelho-bb",
+        "name": "CDHU",
         "sector": "Vermelho",
+        "city": "Barra Bonita",
         "feeCents": 800,
-        "status": "approved",
-        "city": "Barra Bonita"
+        "status": "approved"
       },
       {
-        "name": "CDHU Ig. Tiete",
+        "id": "cdhu-ig-tiete-azul-it",
+        "name": "CDHU",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
-        "status": "approved",
-        "city": "Igaraçu do Tietê"
+        "status": "approved"
       },
       {
-        "name": "Cecap B. Bonita",
+        "id": "cecap-b-bonita-verde-bb",
+        "name": "Cecap",
         "sector": "Verde",
+        "city": "Barra Bonita",
         "feeCents": 800,
-        "status": "approved",
-        "city": "Barra Bonita"
+        "status": "approved"
       },
       {
-        "name": "Cecap Ig. Tiete",
+        "id": "cecap-ig-tiete-azul-it",
+        "name": "Cecap",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
-        "status": "approved",
-        "city": "Igaraçu do Tietê"
+        "status": "approved"
       },
       {
-        "name": "Centro B. Bonita",
+        "id": "centro-b-bonita-preto-bb",
+        "name": "Centro",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
-        "status": "approved",
-        "city": "Barra Bonita"
+        "status": "approved"
       },
       {
-        "name": "Centro Ig. Tiete",
+        "id": "centro-ig-tiete-azul-it",
+        "name": "Centro",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
-        "status": "approved",
-        "city": "Igaraçu do Tietê"
+        "status": "approved"
       },
       {
-        "name": "Cohab B. Bonita",
+        "id": "cohab-b-bonita-vermelho-bb",
+        "name": "Cohab",
         "sector": "Vermelho",
+        "city": "Barra Bonita",
         "feeCents": 800,
-        "status": "approved",
-        "city": "Barra Bonita"
+        "status": "approved"
       },
       {
-        "name": "Cohab Ig. Tiete",
+        "id": "cohab-ig-tiete-azul-it",
+        "name": "Cohab",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
-        "status": "approved",
-        "city": "Igaraçu do Tietê"
+        "status": "approved"
       },
       {
+        "id": "colina-da-barra-azul-bb",
         "name": "Colina da Barra",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Condominio Delucca",
+        "id": "condominio-delucca-bb",
+        "name": "Condomínio Delucca",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 2500,
         "status": "approved"
       },
       {
-        "name": "Condominio Mirante do Tiete",
+        "id": "condominio-mirante-do-tiete-azul-it",
+        "name": "Condomínio Mirante do Tietê",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 2500,
         "status": "approved"
       },
       {
-        "name": "Condominio Reserva da Barra",
+        "id": "condominio-reserva-da-barra-azul-bb",
+        "name": "Condomínio Reserva da Barra",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "conjunto-alfredo-fernandes-azul-it",
         "name": "Conjunto Alfredo Fernandes",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "conjunto-camilo-saade-azul-it",
         "name": "Conjunto Camilo Saade",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "conjunto-elvira-lemos-azul-it",
         "name": "Conjunto Elvira Lemos",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "conjunto-orlando-ometto-azul-it",
         "name": "Conjunto Orlando Ometto",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
-        "name": "Distrito Industrial B. Bonita",
+        "id": "distrito-industrial-b-bonita-amarelo-bb",
+        "name": "Distrito Industrial",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
-        "status": "approved",
-        "city": "Barra Bonita"
+        "status": "approved"
       },
       {
-        "name": "Distrito Industrial Joao Rayes",
+        "id": "distrito-industrial-joao-rayes-azul-it",
+        "name": "Distrito Industrial João Rayes",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "entulho-amarelo-bb",
         "name": "Entulho",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "estiva-amarelo-bb",
         "name": "Estiva",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Estrada Joao Silva Nogueira",
+        "id": "estrada-joao-silva-nogueira-bb",
+        "name": "Estrada João Silva Nogueira",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "fazenda-it",
         "name": "Fazenda",
         "sector": null,
+        "city": "Igaraçu do Tietê",
         "feeCents": 0,
         "status": "conflicting",
         "note": "Valor cadastrado inválido ou zerado. Confirmar com a loja."
       },
       {
+        "id": "germano-roncari-it",
         "name": "Germano Roncari",
         "sector": null,
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "habitacional-azul-bb",
         "name": "Habitacional",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jardim-santa-maria-preto-bb",
         "name": "Jardim Santa Maria",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jardim-alto-da-barra-amarelo-bb",
         "name": "Jardim Alto da Barra",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Jardim Altos de Igaracu",
+        "id": "jardim-altos-de-igaracu-azul-it",
+        "name": "Jardim Altos de Igaraçu",
         "sector": "Azul",
-        "feeCents": 1000,
-        "status": "approved",
-        "city": "Igaraçu do Tietê"
-      },
-      {
-        "name": "Jardim Anturios",
-        "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "jardim-anturios-azul-it",
+        "name": "Jardim Antúrios",
+        "sector": "Azul",
+        "city": "Igaraçu do Tietê",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "id": "jardim-brasil-preto-bb",
         "name": "Jardim Brasil",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jardim-carolina-preto-bb",
         "name": "Jardim Carolina",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jardim-colina-azul-it",
         "name": "Jardim Colina",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "jardim-conquista-azul-it",
         "name": "Jardim Conquista",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "jardim-da-colina-azul-it",
         "name": "Jardim da Colina",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
-        "name": "Jardim das Acacias",
+        "id": "jardim-das-acacias-azul-it",
+        "name": "Jardim das Acácias",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
-        "name": "Jardim Orquideas",
+        "id": "jardim-orquideas-azul-bb",
+        "name": "Jardim Orquídeas",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jardim-ouro-verde-preto-bb",
         "name": "Jardim Ouro Verde",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jardim-panorama-preto-bb",
         "name": "Jardim Panorama",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-conquista-it",
         "name": "Jd. Conquista",
         "sector": null,
+        "city": "Igaraçu do Tietê",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-vista-alegre-azul-bb",
         "name": "Jd. Vista Alegre",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-vista-alegre-azul-bb-2",
         "name": "Jd. Vista Alegre",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 2500,
         "status": "approved"
       },
       {
+        "id": "jd-vitoria-it",
         "name": "Jd. Vitória",
         "sector": null,
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "jd-altos-da-barra-amarelo-bb",
         "name": "Jd. Altos da Barra",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-bela-vista-amarelo-bb",
         "name": "Jd. Bela Vista",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-brasil-preto-it",
         "name": "Jd. Brasil",
         "sector": "Preto",
+        "city": "Igaraçu do Tietê",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-campos-salles-azul-bb",
         "name": "Jd. Campos Salles",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-da-barra-amarelo-bb",
         "name": "Jd. da Barra",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Jd. Danubio",
+        "id": "jd-danubio-bb",
+        "name": "Jd. Danúbio",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-dracenas-preto-bb",
         "name": "Jd. Dracenas",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-lucemar-amarelo-bb",
         "name": "Jd. Lucemar",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-maria-carolina-azul-it",
         "name": "Jd. Maria Carolina",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "jd-mila-turi-amarelo-bb",
         "name": "Jd. Mila Turi",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-nova-barra-amarelo-bb",
         "name": "Jd. Nova Barra",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Jd. Nova Estancia",
+        "id": "jd-nova-estancia-verde-bb",
+        "name": "Jd. Nova Estância",
         "sector": "Verde",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Jd. Nova Igaracu",
+        "id": "jd-nova-igaracu-azul-it",
+        "name": "Jd. Nova Igaraçu",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
-        "status": "approved",
-        "city": "Igaraçu do Tietê"
+        "status": "approved"
       },
       {
+        "id": "jd-ouro-verde-azul-it",
         "name": "Jd. Ouro Verde",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "jd-paulista-azul-it",
         "name": "Jd. Paulista",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "jd-por-do-sol-amarelo-bb",
         "name": "Jd. Por do Sol",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-primavera-preto-bb",
         "name": "Jd. Primavera",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-samanbaia-amarelo-bb",
         "name": "Jd. Samanbaia",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-santa-elisa-amarelo-bb",
         "name": "Jd. Santa Elisa",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-santa-helena-preto-bb",
         "name": "Jd. Santa Helena",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Jd. Sao Caetano",
+        "id": "jd-sao-caetano-amarelo-bb",
+        "name": "Jd. São Caetano",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-vista-alegre-amarelo-it",
         "name": "Jd. Vista Alegre",
         "sector": "Amarelo",
+        "city": "Igaraçu do Tietê",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Jd. Vitoria",
+        "id": "jd-vitoria-vermelho-bb",
+        "name": "Jd. Vitória",
         "sector": "Vermelho",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Jd. Ypes",
+        "id": "jd-ypes-preto-bb",
+        "name": "Jd. Ipês",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "jd-novo-estilo-azul-it",
         "name": "Jd. Novo Estilo",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "jd-vitoria-it-2",
         "name": "Jd. Vitória",
         "sector": null,
+        "city": "Igaraçu do Tietê",
         "feeCents": -5,
         "status": "conflicting",
         "note": "Valor cadastrado inválido ou zerado. Confirmar com a loja."
       },
       {
+        "id": "kamil-bb",
         "name": "Kamil",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 2500,
         "status": "approved"
       },
       {
+        "id": "parada-viana-azul-bb",
         "name": "Parada Viana",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 2500,
         "status": "approved"
       },
       {
+        "id": "parque-industrial-sao-domingos-verde-bb",
         "name": "Parque Industrial São Domingos",
         "sector": "Verde",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Patio da Usina",
+        "id": "patio-da-usina-bb",
+        "name": "Pátio da Usina",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 1500,
         "status": "approved"
       },
       {
+        "id": "planalto-verde-amarelo-bb",
         "name": "Planalto Verde",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Portal Sao Jose da Barra",
+        "id": "portal-sao-jose-da-barra-azul-bb",
+        "name": "Portal São José da Barra",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Projeto Arabia",
+        "id": "projeto-arabia-it",
+        "name": "Projeto Arábia",
         "sector": null,
+        "city": "Igaraçu do Tietê",
         "feeCents": 2500,
         "status": "approved"
       },
       {
+        "id": "quinta-do-vale-azul-bb",
         "name": "Quinta do Vale",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "recanto-da-barra-azul-bb",
         "name": "Recanto da Barra",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "recanto-das-flores-bb",
         "name": "Recanto das Flores",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Recanto Dona Adelia",
+        "id": "recanto-dona-adelia-azul-it",
+        "name": "Recanto Dona Adélia",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "recanto-regina-verde-bb",
         "name": "Recanto Regina",
         "sector": "Verde",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Recanto Sao Geraldo",
+        "id": "recanto-sao-geraldo-amarelo-bb",
+        "name": "Recanto São Geraldo",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Recanto Vitoria",
+        "id": "recanto-vitoria-bb",
+        "name": "Recanto Vitória",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "res-bela-vista-it",
         "name": "Res. Bela Vista",
         "sector": null,
+        "city": "Igaraçu do Tietê",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "res-casa-grande-amarelo-bb",
         "name": "Res. Casa Grande",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "res-cestari-verde-bb",
         "name": "Res. Cestari",
         "sector": "Verde",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "res-da-colina-preto-bb",
         "name": "Res. da Colina",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "res-das-flores-bb",
         "name": "Res. das Flores",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "res-flamboyant-preto-bb",
         "name": "Res. Flamboyant",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "res-natale-spaulonci-amarelo-bb",
         "name": "Res. Natale Spaulonci",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "res-nossa-gente-2-azul-it",
         "name": "Res. Nossa Gente 2",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "res-nossa-gente-azul-it",
         "name": "Res. Nossa Gente",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "res-parque-bella-vista-bb",
         "name": "Res. Parque Bella Vista",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "res-rio-lindo-azul-it",
         "name": "Res. Rio Lindo",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
-        "name": "Res. Sao Domingos",
+        "id": "res-sao-domingos-bb",
+        "name": "Res. São Domingos",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "res-sargentim-it",
         "name": "Res. Sargentim",
         "sector": null,
+        "city": "Igaraçu do Tietê",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "res-stanguerlin-preto-bb",
         "name": "Res. Stanguerlin",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "residencial-park-boa-vista-azul-bb",
         "name": "Residencial Park Boa Vista",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 2500,
         "status": "approved"
       },
       {
+        "id": "residencial-sao-joaquim-bb",
         "name": "Residencial São Joaquim",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Sao Joaquim",
+        "id": "sao-joaquim-amarelo-bb",
+        "name": "São Joaquim",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Sao Jose 2",
+        "id": "sao-jose-2-azul-it",
+        "name": "São José 2",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
-        "name": "Sao Jose",
+        "id": "sao-jose-azul-it",
+        "name": "São José",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "segura-garcia-azul-it",
         "name": "Segura Garcia",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "sonho-nosso-4-vermelho-bb",
         "name": "Sonho Nosso 4",
         "sector": "Vermelho",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "sonho-nosso-1-vermelho-bb",
         "name": "Sonho Nosso 1",
         "sector": "Vermelho",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "sonho-nosso-2-vermelho-bb",
         "name": "Sonho Nosso 2",
         "sector": "Vermelho",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "sonho-nosso-3-vermelho-bb",
         "name": "Sonho Nosso 3",
         "sector": "Vermelho",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "sonho-nosso-5-vermelho-bb",
         "name": "Sonho Nosso 5",
         "sector": "Vermelho",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Verdao B. Bonita",
+        "id": "verdao-b-bonita-bb",
+        "name": "Verdão",
         "sector": null,
+        "city": "Barra Bonita",
         "feeCents": 800,
-        "status": "approved",
-        "city": "Barra Bonita"
+        "status": "approved"
       },
       {
+        "id": "vila-alcides-correa-amarelo-bb",
         "name": "Vila Alcides Correa",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "vila-boa-vista-it",
         "name": "Vila Boa Vista",
         "sector": null,
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "vila-boca-rica-amarelo-bb",
         "name": "Vila Boca Rica",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "vila-correa-amarelo-bb",
         "name": "Vila Correa",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "vila-joao-victorino-verde-bb",
         "name": "Vila João Victorino",
         "sector": "Verde",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "vila-leozina-azul-it",
         "name": "Vila Leozina",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "vila-manoel-rayes-azul-it",
         "name": "Vila Manoel Rayes",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "vila-maria-cristina-verde-bb",
         "name": "Vila Maria Cristina",
         "sector": "Verde",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "vila-narcisa-azul-bb",
         "name": "Vila Narcisa",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "vila-nossa-senhora-aparecida-azul-it",
         "name": "Vila Nossa Senhora Aparecida",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
+        "id": "vila-nova-amarelo-bb",
         "name": "Vila Nova",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Vila Operaria",
+        "id": "vila-operaria-azul-bb",
+        "name": "Vila Operária",
         "sector": "Azul",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "vila-ricci-verde-bb",
         "name": "Vila Ricci",
         "sector": "Verde",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "vila-santa-izabel-azul-it",
         "name": "Vila Santa Izabel",
         "sector": "Azul",
+        "city": "Igaraçu do Tietê",
         "feeCents": 1000,
         "status": "approved"
       },
       {
-        "name": "Vila Sao Caetano",
+        "id": "vila-sao-caetano-amarelo-bb",
+        "name": "Vila São Caetano",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
+        "id": "vila-sao-joao-amarelo-bb",
         "name": "Vila São João",
         "sector": "Amarelo",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       },
       {
-        "name": "Vila Sao Jose",
+        "id": "vila-sao-jose-preto-bb",
+        "name": "Vila São José",
         "sector": "Preto",
+        "city": "Barra Bonita",
         "feeCents": 800,
         "status": "approved"
       }
