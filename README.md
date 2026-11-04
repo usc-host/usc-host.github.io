@@ -52,6 +52,9 @@ API (Render ou user-secrets), lista completa em `apps/api/.env.example`:
 | `GEMINI_THINKING_LEVEL` | `minimal`, `low`, `medium` ou `high`, para modelos que aceitam. |
 | `ALLOWED_ORIGINS` | Origens do site autorizadas no CORS. |
 | `CHAT_*`, `QUOTES_*` | Limites de mensagem, histórico, ferramentas, tempo e taxa por IP. |
+| `DATABASE_URL` | Postgres do programa de fidelidade (no Render, a Internal Database URL). Sem ela, em produção o programa fica indisponível; em desenvolvimento usa um banco em memória. |
+| `RESEND_API_KEY` | Chave do Resend para enviar o código de 6 dígitos por e-mail. Sem ela, fora de produção o código aparece na tela. |
+| `EMAIL_FROM` | Remetente, padrão `Bella Massa <onboarding@resend.dev>`. Com o remetente padrão o Resend só entrega para o e-mail dono da conta. |
 
 Site (variáveis do repositório no GitHub ou `apps/web/.env.local`):
 
