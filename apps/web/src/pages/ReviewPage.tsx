@@ -300,7 +300,7 @@ export default function ReviewPage() {
                 <span className="saved-card__icon" aria-hidden="true"><EnvironmentOutlined /></span>
                 <div>
                   <strong>Retirada na loja</strong>
-                  <span>Rua Savério Salve, 496, Barra Bonita</span>
+                  <span>Rua Savério Salvi, 496, Barra Bonita</span>
                 </div>
               </div>
             )}
