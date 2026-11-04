@@ -2,15 +2,13 @@ import { catalog, formatBRL, type Quote } from '@bella/domain';
 import {
   CheckCircleFilled,
   CopyOutlined,
-  DeleteOutlined,
   EditOutlined,
   EnvironmentOutlined,
   GiftOutlined,
-  PlusOutlined,
   UserOutlined,
   WhatsAppOutlined
 } from '@ant-design/icons';
-import { Button, Form, Input, Popconfirm, Radio, Segmented } from 'antd';
+import { Button, Form, Input, Radio, Segmented } from 'antd';
 import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router';
@@ -22,6 +20,7 @@ import { useAccount } from '../features/account/AccountProvider';
 import { useCart } from '../features/cart/CartProvider';
 import { useServerQuote } from '../features/cart/useServerQuote';
 import { AddressEditor } from '../features/checkout/AddressEditor';
+import { AddressList } from '../features/checkout/AddressList';
 import { addressZone, formatAddress, useCheckoutBook, type Address, type Contact } from '../features/checkout/addressBook';
 import { requestQuote } from '../lib/api';
 import { usePageTitle } from '../lib/hooks';
@@ -274,42 +273,7 @@ export default function ReviewPage() {
               options={[{ label: 'Entrega', value: 'entrega' }, { label: 'Retirada', value: 'retirada' }]}
             />
             {mode === 'entrega' ? (
-              <div className="address-list" role="radiogroup" aria-label="Endereço de entrega">
-                {book.addresses.map(a => {
-                  const selected = book.selected?.id === a.id;
-                  const fee = addressZone(a)?.feeCents;
-                  return (
-                    <div key={a.id} className={`address-card${selected ? ' is-selected' : ''}`}>
-                      <button type="button" role="radio" aria-checked={selected} className="address-card__main" onClick={() => book.selectAddress(a.id)}>
-                        <span className="choice-row__radio" aria-hidden="true" />
-                        <span className="address-card__body">
-                          <strong>{a.label}</strong>
-                          <span>{formatAddress(a)}</span>
-                          {a.reference && <small>Referência: {a.reference}</small>}
-                          <small className={fee === undefined ? 'address-card__fee is-missing' : 'address-card__fee'}>
-                            {fee === undefined ? 'Escolha o bairro para ver a taxa' : `Taxa de entrega ${formatBRL(fee)}`}
-                          </small>
-                        </span>
-                      </button>
-                      <div className="address-card__tools">
-                        <Button type="text" shape="circle" icon={<EditOutlined />} aria-label={`Editar endereço ${a.label}`} onClick={() => setEditor({ open: true, address: a })} />
-                        <Popconfirm
-                          title="Excluir este endereço?"
-                          okText="Excluir"
-                          cancelText="Cancelar"
-                          okButtonProps={{ danger: true }}
-                          onConfirm={() => { book.removeAddress(a.id); toast('Endereço excluído', { id: 'addr-rm' }); }}
-                        >
-                          <Button type="text" shape="circle" icon={<DeleteOutlined />} aria-label={`Excluir endereço ${a.label}`} />
-                        </Popconfirm>
-                      </div>
-                    </div>
-                  );
-                })}
-                <button type="button" className="address-add" onClick={() => setEditor({ open: true, address: null })}>
-                  <PlusOutlined /> {book.addresses.length ? 'Adicionar outro endereço' : 'Adicionar endereço de entrega'}
-                </button>
-              </div>
+              <AddressList book={book} selectable onEdit={address => setEditor({ open: true, address })} />
             ) : (
               <div className="saved-card saved-card--pickup">
                 <span className="saved-card__icon" aria-hidden="true"><EnvironmentOutlined /></span>
