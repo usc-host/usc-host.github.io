@@ -134,10 +134,10 @@ public class AssistantTests
     {
         var (client, _) = Create(new ScriptedGemini(
             ScriptedGemini.Call("show_location", new JsonObject()),
-            ScriptedGemini.Text("Estamos na Rua Savério Salve, 496.")));
+            ScriptedGemini.Text("Estamos na Rua Savério Salvi, 496.")));
         var (events, _, _) = await Chat(client, "onde fica a pizzaria?");
         var location = Assert.Single(events, e => (string?)e["type"] == "location")["location"]!;
-        Assert.Contains("Savério Salve, 496", (string?)location["address"]);
+        Assert.Contains("Savério Salvi, 496", (string?)location["address"]);
         Assert.StartsWith("https://www.google.com/maps/search/?api=1&query=", (string?)location["mapsUrl"]);
     }
 
@@ -216,9 +216,9 @@ public class AssistantTests
     public async Task Informacao_conflitante_da_loja_vai_como_confirmar_com_a_loja()
     {
         var (client, gemini) = Create(new ScriptedGemini(
-            ScriptedGemini.Call("get_store_info", new JsonObject { ["topic"] = "horario" }),
-            ScriptedGemini.Text("Preciso confirmar o horário com a loja.")));
-        await Chat(client, "que horas abre?");
+            ScriptedGemini.Call("get_store_info", new JsonObject { ["topic"] = "pedido_minimo" }),
+            ScriptedGemini.Text("Preciso confirmar o pedido mínimo com a loja.")));
+        await Chat(client, "tem pedido mínimo?");
         var result = ToolResponse(gemini, 1)!;
         Assert.Equal("confirmar_com_a_loja", (string?)result["status"]);
         Assert.Null(result["value"]);
@@ -288,8 +288,8 @@ public class AssistantTests
     {
         var (client, _) = Create(new ScriptedGemini());
         var store = (await client.GetFromJsonAsync<JsonObject>("/api/store"))!;
-        var horario = store["info"]!.AsArray().Single(i => (string?)i!["topic"] == "horario")!;
-        Assert.Null(horario["value"]);
-        Assert.Null(horario["observations"]);
+        var minimo = store["info"]!.AsArray().Single(i => (string?)i!["topic"] == "pedido_minimo")!;
+        Assert.Null(minimo["value"]);
+        Assert.Null(minimo["observations"]);
     }
 }

@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Content Include="..\..\..\..\data\quote-cases.json" Link="data\quote-cases.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\..\..\data\delivery-cases.json" Link="data\delivery-cases.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
