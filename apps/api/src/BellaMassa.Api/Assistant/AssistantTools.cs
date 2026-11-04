@@ -202,7 +202,7 @@ public static class AssistantTools
             return Error("Argumentos inválidos.");
         var results = MenuSearch.Search(ctx.Index, new SearchInput(
             args.Query, args.Category, args.Max_price_reais is { } max ? (int)Math.Round(max * 100) : null, args.Kind));
-        return Obj(new { count = results.Count, results = results.Take(8).Select(p => Brief(ctx.Index, p)) });
+        return Obj(new { count = results.Count, results = results.Take(6).Select(p => Brief(ctx.Index, p)) });
     }
 
     private static JsonObject GetProduct(ProductArgs args, ToolContext ctx)
@@ -445,6 +445,11 @@ public static class AssistantTools
                 cards.Add(Card(ctx.Index, product, args.Reasons?.ElementAtOrDefault(i)));
         }
         if (cards.Count > 0) await ctx.Emit(ChatEvents.Products(cards));
-        return Obj(new { shown = cards.Select(c => c.ProductId), invalid_ids = args.Product_ids.Where(id => ctx.Index.Product(id) is null) });
+        return Obj(new
+        {
+            shown = cards.Select(c => c.ProductId),
+            invalid_ids = args.Product_ids.Where(id => ctx.Index.Product(id) is null),
+            next_step = "Os cartões com nome, descrição e preço já estão na conversa. Comente com simpatia e em poucas frases, sem repetir os detalhes deles."
+        });
     }
 }
