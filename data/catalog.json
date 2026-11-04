@@ -1,5 +1,5 @@
 {
-  "version": "2026.11.03.6",
+  "version": "2026.11.03.7",
   "currency": "BRL",
   "store": {
     "name": "Bella Massa",
@@ -16,10 +16,10 @@
       {
         "topic": "endereco",
         "label": "Endereço",
-        "value": "Rua Savério Salve, 496, Barra Bonita, SP",
-        "status": "observed",
+        "value": "Rua Savério Salvi, 496, Barra Bonita, SP",
+        "status": "approved",
         "sources": [
-          "moohappy:loja"
+          "loja:informacoes-2026-11-03"
         ]
       },
       {
@@ -46,25 +46,20 @@
       {
         "topic": "prazo",
         "label": "Entrega estimada",
-        "value": "40 a 65 min",
-        "status": "observed",
+        "value": "40 a 60 min",
+        "status": "approved",
         "sources": [
-          "moohappy:loja"
+          "loja:informacoes-2026-11-03"
         ],
-        "note": "Estimativa publicada em um canal. Não é garantia de prazo."
+        "note": "Retirada no balcão: 30 a 50 min."
       },
       {
         "topic": "horario",
         "label": "Horário",
-        "value": null,
-        "status": "conflicting",
+        "value": "Todos os dias até 23:30. Abre às 17:00 de terça, sexta e sábado e às 17:30 nos outros dias.",
+        "status": "approved",
         "sources": [
-          "instadelivery:loja",
-          "moohappy:loja"
-        ],
-        "observations": [
-          "InstaDelivery em 03/11/2026: 17:00 às 23:30",
-          "Moohappy em 03/11/2026: abre às 18:00"
+          "loja:informacoes-2026-11-03"
         ],
         "note": "Os canais divergem e não há grade semanal confirmada."
       },
@@ -85,17 +80,21 @@
       {
         "topic": "taxa_entrega",
         "label": "Taxa de entrega",
-        "value": null,
-        "status": "pending",
-        "sources": [],
-        "note": "Taxa por região não levantada."
+        "value": "De R$ 8,00 a R$ 25,00, conforme o bairro.",
+        "status": "approved",
+        "sources": [
+          "loja:informacoes-2026-11-03"
+        ],
+        "note": "Use a taxa do bairro."
       },
       {
         "topic": "pagamento",
         "label": "Formas de pagamento",
-        "value": null,
-        "status": "pending",
-        "sources": []
+        "value": "Pix, cartão de crédito ou débito na maquininha (Elo, Mastercard e Visa), dinheiro, vale-refeição ou alimentação (Mega Vale e Pluxee), PicPay e Caixa Tem.",
+        "status": "approved",
+        "sources": [
+          "loja:informacoes-2026-11-03"
+        ]
       },
       {
         "topic": "alergenos",
@@ -114,6 +113,884 @@
           "instadelivery:loja"
         ],
         "note": "Campanhas e cupons publicados sem vigência confirmada."
+      }
+    ],
+    "address": "Rua Savério Salvi, 496, Barra Bonita, SP",
+    "hours": [
+      {
+        "day": 0,
+        "label": "Domingo",
+        "open": "17:30",
+        "close": "23:30"
+      },
+      {
+        "day": 1,
+        "label": "Segunda",
+        "open": "17:30",
+        "close": "23:30"
+      },
+      {
+        "day": 2,
+        "label": "Terça",
+        "open": "17:00",
+        "close": "23:30"
+      },
+      {
+        "day": 3,
+        "label": "Quarta",
+        "open": "17:30",
+        "close": "23:30"
+      },
+      {
+        "day": 4,
+        "label": "Quinta",
+        "open": "17:30",
+        "close": "23:30"
+      },
+      {
+        "day": 5,
+        "label": "Sexta",
+        "open": "17:00",
+        "close": "23:30"
+      },
+      {
+        "day": 6,
+        "label": "Sábado",
+        "open": "17:00",
+        "close": "23:30"
+      }
+    ],
+    "times": {
+      "delivery": "40 a 60 min",
+      "pickup": "30 a 50 min"
+    },
+    "payments": [
+      {
+        "id": "pix",
+        "label": "Pix"
+      },
+      {
+        "id": "credito",
+        "label": "Cartão de crédito na maquininha",
+        "note": "Elo, Mastercard e Visa"
+      },
+      {
+        "id": "debito",
+        "label": "Cartão de débito na maquininha",
+        "note": "Elo, Mastercard e Visa"
+      },
+      {
+        "id": "dinheiro",
+        "label": "Dinheiro"
+      },
+      {
+        "id": "vale",
+        "label": "Vale-refeição ou alimentação",
+        "note": "Mega Vale e Pluxee"
+      },
+      {
+        "id": "picpay",
+        "label": "PicPay"
+      },
+      {
+        "id": "caixa-tem",
+        "label": "Caixa Tem"
+      }
+    ],
+    "deliveryZones": [
+      {
+        "name": "Amyres",
+        "sector": null,
+        "feeCents": 2500,
+        "status": "approved"
+      },
+      {
+        "name": "Barra Bonita Camping",
+        "sector": null,
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Bem Viver",
+        "sector": "Vermelho",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Budel",
+        "sector": null,
+        "feeCents": 2500,
+        "status": "approved"
+      },
+      {
+        "name": "Camil",
+        "sector": null,
+        "feeCents": 2500,
+        "status": "approved"
+      },
+      {
+        "name": "Campos Salles",
+        "sector": null,
+        "feeCents": 2500,
+        "status": "approved"
+      },
+      {
+        "name": "CDHU B. Bonita",
+        "sector": "Vermelho",
+        "feeCents": 800,
+        "status": "approved",
+        "city": "Barra Bonita"
+      },
+      {
+        "name": "CDHU Ig. Tiete",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved",
+        "city": "Igaraçu do Tietê"
+      },
+      {
+        "name": "Cecap B. Bonita",
+        "sector": "Verde",
+        "feeCents": 800,
+        "status": "approved",
+        "city": "Barra Bonita"
+      },
+      {
+        "name": "Cecap Ig. Tiete",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved",
+        "city": "Igaraçu do Tietê"
+      },
+      {
+        "name": "Centro B. Bonita",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved",
+        "city": "Barra Bonita"
+      },
+      {
+        "name": "Centro Ig. Tiete",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved",
+        "city": "Igaraçu do Tietê"
+      },
+      {
+        "name": "Cohab B. Bonita",
+        "sector": "Vermelho",
+        "feeCents": 800,
+        "status": "approved",
+        "city": "Barra Bonita"
+      },
+      {
+        "name": "Cohab Ig. Tiete",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved",
+        "city": "Igaraçu do Tietê"
+      },
+      {
+        "name": "Colina da Barra",
+        "sector": "Azul",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Condominio Delucca",
+        "sector": null,
+        "feeCents": 2500,
+        "status": "approved"
+      },
+      {
+        "name": "Condominio Mirante do Tiete",
+        "sector": "Azul",
+        "feeCents": 2500,
+        "status": "approved"
+      },
+      {
+        "name": "Condominio Reserva da Barra",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Conjunto Alfredo Fernandes",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Conjunto Camilo Saade",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Conjunto Elvira Lemos",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Conjunto Orlando Ometto",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Distrito Industrial B. Bonita",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved",
+        "city": "Barra Bonita"
+      },
+      {
+        "name": "Distrito Industrial Joao Rayes",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Entulho",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Estiva",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Estrada Joao Silva Nogueira",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Fazenda",
+        "sector": null,
+        "feeCents": 0,
+        "status": "conflicting",
+        "note": "Valor cadastrado inválido ou zerado. Confirmar com a loja."
+      },
+      {
+        "name": "Germano Roncari",
+        "sector": null,
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Habitacional",
+        "sector": "Azul",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim Santa Maria",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim Alto da Barra",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim Altos de Igaracu",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved",
+        "city": "Igaraçu do Tietê"
+      },
+      {
+        "name": "Jardim Anturios",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim Brasil",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim Carolina",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim Colina",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim Conquista",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim da Colina",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim das Acacias",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim Orquideas",
+        "sector": "Azul",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim Ouro Verde",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jardim Panorama",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Conquista",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Vista Alegre",
+        "sector": "Azul",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Vista Alegre",
+        "sector": "Azul",
+        "feeCents": 2500,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Vitória",
+        "sector": null,
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Altos da Barra",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Bela Vista",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Brasil",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Campos Salles",
+        "sector": "Azul",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. da Barra",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Danubio",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Dracenas",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Lucemar",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Maria Carolina",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Mila Turi",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Nova Barra",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Nova Estancia",
+        "sector": "Verde",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Nova Igaracu",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved",
+        "city": "Igaraçu do Tietê"
+      },
+      {
+        "name": "Jd. Ouro Verde",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Paulista",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Por do Sol",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Primavera",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Samanbaia",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Santa Elisa",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Santa Helena",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Sao Caetano",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Vista Alegre",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Vitoria",
+        "sector": "Vermelho",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Ypes",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Novo Estilo",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Jd. Vitória",
+        "sector": null,
+        "feeCents": -5,
+        "status": "conflicting",
+        "note": "Valor cadastrado inválido ou zerado. Confirmar com a loja."
+      },
+      {
+        "name": "Kamil",
+        "sector": null,
+        "feeCents": 2500,
+        "status": "approved"
+      },
+      {
+        "name": "Parada Viana",
+        "sector": "Azul",
+        "feeCents": 2500,
+        "status": "approved"
+      },
+      {
+        "name": "Parque Industrial São Domingos",
+        "sector": "Verde",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Patio da Usina",
+        "sector": null,
+        "feeCents": 1500,
+        "status": "approved"
+      },
+      {
+        "name": "Planalto Verde",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Portal Sao Jose da Barra",
+        "sector": "Azul",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Projeto Arabia",
+        "sector": null,
+        "feeCents": 2500,
+        "status": "approved"
+      },
+      {
+        "name": "Quinta do Vale",
+        "sector": "Azul",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Recanto da Barra",
+        "sector": "Azul",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Recanto das Flores",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Recanto Dona Adelia",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Recanto Regina",
+        "sector": "Verde",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Recanto Sao Geraldo",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Recanto Vitoria",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Bela Vista",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Casa Grande",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Cestari",
+        "sector": "Verde",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Res. da Colina",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Res. das Flores",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Flamboyant",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Natale Spaulonci",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Nossa Gente 2",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Nossa Gente",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Parque Bella Vista",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Rio Lindo",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Sao Domingos",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Sargentim",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Res. Stanguerlin",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Residencial Park Boa Vista",
+        "sector": "Azul",
+        "feeCents": 2500,
+        "status": "approved"
+      },
+      {
+        "name": "Residencial São Joaquim",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Sao Joaquim",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Sao Jose 2",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Sao Jose",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Segura Garcia",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Sonho Nosso 4",
+        "sector": "Vermelho",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Sonho Nosso 1",
+        "sector": "Vermelho",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Sonho Nosso 2",
+        "sector": "Vermelho",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Sonho Nosso 3",
+        "sector": "Vermelho",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Sonho Nosso 5",
+        "sector": "Vermelho",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Verdao B. Bonita",
+        "sector": null,
+        "feeCents": 800,
+        "status": "approved",
+        "city": "Barra Bonita"
+      },
+      {
+        "name": "Vila Alcides Correa",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Boa Vista",
+        "sector": null,
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Boca Rica",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Correa",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Vila João Victorino",
+        "sector": "Verde",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Leozina",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Manoel Rayes",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Maria Cristina",
+        "sector": "Verde",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Narcisa",
+        "sector": "Azul",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Nossa Senhora Aparecida",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Nova",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Operaria",
+        "sector": "Azul",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Ricci",
+        "sector": "Verde",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Santa Izabel",
+        "sector": "Azul",
+        "feeCents": 1000,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Sao Caetano",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Vila São João",
+        "sector": "Amarelo",
+        "feeCents": 800,
+        "status": "approved"
+      },
+      {
+        "name": "Vila Sao Jose",
+        "sector": "Preto",
+        "feeCents": 800,
+        "status": "approved"
       }
     ]
   },
@@ -2467,6 +3344,14 @@
       "observedOn": "2026-11-03",
       "field": "sabores de pizza com foto, descrição e preço da grande",
       "note": "Enviado pela equipe. Preço da broto ilustrativo."
+    },
+    {
+      "id": "loja:informacoes-2026-11-03",
+      "channel": "loja",
+      "url": "https://instadelivery.com.br/bellamassapizzaseesfihas",
+      "observedOn": "2026-11-03",
+      "field": "horários, tempos, pagamentos e taxas por bairro",
+      "note": "Enviado pela equipe a partir do painel da loja."
     }
   ],
   "promotions": [
