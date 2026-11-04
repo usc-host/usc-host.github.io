@@ -21,13 +21,20 @@ export interface Profile {
   name: string;
   email: string;
   phone: string;
+  twoFactor: boolean;
+  memberSince: string;
+  /* Devices signed in to this account, this one included. */
+  sessions: number;
   points: number;
   history: HistoryEntry[];
   rewards: Reward[];
 }
 
+export type CodePurpose = 'verify' | 'login' | 'reset';
+
 export interface CodeSent {
   needsVerification: true;
+  purpose: CodePurpose;
   email: string;
   maskedEmail: string;
   expiresInSeconds: number;
@@ -78,6 +85,13 @@ export const accountApi = {
   verify: (email: string, code: string) => post<SignedIn>('/api/auth/verify', { email, code }),
   resend: (email: string) => post<CodeSent>('/api/auth/resend', { email }),
   logout: (token: string) => post<void>('/api/auth/logout', {}, token),
+  forgot: (email: string) => post<CodeSent>('/api/auth/forgot', { email }),
+  reset: (email: string, code: string, password: string) => post<SignedIn>('/api/auth/reset', { email, code, password }),
+  updateProfile: (token: string, body: { name: string; phone: string }) => post<Profile>('/api/me/profile', body, token),
+  changePassword: (token: string, body: { currentPassword: string; newPassword: string }) => post<Profile>('/api/me/password', body, token),
+  setTwoFactor: (token: string, enabled: boolean, password: string) => post<Profile>('/api/me/two-factor', { enabled, password }, token),
+  endOtherSessions: (token: string) => post<Profile>('/api/me/sessions/end-others', {}, token),
+  deleteAccount: (token: string, password: string) => post<void>('/api/me/delete', { password }, token),
   me: (token: string) => call<Profile>('/api/me', { token }),
   earn: (token: string, orderCode: string, lines: LineConfig[]) =>
     post<{ earned: number; profile: Profile }>('/api/loyalty/earn', { orderCode, lines }, token),

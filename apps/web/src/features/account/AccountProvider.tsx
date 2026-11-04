@@ -4,9 +4,14 @@ import { accountApi, AccountError, type Profile } from './accountApi';
 
 const KEY = 'bm-session';
 
+export type AuthMode = 'login' | 'register' | 'forgot';
+
 interface AuthRequest {
   /* Short line shown on top of the sheet, such as "Entre para ganhar 85 pontos". */
   reason?: string;
+  /* Where the sheet opens; "forgot" starts the password reset. */
+  mode?: AuthMode;
+  email?: string;
   onSuccess?: (profile: Profile) => void;
 }
 
@@ -16,6 +21,8 @@ interface AccountApi {
   loading: boolean;
   signIn(token: string, profile: Profile): void;
   signOut(): Promise<void>;
+  /* Forgets the session on this device only, as after deleting the account. */
+  forget(): void;
   refresh(): Promise<void>;
   setProfile(profile: Profile): void;
   /* Opens the sign in sheet over the current page; nothing on the page is lost. */
@@ -88,6 +95,12 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     if (current) await accountApi.logout(current).catch(() => {});
   }, [token]);
 
+  const forget = useCallback(() => {
+    writeToken(null);
+    setToken(null);
+    setProfile(null);
+  }, []);
+
   const openAuth = useCallback((request: AuthRequest = {}) => {
     requestRef.current = request;
     setAuthRequest(request);
@@ -99,8 +112,8 @@ export function AccountProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<AccountApi>(() => ({
-    token, profile, loading, signIn, signOut, refresh, setProfile, openAuth, closeAuth, authRequest
-  }), [token, profile, loading, signIn, signOut, refresh, openAuth, closeAuth, authRequest]);
+    token, profile, loading, signIn, signOut, forget, refresh, setProfile, openAuth, closeAuth, authRequest
+  }), [token, profile, loading, signIn, signOut, forget, refresh, openAuth, closeAuth, authRequest]);
 
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;
 }
