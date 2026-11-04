@@ -64,7 +64,11 @@ web.MapGroup("/api").MapPublicEndpoints().MapLoyaltyEndpoints();
 
 using (var scope = web.Services.CreateScope())
 {
-    if (scope.ServiceProvider.GetService<LoyaltyDb>() is { } db) await db.Database.EnsureCreatedAsync();
+    if (scope.ServiceProvider.GetService<LoyaltyDb>() is { } db)
+    {
+        await db.Database.EnsureCreatedAsync();
+        await LoyaltySchema.UpgradeAsync(db);
+    }
 }
 web.MapFallback("/api/{**path}", () => ApiErrors.Result(404, "Endereço não encontrado."));
 

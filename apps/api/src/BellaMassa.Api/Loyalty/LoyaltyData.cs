@@ -13,6 +13,8 @@ public sealed class Customer
     public required string PasswordHash { get; set; }
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? EmailVerifiedAt { get; set; }
+    /* Sign in also asks for a code sent by e-mail. */
+    public bool TwoFactorEnabled { get; set; }
 }
 
 public sealed class VerificationCode
@@ -24,6 +26,15 @@ public sealed class VerificationCode
     public DateTimeOffset ExpiresAt { get; set; }
     public int Attempts { get; set; }
     public bool Used { get; set; }
+    /* verify (confirm the e-mail), login (second step) or reset (new password). */
+    public string Purpose { get; set; } = CodePurpose.Verify;
+}
+
+public static class CodePurpose
+{
+    public const string Verify = "verify";
+    public const string Login = "login";
+    public const string Reset = "reset";
 }
 
 public sealed class Session
@@ -70,6 +81,7 @@ public sealed class LoyaltyDb(DbContextOptions<LoyaltyDb> options) : DbContext(o
         {
             e.ToTable("verification_codes");
             e.HasIndex(c => c.CustomerId);
+            e.Property(c => c.Purpose).HasMaxLength(16);
         });
         model.Entity<Session>(e =>
         {
@@ -83,6 +95,20 @@ public sealed class LoyaltyDb(DbContextOptions<LoyaltyDb> options) : DbContext(o
             e.HasIndex(p => new { p.CustomerId, p.OrderCode }).IsUnique();
             e.Property(p => p.Description).HasMaxLength(160);
         });
+    }
+}
+
+/* EnsureCreated only builds a database that does not exist yet. Columns added
+   later are created here on start, so the live database keeps its data. */
+public static class LoyaltySchema
+{
+    public static async Task UpgradeAsync(LoyaltyDb db)
+    {
+        if (!db.Database.IsRelational()) return;
+        await db.Database.ExecuteSqlRawAsync("""
+            ALTER TABLE customers ADD COLUMN IF NOT EXISTS "TwoFactorEnabled" boolean NOT NULL DEFAULT false;
+            ALTER TABLE verification_codes ADD COLUMN IF NOT EXISTS "Purpose" character varying(16) NOT NULL DEFAULT 'verify';
+            """);
     }
 }
 
