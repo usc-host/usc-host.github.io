@@ -20,6 +20,7 @@ public static partial class LocalAssistant
     [
         (new("horario|abre|fecha"), "horario"),
         (new("entrega|frete|taxa"), "taxa_entrega"),
+        (new("pagamento|pagar|pix|cartao|dinheiro"), "pagamento"),
         (new("endereco|onde fica"), "endereco"),
         (new("alergi|lactose|gluten|intoler"), "alergenos"),
         (new("whats|telefone|contato"), "whatsapp")
@@ -43,9 +44,13 @@ public static partial class LocalAssistant
         {
             if (!pattern.IsMatch(text)) continue;
             var info = await AssistantTools.RunAsync("get_store_info", new JsonObject { ["topic"] = topic }, ctx);
-            await Say(info["status"]?.GetValue<string>() == "informado"
-                ? $"{info["label"]}: {info["value"]}."
-                : $"Essa informação eu prefiro confirmar com a loja. Você pode falar com a equipe pelo WhatsApp {info["contact"]}.");
+            await Say(info["status"]?.GetValue<string>() != "informado"
+                ? $"Essa informação eu prefiro confirmar com a loja. Você pode falar com a equipe pelo WhatsApp {info["contact"]}."
+                : info["open_now"] is { } open
+                    ? $"{(open.GetValue<bool>() ? "Estamos abertos agora" : "Agora estamos fechados")}. Hoje: {info["today"]}.{(info["next_opening"] is { } next ? $" Abrimos {next}." : "")}"
+                    : info["methods"] is JsonArray methods
+                        ? $"Aceitamos {string.Join(", ", methods.Select(m => m!.GetValue<string>()))}. {info["note"]}"
+                        : $"{info["label"]}: {info["value"]}.");
             return;
         }
 
