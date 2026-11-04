@@ -144,6 +144,18 @@ public class AssistantTests
     }
 
     [Fact]
+    public async Task Contato_vira_cartao_com_whatsapp()
+    {
+        var (client, _) = Create(new ScriptedGemini(
+            ScriptedGemini.Call("show_contact", new JsonObject()),
+            ScriptedGemini.Text("Pronto, é só chamar.")));
+        var (events, _, _) = await Chat(client, "pode mandar o contato sim");
+        var contact = Assert.Single(events, e => (string?)e["type"] == "contact")["contact"]!;
+        Assert.Equal("(14) 99715-9327", (string?)contact["phone"]);
+        Assert.StartsWith("https://wa.me/", (string?)contact["whatsappUrl"]);
+    }
+
+    [Fact]
     public async Task Produto_inexistente_volta_como_erro_para_o_modelo()
     {
         var (client, gemini) = Create(new ScriptedGemini(

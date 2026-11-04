@@ -40,12 +40,19 @@ public static partial class LocalAssistant
             return;
         }
 
+        if (Regex.IsMatch(text, "whats|telefone|contato|atendente"))
+        {
+            await AssistantTools.RunAsync("show_contact", null, ctx);
+            await Say("Aqui está o nosso WhatsApp. É só chamar que os atendentes respondem.");
+            return;
+        }
+
         foreach (var (pattern, topic) in StoreTopics)
         {
             if (!pattern.IsMatch(text)) continue;
             var info = await AssistantTools.RunAsync("get_store_info", new JsonObject { ["topic"] = topic }, ctx);
             await Say(info["status"]?.GetValue<string>() != "informado"
-                ? $"Essa informação eu prefiro confirmar com a loja. Você pode falar com a equipe pelo WhatsApp {info["contact"]}."
+                ? "Essa eu prefiro não chutar. Mas é sempre bom confirmar diretamente com os atendentes, tá? Se quiser, eu te mando o nosso contato!"
                 : info["open_now"] is { } open
                     ? $"{(open.GetValue<bool>() ? "Estamos abertos agora" : "Agora estamos fechados")}. Hoje: {info["today"]}.{(info["next_opening"] is { } next ? $" Abrimos {next}." : "")}"
                     : info["methods"] is JsonArray methods

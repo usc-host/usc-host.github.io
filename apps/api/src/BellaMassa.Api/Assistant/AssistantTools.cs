@@ -128,6 +128,11 @@ public static class AssistantTools
             "parameters": { "type": "OBJECT", "properties": {} }
           },
           {
+            "name": "show_contact",
+            "description": "Mostra ao cliente um cartão com o WhatsApp da Bella Massa e botão para chamar os atendentes. Use quando o cliente aceitar receber o contato ou pedir telefone, WhatsApp ou falar com alguém.",
+            "parameters": { "type": "OBJECT", "properties": {} }
+          },
+          {
             "name": "show_products",
             "description": "Exibe até 3 produtos como cartões clicáveis na conversa. Use ao recomendar ou comparar.",
             "parameters": {
@@ -173,6 +178,7 @@ public static class AssistantTools
                 "propose_cart_change" => await Propose(Parse<ProposeArgs>(args), ctx),
                 "show_products" => await Show(Parse<ShowArgs>(args), ctx),
                 "show_location" => await Location(ctx),
+                "show_contact" => await Contact(ctx),
                 _ => Error($"Ferramenta desconhecida: {name}")
             };
         }
@@ -216,7 +222,7 @@ public static class AssistantTools
                 brief["sem_carne_so_pelo_nome"] = JsonSerializer.SerializeToNode(options.ByNameOnly);
                 return brief;
             }),
-            note = "sem_carne_pelos_ingredientes vem da lista cadastrada. sem_carne_so_pelo_nome não tem ingredientes cadastrados: diga que parece não levar carne e que vale confirmar com a loja. Não garanta que nada é vegetariano ou vegano."
+            note = "sem_carne_pelos_ingredientes vem da lista cadastrada. sem_carne_so_pelo_nome não tem ingredientes cadastrados: diga que parece não levar carne e feche com algo como \"Mas é sempre bom confirmar diretamente com os atendentes, tá? Se quiser, eu te mando o nosso contato!\". Não garanta que nada é vegetariano ou vegano."
         });
     }
 
@@ -442,6 +448,14 @@ public static class AssistantTools
         var maps = $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString($"{name}, {address}")}";
         await ctx.Emit(ChatEvents.Location(name, address, maps));
         return Obj(new { shown = true, address, next_step = "O cartão com o endereço e o mapa já está na conversa. Não repita o link." });
+    }
+
+    private static async Task<JsonObject> Contact(ToolContext ctx)
+    {
+        var whatsapp = ctx.Index.Catalog.Store.Info.FirstOrDefault(i => i.Topic == "whatsapp" && i.Status is "observed" or "approved");
+        if (whatsapp?.Value is null || whatsapp.Href is null) return Error("Contato não confirmado.");
+        await ctx.Emit(ChatEvents.Contact(ctx.Index.Catalog.Store.DisplayName, whatsapp.Value, whatsapp.Href));
+        return Obj(new { shown = true, phone = whatsapp.Value, next_step = "O cartão com o WhatsApp já está na conversa. Não repita o número nem o link." });
     }
 
     public static ProductCard Card(CatalogIndex index, Product product, string? reason = null) => new(
