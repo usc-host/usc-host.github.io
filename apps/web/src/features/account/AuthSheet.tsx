@@ -87,6 +87,8 @@ function CodeStep({ sent, onBack, onResent }: { sent: CodeSent; onBack: () => vo
         size="large"
         value={code}
         autoFocus
+        type="tel"
+        autoComplete="one-time-code"
         formatter={v => v.replace(/\D/g, '')}
         onChange={v => { setCode(v); verify(v); }}
         onInput={v => setCode(v.join(''))}
@@ -182,7 +184,7 @@ function AuthContent({ step, setStep }: { step: Step; setStep: (s: Step) => void
             normalize={formatPhone}
             rules={[{ required: true, pattern: /^\(\d{2}\) \d{4,5}-\d{4}$/, message: 'Informe o celular com DDD.' }]}
           >
-            <Input size="large" prefix={<PhoneOutlined />} autoComplete="tel" inputMode="tel" placeholder="(14) 99999-0000" />
+            <Input size="large" prefix={<PhoneOutlined />} type="tel" autoComplete="tel" inputMode="tel" placeholder="(14) 99999-0000" />
           </Form.Item>
           <Form.Item name="password" label="Senha" rules={[{ required: true, min: 8, message: 'Use pelo menos 8 caracteres.' }]}>
             <Input.Password size="large" prefix={<LockOutlined />} autoComplete="new-password" maxLength={128} />

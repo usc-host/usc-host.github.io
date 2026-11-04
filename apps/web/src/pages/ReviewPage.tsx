@@ -249,7 +249,7 @@ export default function ReviewPage() {
                     normalize={formatPhone}
                     rules={[{ required: true, pattern: /^\(\d{2}\) \d{4,5}-\d{4}$/, message: 'Informe o celular com DDD.' }]}
                   >
-                    <Input size="large" autoComplete="tel" inputMode="tel" placeholder="(14) 99999-0000" />
+                    <Input size="large" type="tel" autoComplete="tel" inputMode="tel" placeholder="(14) 99999-0000" />
                   </Form.Item>
                 </div>
                 {book.contact && (

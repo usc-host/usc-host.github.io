@@ -104,6 +104,7 @@ export function AddressEditor({ open, initial, onClose, onSave }: {
         >
           <Input
             size="large"
+            type="tel"
             inputMode="numeric"
             autoComplete="postal-code"
             placeholder="00000-000"
