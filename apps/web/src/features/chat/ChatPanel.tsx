@@ -1,5 +1,5 @@
 import { defaultIndex, formatBRL } from '@bella/domain';
-import { ArrowUpOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, EnvironmentOutlined, RedoOutlined } from '@ant-design/icons';
+import { ArrowUpOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, EnvironmentOutlined, RedoOutlined, WhatsAppOutlined } from '@ant-design/icons';
 import toast from 'react-hot-toast';
 import { Button, Input, Popconfirm, Tooltip } from 'antd';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
@@ -65,6 +65,28 @@ function Message({ message, isLast }: { message: UiMessage; isLast: boolean }) {
               </Button>
               <Button size="small" shape="round" type="primary" icon={<EnvironmentOutlined />} href={message.location.mapsUrl} target="_blank" rel="noreferrer">
                 Abrir no Google Maps
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+      {message.contact && (
+        <div className="chat-location chat-location--contact">
+          <span className="chat-location__icon" aria-hidden="true"><WhatsAppOutlined /></span>
+          <div className="chat-location__body">
+            <strong>Atendimento {message.contact.name}</strong>
+            <span>WhatsApp {message.contact.phone}</span>
+            <div className="chat-location__actions">
+              <Button
+                size="small"
+                shape="round"
+                icon={<CopyOutlined />}
+                onClick={() => navigator.clipboard.writeText(message.contact!.phone).then(() => toast.success('Número copiado'), () => toast.error('Não foi possível copiar'))}
+              >
+                Copiar número
+              </Button>
+              <Button size="small" shape="round" type="primary" icon={<WhatsAppOutlined />} href={message.contact.whatsappUrl} target="_blank" rel="noreferrer">
+                Chamar no WhatsApp
               </Button>
             </div>
           </div>

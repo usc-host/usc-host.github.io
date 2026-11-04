@@ -1,4 +1,4 @@
-import type { CartProposal, ChatEvent, ChatMessage, ProductCard, StoreLocation } from '@bella/domain';
+import type { CartProposal, ChatEvent, ChatMessage, ProductCard, StoreContact, StoreLocation } from '@bella/domain';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useLocation } from 'react-router';
 import { readJson, removeKey, session, writeJson } from '../../lib/storage';
@@ -12,6 +12,7 @@ export interface UiMessage {
   products?: ProductCard[];
   proposals?: CartProposal[];
   location?: StoreLocation;
+  contact?: StoreContact;
   state?: 'streaming' | 'done' | 'stopped' | 'error';
   error?: { message: string; retryable: boolean };
 }
@@ -112,6 +113,9 @@ export function ChatProvider({ children }: { children: ReactNode }) {
           break;
         case 'location':
           patch(reply.id, m => ({ ...m, location: event.location }));
+          break;
+        case 'contact':
+          patch(reply.id, m => ({ ...m, contact: event.contact }));
           break;
         case 'done':
           setMode(event.mode);

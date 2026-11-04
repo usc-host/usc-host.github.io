@@ -18,6 +18,12 @@ export interface StoreLocation {
   mapsUrl: string;
 }
 
+export interface StoreContact {
+  name: string;
+  phone: string;
+  whatsappUrl: string;
+}
+
 export interface CartProposal {
   id: string;
   action: 'add' | 'remove' | 'set_quantity';
@@ -35,6 +41,7 @@ export type ChatEvent =
   | { type: 'products'; items: ProductCard[] }
   | { type: 'proposal'; proposal: CartProposal }
   | { type: 'location'; location: StoreLocation }
+  | { type: 'contact'; contact: StoreContact }
   | { type: 'done'; mode: 'gemini' | 'local'; model?: string }
   | { type: 'error'; message: string; retryable: boolean };
 
