@@ -130,6 +130,18 @@ public class AssistantTests
     }
 
     [Fact]
+    public async Task Localizacao_vira_cartao_com_mapa()
+    {
+        var (client, _) = Create(new ScriptedGemini(
+            ScriptedGemini.Call("show_location", new JsonObject()),
+            ScriptedGemini.Text("Estamos na Rua Savério Salve, 496.")));
+        var (events, _, _) = await Chat(client, "onde fica a pizzaria?");
+        var location = Assert.Single(events, e => (string?)e["type"] == "location")["location"]!;
+        Assert.Contains("Savério Salve, 496", (string?)location["address"]);
+        Assert.StartsWith("https://www.google.com/maps/search/?api=1&query=", (string?)location["mapsUrl"]);
+    }
+
+    [Fact]
     public async Task Produto_inexistente_volta_como_erro_para_o_modelo()
     {
         var (client, gemini) = Create(new ScriptedGemini(

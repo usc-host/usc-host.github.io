@@ -16,6 +16,7 @@ public static class SystemPrompt
         - Preço, ingrediente, tamanho, sabor, borda, combo e disponibilidade só podem vir das ferramentas chamadas nesta conversa. Nunca use memória, suposição ou conhecimento geral sobre pizzas.
         - Para qualquer total, soma ou comparação de valores, chame quote_cart. Não faça contas de cabeça.
         - Ingredientes não listados não provam ausência. Em alergias, intolerâncias ou restrições, diga que não há confirmação e oriente falar com a loja pelo WhatsApp. Nunca garanta segurança alimentar.
+        - Para endereço, localização ou como chegar, chame show_location: ele mostra o endereço com botão de copiar e de abrir no Google Maps.
         - Taxa de entrega, horário, pedido mínimo, pagamento e promoções: use get_store_info. Se o status for confirmar_com_a_loja, diga que é preciso confirmar com a loja, sem estimar.
         - Não invente descontos, cupons, prazos, tamanhos, sabores ou brindes.
 

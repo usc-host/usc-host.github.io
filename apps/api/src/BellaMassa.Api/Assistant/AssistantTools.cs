@@ -109,6 +109,11 @@ public static class AssistantTools
             }
           },
           {
+            "name": "show_location",
+            "description": "Mostra ao cliente um cartão com o endereço da Bella Massa, botão para copiar e link para o Google Maps. Use quando perguntarem onde fica, endereço, localização ou como chegar.",
+            "parameters": { "type": "OBJECT", "properties": {} }
+          },
+          {
             "name": "show_products",
             "description": "Exibe até 3 produtos como cartões clicáveis na conversa. Use ao recomendar ou comparar.",
             "parameters": {
@@ -151,6 +156,7 @@ public static class AssistantTools
                 "get_store_info" => StoreInfo(Parse<StoreArgs>(args), ctx),
                 "propose_cart_change" => await Propose(Parse<ProposeArgs>(args), ctx),
                 "show_products" => await Show(Parse<ShowArgs>(args), ctx),
+                "show_location" => await Location(ctx),
                 _ => Error($"Ferramenta desconhecida: {name}")
             };
         }
@@ -327,6 +333,16 @@ public static class AssistantTools
             total = Money(proposal.Quote?.TotalCents),
             next_step = "O cliente decide no botão do cartão. Não diga que o item foi adicionado ou alterado."
         });
+    }
+
+    private static async Task<JsonObject> Location(ToolContext ctx)
+    {
+        var address = ctx.Index.Catalog.Store.Info.FirstOrDefault(i => i.Topic == "endereco" && i.Status is "observed" or "approved")?.Value;
+        if (address is null) return Error("Endereço não confirmado. Oriente falar com a loja pelo WhatsApp.");
+        var name = ctx.Index.Catalog.Store.DisplayName;
+        var maps = $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString($"{name}, {address}")}";
+        await ctx.Emit(ChatEvents.Location(name, address, maps));
+        return Obj(new { shown = true, address, next_step = "O cartão com o endereço e o mapa já está na conversa. Não repita o link." });
     }
 
     public static ProductCard Card(CatalogIndex index, Product product, string? reason = null) => new(

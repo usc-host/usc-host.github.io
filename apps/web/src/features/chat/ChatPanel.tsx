@@ -1,5 +1,6 @@
 import { defaultIndex, formatBRL } from '@bella/domain';
-import { ArrowUpOutlined, CloseOutlined, DeleteOutlined, RedoOutlined } from '@ant-design/icons';
+import { ArrowUpOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, EnvironmentOutlined, RedoOutlined } from '@ant-design/icons';
+import toast from 'react-hot-toast';
 import { Button, Input, Popconfirm, Tooltip } from 'antd';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Link } from 'react-router';
@@ -45,6 +46,28 @@ function Message({ message, isLast }: { message: UiMessage; isLast: boolean }) {
               </span>
             </Link>
           ))}
+        </div>
+      )}
+      {message.location && (
+        <div className="chat-location">
+          <span className="chat-location__icon" aria-hidden="true"><EnvironmentOutlined /></span>
+          <div className="chat-location__body">
+            <strong>{message.location.name}</strong>
+            <span>{message.location.address}</span>
+            <div className="chat-location__actions">
+              <Button
+                size="small"
+                shape="round"
+                icon={<CopyOutlined />}
+                onClick={() => navigator.clipboard.writeText(message.location!.address).then(() => toast.success('Endereço copiado'), () => toast.error('Não foi possível copiar'))}
+              >
+                Copiar endereço
+              </Button>
+              <Button size="small" shape="round" type="primary" icon={<EnvironmentOutlined />} href={message.location.mapsUrl} target="_blank" rel="noreferrer">
+                Abrir no Google Maps
+              </Button>
+            </div>
+          </div>
         </div>
       )}
       {message.proposals?.map(p => <ProposalCard key={p.id} proposal={p} />)}
@@ -102,6 +125,29 @@ export function ChatPanel() {
       returnFocus.current?.focus?.({ preventScroll: true });
     };
   }, [open, setOpen]);
+
+  // On phones the panel tracks the visual viewport: when the keyboard opens the
+  // visible area shrinks and the composer must stay right above it.
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!open || !mobile || !vv) return;
+    const panel = panelRef.current;
+    const sync = () => {
+      panel?.style.setProperty('--vv-height', `${vv.height}px`);
+      panel?.style.setProperty('--vv-top', `${vv.offsetTop}px`);
+      const el = scrollRef.current;
+      if (el) el.scrollTop = el.scrollHeight;
+    };
+    sync();
+    vv.addEventListener('resize', sync);
+    vv.addEventListener('scroll', sync);
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      vv.removeEventListener('resize', sync);
+      vv.removeEventListener('scroll', sync);
+      document.documentElement.style.overflow = '';
+    };
+  }, [open, mobile]);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -194,7 +240,7 @@ export function ChatPanel() {
             <Button type="primary" shape="circle" size="large" htmlType="submit" icon={<ArrowUpOutlined />} aria-label="Enviar mensagem" disabled={!draft.trim()} />
           )}
         </form>
-        <p className="chat__foot">Respostas geradas por IA. Os valores são confirmados no carrinho.</p>
+        <p className="chat__foot">O Assistente é uma IA. Ele pode cometer erros.</p>
       </aside>
     </>
   );

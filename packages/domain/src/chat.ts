@@ -12,6 +12,12 @@ export interface ProductCard {
   reason?: string;
 }
 
+export interface StoreLocation {
+  name: string;
+  address: string;
+  mapsUrl: string;
+}
+
 export interface CartProposal {
   id: string;
   action: 'add' | 'remove' | 'set_quantity';
@@ -28,6 +34,7 @@ export type ChatEvent =
   | { type: 'status'; label: string }
   | { type: 'products'; items: ProductCard[] }
   | { type: 'proposal'; proposal: CartProposal }
+  | { type: 'location'; location: StoreLocation }
   | { type: 'done'; mode: 'gemini' | 'local'; model?: string }
   | { type: 'error'; message: string; retryable: boolean };
 

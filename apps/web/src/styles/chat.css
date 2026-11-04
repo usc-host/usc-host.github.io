@@ -12,7 +12,7 @@
   right: 0;
   bottom: 0;
   z-index: 200;
-  width: min(var(--chat-w), 100vw);
+  width: min(var(--chat-w), 100%);
   display: flex;
   flex-direction: column;
   background: var(--surface);
@@ -43,7 +43,12 @@
 }
 
 .chat--full {
-  width: 100vw;
+  width: 100%;
+  left: 0;
+  /* Follows the visible area, so the composer sits right above the keyboard. */
+  top: var(--vv-top, 0px);
+  bottom: auto;
+  height: var(--vv-height, 100dvh);
   border-left: 0;
   transform: translateY(24px);
 }
@@ -362,4 +367,43 @@
 /* The composer frame already shows focus. */
 .chat__composer textarea:focus-visible {
   outline: none;
+}
+
+.chat-location {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.chat-location__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: 18px;
+}
+
+.chat-location__body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.chat-location__body > span {
+  font-size: 0.9rem;
+  color: var(--text-2);
+}
+
+.chat-location__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
 }

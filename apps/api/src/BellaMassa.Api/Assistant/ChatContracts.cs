@@ -43,6 +43,7 @@ public static class ChatEvents
     public static object Status(string label) => new { type = "status", label };
     public static object Products(IEnumerable<ProductCard> items) => new { type = "products", items };
     public static object Proposal(CartProposal proposal) => new { type = "proposal", proposal };
+    public static object Location(string name, string address, string mapsUrl) => new { type = "location", location = new { name, address, mapsUrl } };
     public static object Done(string mode, string? model = null) => new { type = "done", mode, model };
     public static object Error(string message, bool retryable) => new { type = "error", message, retryable };
 }

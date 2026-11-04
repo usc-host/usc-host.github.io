@@ -77,6 +77,7 @@
 
 .promo__stage {
   position: relative;
+  contain: paint;
   width: 100%;
   align-self: start;
   aspect-ratio: 1600 / 718;
@@ -347,8 +348,12 @@
   margin-bottom: 20px;
 }
 
-/* Same width as the page content, so the strip never runs past the margins. */
+/* Same width as the page content, so the strip never runs past the margins.
+   clip and paint containment keep the moving track from widening the page on
+   mobile browsers that ignore hidden overflow for transformed children. */
 .marquee {
+  overflow: clip;
+  contain: paint;
   --tile-w: clamp(200px, 22vw, 270px);
   --tile-gap: 18px;
   overflow: hidden;
@@ -956,4 +961,25 @@
   .cart-line .stepper--sm output {
     min-width: 1.6ch;
   }
+}
+
+/* Cards keep one height in every filter: two lines of description and one
+   line of details are always reserved, even when shorter or empty. */
+.product-card__desc {
+  line-height: 1.45;
+  min-height: calc(2em * 1.45);
+}
+
+.product-card__meta {
+  line-height: 1.4;
+  min-height: 1.4em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.product-card h3 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

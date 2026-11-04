@@ -91,7 +91,7 @@ export default function HomePage() {
         <div className="assist-band">
           <div className="assist-band__copy">
             <span className="assist-band__badge"><MessageOutlined /> Assistente Bella Massa</span>
-            <h2>Tá em dúvida? gente dá uma mãozinha!</h2>
+            <h2>Tá em dúvida? A gente dá uma mãozinha!</h2>
             <p>Peça por ingrediente, por quantidade de pessoas ou por orçamento. O assistente consulta o cardápio e monta a sugestão com você!</p>
           </div>
           <div className="assist-band__ideas">

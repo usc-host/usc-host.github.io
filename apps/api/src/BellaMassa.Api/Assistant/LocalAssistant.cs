@@ -32,6 +32,13 @@ public static partial class LocalAssistant
         Task Say(string value) => emit(ChatEvents.Text(value));
         await emit(ChatEvents.Status("Consultando o cardápio"));
 
+        if (Regex.IsMatch(text, "endereco|onde fica|localiza|como chego|como chegar|mapa"))
+        {
+            await AssistantTools.RunAsync("show_location", null, ctx);
+            await Say("Estamos aqui. Você pode copiar o endereço ou abrir direto no Google Maps.");
+            return;
+        }
+
         foreach (var (pattern, topic) in StoreTopics)
         {
             if (!pattern.IsMatch(text)) continue;
