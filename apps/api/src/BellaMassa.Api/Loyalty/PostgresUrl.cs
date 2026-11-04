@@ -3,7 +3,8 @@ using Npgsql;
 namespace BellaMassa.Api.Loyalty;
 
 /* Render hands out postgres://user:password@host:port/database; Npgsql wants
-   key=value pairs. */
+   key=value pairs. GSS encryption is off: Render uses password over SSL, and
+   probing for Kerberos only logs a missing libgssapi_krb5 in the container. */
 public static class PostgresUrl
 {
     public static string ToConnectionString(string url)
@@ -17,7 +18,8 @@ public static class PostgresUrl
             Username = Uri.UnescapeDataString(userInfo[0]),
             Password = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : string.Empty,
             Database = uri.AbsolutePath.TrimStart('/'),
-            SslMode = uri.Host.Contains('.') ? SslMode.Require : SslMode.Prefer
+            SslMode = uri.Host.Contains('.') ? SslMode.Require : SslMode.Prefer,
+            GssEncryptionMode = GssEncryptionMode.Disable
         }.ConnectionString;
     }
 }

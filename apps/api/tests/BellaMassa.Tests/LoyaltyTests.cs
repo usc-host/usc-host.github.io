@@ -125,4 +125,15 @@ public class LoyaltyTests
         var response = await Client().GetAsync("/api/me");
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
+
+    [Fact]
+    public void Endereco_do_render_vira_conexao_com_ssl_e_sem_kerberos()
+    {
+        var builder = new Npgsql.NpgsqlConnectionStringBuilder(
+            BellaMassa.Api.Loyalty.PostgresUrl.ToConnectionString("postgres://bella:s%40nha@db.exemplo.com:5432/bella"));
+        Assert.Equal("db.exemplo.com", builder.Host);
+        Assert.Equal("s@nha", builder.Password);
+        Assert.Equal(Npgsql.SslMode.Require, builder.SslMode);
+        Assert.Equal(Npgsql.GssEncryptionMode.Disable, builder.GssEncryptionMode);
+    }
 }
