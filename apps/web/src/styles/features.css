@@ -314,8 +314,7 @@
 }
 
 /* Below this width the banner is too short for the card: they stack into
-   one piece, the card reads as the banner's footer and the page bars move
-   to the bottom right, next to the buttons. */
+   one piece and the card reads as the banner's footer. */
 @media (max-width: 1180px) {
   .promo__grid {
     grid-template-columns: 1fr;
@@ -330,39 +329,10 @@
   .promo__card {
     contain: none;
     overflow: visible;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas:
-      'eyebrow eyebrow'
-      'copy copy'
-      'actions dots';
-    align-items: center;
-    gap: 14px 16px;
+    gap: 14px;
     border-top: 0;
     border-radius: 0 0 28px 28px;
     box-shadow: var(--shadow-lg);
-  }
-
-  .promo__top {
-    display: contents;
-  }
-
-  .promo__eyebrow {
-    grid-area: eyebrow;
-    justify-self: start;
-  }
-
-  .promo__copy {
-    grid-area: copy;
-  }
-
-  .promo__actions {
-    grid-area: actions;
-  }
-
-  .promo__dots {
-    grid-area: dots;
-    justify-self: end;
   }
 
   .promo__title {
@@ -381,15 +351,6 @@
 }
 
 @media (max-width: 520px) {
-  .promo__card {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      'eyebrow'
-      'copy'
-      'actions'
-      'dots';
-  }
-
   .promo__actions .ant-btn {
     flex: 1 1 100%;
   }
