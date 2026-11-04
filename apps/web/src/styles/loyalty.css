@@ -1,0 +1,430 @@
+/* Points in the header */
+.points-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--yellow);
+  color: var(--on-yellow);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  transition: transform 0.12s ease, filter 0.18s ease;
+}
+
+.points-pill:hover {
+  filter: brightness(1.05);
+}
+
+.points-pill:active {
+  transform: scale(0.97);
+}
+
+/* Draggable sheet on phones */
+.sheet-root {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+}
+
+.sheet-scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--scrim);
+  transition: opacity 0.3s ease;
+}
+
+.sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--keyboard, 0px);
+  display: flex;
+  flex-direction: column;
+  max-height: min(92dvh, calc(var(--vv-height, 100dvh) - 16px));
+  border-radius: 24px 24px 0 0;
+  background: var(--surface);
+  box-shadow: 0 -20px 50px -20px rgba(0, 0, 0, 0.45);
+  transform: translateY(105%);
+  transition: transform 0.32s var(--ease-out), bottom 0.2s ease;
+}
+
+.sheet-root.is-visible .sheet {
+  transform: translateY(0);
+}
+
+.sheet.is-dragging {
+  transition: none;
+}
+
+.sheet__grab {
+  flex-shrink: 0;
+  padding: 10px 16px 6px;
+  touch-action: none;
+  cursor: grab;
+}
+
+.sheet__handle {
+  display: block;
+  width: 44px;
+  height: 5px;
+  margin: 0 auto 10px;
+  border-radius: 999px;
+  background: var(--border-strong);
+}
+
+.sheet__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sheet__head h2 {
+  font-size: 1.45rem;
+}
+
+.sheet__close {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.sheet__body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px 16px calc(20px + var(--safe-bottom));
+}
+
+/* Sign in content */
+.auth-modal .ant-modal-content {
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.auth-modal .ant-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 640;
+}
+
+.auth__reason {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: var(--yellow-soft);
+  color: var(--text);
+  font-weight: 650;
+  font-size: 0.92rem;
+}
+
+.auth__form .ant-form-item {
+  margin-bottom: 14px;
+}
+
+.auth__switch {
+  margin-top: 14px;
+  text-align: center;
+  color: var(--text-2);
+}
+
+.auth-code {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.auth-code__icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: 24px;
+}
+
+.auth-code > p {
+  color: var(--text-2);
+  max-width: 34ch;
+}
+
+.auth-code__otp {
+  gap: 8px !important;
+}
+
+.auth-code__otp .ant-input {
+  width: 48px;
+  height: 58px;
+  border-radius: 14px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+@media (max-width: 380px) {
+  .auth-code__otp .ant-input {
+    width: 42px;
+    height: 52px;
+  }
+}
+
+.auth-code__error {
+  min-height: 1.4em;
+  margin-top: -4px;
+  color: var(--red-ink) !important;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.auth-code__links {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.auth-code__links .text-link:disabled {
+  color: var(--text-2);
+  cursor: default;
+  text-decoration: none;
+}
+
+/* Loyalty page */
+.loyalty-hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.loyalty-hero h1 {
+  margin: 8px 0 12px;
+}
+
+.loyalty-hero__copy .muted {
+  max-width: 46ch;
+  font-size: 1.05rem;
+}
+
+.points-card {
+  display: grid;
+  gap: 10px;
+  padding: 28px;
+  border-radius: 28px;
+  color: #fff8ef;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(242, 191, 75, 0.45), transparent 50%),
+    linear-gradient(135deg, #b92c28, #7d1714);
+  box-shadow: var(--shadow-lg);
+  min-height: 210px;
+}
+
+.points-card__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.points-card__label .anticon {
+  color: #f2bf4b;
+}
+
+.points-card__value {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 2rem + 4vw, 4.6rem);
+  line-height: 1;
+}
+
+.points-card__bar {
+  height: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.22);
+  overflow: hidden;
+}
+
+.points-card__bar span {
+  display: block;
+  height: 100%;
+  background: #f2bf4b;
+  transform-origin: left;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.points-card__next {
+  font-weight: 650;
+  opacity: 0.9;
+}
+
+.loyalty-section h2 {
+  margin-bottom: 16px;
+}
+
+.reward-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.reward {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 18px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.reward.is-ready {
+  border-color: var(--green);
+}
+
+.reward__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--yellow-soft);
+  color: var(--text);
+  font-size: 20px;
+}
+
+.reward__body {
+  display: grid;
+  min-width: 0;
+}
+
+.reward__body .muted {
+  font-size: 0.86rem;
+}
+
+.reward__points {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.reward .ant-btn {
+  grid-column: 1 / -1;
+}
+
+.history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.history li {
+  display: grid;
+  grid-template-columns: 70px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+}
+
+.history li + li {
+  border-top: 1px solid var(--border);
+}
+
+.history__date {
+  color: var(--text-2);
+  font-size: 0.86rem;
+}
+
+.history__desc code,
+.voucher {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+}
+
+.voucher {
+  display: block;
+  margin: 4px 0 8px;
+  padding: 12px 18px;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+}
+
+.history__points {
+  font-weight: 800;
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+}
+
+.history__points.is-negative {
+  color: var(--red-ink);
+}
+
+/* Points on the review page */
+.points-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--yellow-soft);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.92rem;
+  text-align: left;
+}
+
+.points-hint--action {
+  cursor: pointer;
+  transition: filter 0.18s ease;
+}
+
+.points-hint--action:hover {
+  filter: brightness(0.97);
+}
+
+.earned {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--yellow-soft);
+  color: var(--text) !important;
+}
+
+@media (max-width: 860px) {
+  .loyalty-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .points-pill {
+    height: 40px;
+    padding: 0 12px;
+  }
+}
