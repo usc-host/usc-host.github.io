@@ -8,6 +8,11 @@
     <ProjectReference Include="..\BellaMassa.Domain\BellaMassa.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.14" />
+  </ItemGroup>
+
   <!-- The catalog is shared with the web app and copied next to the binaries. -->
   <ItemGroup>
     <Content Include="..\..\..\..\data\catalog.json" Link="data\catalog.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />

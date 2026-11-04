@@ -45,6 +45,7 @@ public sealed class RateLimits(AssistantSettings settings)
     public FixedWindowLimiter ChatMinute { get; } = new(settings.ChatPerMinute, TimeSpan.FromMinutes(1));
     public FixedWindowLimiter ChatDay { get; } = new(settings.ChatPerDay, TimeSpan.FromDays(1));
     public FixedWindowLimiter Quotes { get; } = new(settings.QuotesPerMinute, TimeSpan.FromMinutes(1));
+    public FixedWindowLimiter Auth { get; } = new(30, TimeSpan.FromMinutes(10));
 
     public static string ClientKey(HttpContext context) => context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
 }
