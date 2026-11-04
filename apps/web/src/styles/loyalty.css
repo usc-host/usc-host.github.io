@@ -457,9 +457,20 @@
 }
 
 .account-dropdown .ant-dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   min-width: 240px;
   padding: 8px;
   border-radius: 16px;
+}
+
+.account-dropdown .ant-dropdown-menu-item {
+  border-radius: 10px;
+}
+
+.account-dropdown .ant-dropdown-menu-item-divider {
+  margin: 2px 4px !important;
 }
 
 .account-dropdown .ant-dropdown-menu-item-disabled {
