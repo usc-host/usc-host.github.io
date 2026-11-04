@@ -476,21 +476,16 @@
   color: var(--text-2);
 }
 
-.account-dropdown__loyalty {
+.account-dropdown__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin: 2px -4px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: var(--yellow);
-  color: var(--on-yellow);
-  font-weight: 800;
 }
 
-.account-dropdown__loyalty .anticon {
-  margin-right: 6px;
+.account-dropdown__points {
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 860px) {

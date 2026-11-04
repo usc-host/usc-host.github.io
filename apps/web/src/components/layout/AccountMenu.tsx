@@ -44,11 +44,12 @@ export function AccountMenu() {
           { type: 'divider' },
           {
             key: 'loyalty',
+            icon: <StarFilled />,
             label: (
-              <div className="account-dropdown__loyalty">
-                <span><StarFilled /> Fidelidade</span>
-                <strong>{profile.points.toLocaleString('pt-BR')} pts</strong>
-              </div>
+              <span className="account-dropdown__row">
+                Fidelidade
+                <span className="account-dropdown__points">{profile.points.toLocaleString('pt-BR')} pts</span>
+              </span>
             )
           },
           { key: 'logout', icon: <LogoutOutlined />, label: 'Sair', danger: true }
