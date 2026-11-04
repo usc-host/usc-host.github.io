@@ -1,4 +1,4 @@
-import { LogoutOutlined, StarFilled, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, SettingOutlined, StarFilled, UserOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
@@ -10,7 +10,7 @@ function initials(name: string) {
 }
 
 /* Always the last item on the right: "Entrar" when signed out, the avatar with
-   a menu (points first, then sign out) when signed in. */
+   a menu (points, options, then sign out) when signed in. */
 export function AccountMenu() {
   const { profile, openAuth, signOut } = useAccount();
   const navigate = useNavigate();
@@ -52,10 +52,12 @@ export function AccountMenu() {
               </span>
             )
           },
+          { key: 'options', icon: <SettingOutlined />, label: 'Opções' },
           { key: 'logout', icon: <LogoutOutlined />, label: 'Sair', danger: true }
         ],
         onClick: ({ key }) => {
           if (key === 'loyalty') navigate('/fidelidade');
+          if (key === 'options') navigate('/conta');
           if (key === 'logout') signOut().then(() => toast('Você saiu da conta', { id: 'logout' }));
         }
       }}

@@ -41,6 +41,7 @@ export const routes: AppRoute[] = [
   page('/revisao', () => import('../pages/ReviewPage')),
   page('/sobre', () => import('../pages/AboutPage')),
   page('/fidelidade', () => import('../pages/LoyaltyPage')),
+  page('/conta', () => import('../pages/AccountPage')),
   page('*', () => import('../pages/NotFoundPage'))
 ];
 

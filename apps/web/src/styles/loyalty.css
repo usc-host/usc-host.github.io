@@ -110,6 +110,34 @@
   margin-bottom: 14px;
 }
 
+.auth__password {
+  margin-bottom: 6px !important;
+}
+
+.auth__forgot {
+  display: block;
+  margin: 0 0 14px auto;
+  font-size: 0.88rem;
+}
+
+.auth__form .auth-code__links {
+  margin-top: 16px;
+}
+
+.settings-form > p.muted {
+  margin: 0 0 16px;
+}
+
+.auth__hint {
+  margin: 0 0 16px;
+  color: var(--text-2);
+  font-size: 0.95rem;
+}
+
+.auth__form > .auth-code__icon {
+  margin: 0 auto 12px;
+}
+
 .auth__switch {
   margin-top: 14px;
   text-align: center;
@@ -722,4 +750,146 @@
 
 .address-form .ant-form-item {
   margin-bottom: 14px;
+}
+
+/* Account options */
+.account-page .page-head {
+  margin-bottom: 8px;
+}
+
+.account-tabs .ant-tabs-nav {
+  margin-bottom: 20px;
+}
+
+.account-tabs .ant-tabs-tab {
+  font-weight: 700;
+}
+
+.account-tabs .ant-tabs-tab .anticon {
+  margin-right: 6px;
+}
+
+.settings {
+  display: grid;
+  gap: 16px;
+  max-width: 720px;
+}
+
+.settings-card {
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.settings-card h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.settings-card__head {
+  display: grid;
+  gap: 4px;
+}
+
+.settings-card__head p {
+  margin: 0;
+}
+
+.settings-card--danger {
+  border-color: color-mix(in srgb, var(--red) 40%, var(--border));
+}
+
+.settings-form .ant-form-item {
+  margin-bottom: 14px;
+}
+
+.settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px 16px;
+}
+
+.settings-actions--start {
+  justify-content: flex-start;
+}
+
+.settings-row {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+}
+
+.settings-row__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: 18px;
+}
+
+.settings-row__text {
+  display: grid;
+  gap: 4px;
+}
+
+.settings-row__text p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.settings-card .address-list {
+  margin-top: 0;
+}
+
+.danger-note {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--red-soft);
+  color: var(--text);
+}
+
+.danger-note strong {
+  color: var(--red-ink);
+}
+
+.danger-note span {
+  font-size: 0.92rem;
+  color: var(--text-2);
+}
+
+@media (max-width: 520px) {
+  .settings-card {
+    padding: 18px 16px;
+  }
+
+  .settings-row {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+
+  .settings-row > :last-child {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .settings-row > .ant-switch:last-child {
+    grid-column: auto;
+    grid-row: 1;
+    grid-column-start: 3;
+  }
+
+  .settings-actions .ant-btn {
+    flex: 1 1 100%;
+  }
 }
