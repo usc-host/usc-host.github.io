@@ -1,3 +1,4 @@
+import { catalog, findDeliveryFee, type DeliveryZone } from '@bella/domain';
 import { useCallback, useEffect, useState } from 'react';
 import { local, readJson, writeJson } from '../../lib/storage';
 
@@ -13,6 +14,8 @@ export interface Address {
   street: string;
   number: string;
   district: string;
+  /* The store's neighborhood entry, which sets the delivery fee. */
+  zoneId?: string;
   city: string;
   complement?: string;
   reference?: string;
@@ -43,6 +46,16 @@ function load(): Book {
     selectedId: addresses.some(a => a.id === saved.selectedId) ? saved.selectedId! : addresses[0]?.id ?? null,
     contact: saved.contact && typeof saved.contact.name === 'string' ? saved.contact : null
   };
+}
+
+/* The neighborhood entry that sets the fee. Addresses saved before the list
+   existed are matched by name when that is unambiguous. */
+export function addressZone(a: Address): DeliveryZone | undefined {
+  const zones = catalog.store.deliveryZones ?? [];
+  const byId = a.zoneId ? zones.find(z => z.id === a.zoneId && z.status === 'approved') : undefined;
+  if (byId) return byId;
+  const r = findDeliveryFee(catalog.store, a.district, a.city);
+  return r.status === 'found' ? r.zone : undefined;
 }
 
 export function formatAddress(a: Address): string {

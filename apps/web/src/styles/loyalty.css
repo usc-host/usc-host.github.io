@@ -631,6 +631,16 @@
   font-size: 0.92rem;
 }
 
+.address-card__body .address-card__fee {
+  margin-top: 2px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.address-card__body .address-card__fee.is-missing {
+  color: var(--red-ink);
+}
+
 .address-card__tools {
   display: flex;
   gap: 2px;
@@ -685,6 +695,29 @@
     grid-template-columns: 1fr auto;
     gap: 12px;
   }
+}
+
+.form-row--zone {
+  grid-template-columns: 0.8fr 1.2fr;
+}
+
+.zone-option {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.zone-option__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zone-option__fee {
+  flex: none;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
 }
 
 .address-form .ant-form-item {

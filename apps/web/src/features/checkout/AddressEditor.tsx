@@ -1,7 +1,7 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { normalize } from '@bella/domain';
+import { catalog, deliveryOptions, findDeliveryFee, formatBRL, normalize, zoneWords, type DeliveryZone } from '@bella/domain';
 import { Button, Form, Input, Modal, Segmented, Select, type InputRef } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { BottomSheet } from '../../components/ui/BottomSheet';
 import { useIsMobile } from '../../lib/hooks';
 import { CITIES, type Address } from './addressBook';
@@ -10,6 +10,13 @@ import { cepDigits, formatCep, lookupCep } from './viacep';
 type Draft = Omit<Address, 'id'>;
 
 const LABELS = ['Casa', 'Trabalho', 'Outro'];
+
+/* The store's own zone for a free-text district, when there is exactly one. */
+function matchZone(district: string | undefined, city: string): DeliveryZone | undefined {
+  if (!district) return undefined;
+  const r = findDeliveryFee(catalog.store, district, city);
+  return r.status === 'found' ? r.zone : undefined;
+}
 
 /* Add or edit one address, in a sheet on phones and a dialog on larger screens. */
 export function AddressEditor({ open, initial, onClose, onSave }: {
@@ -24,9 +31,12 @@ export function AddressEditor({ open, initial, onClose, onSave }: {
   const numberRef = useRef<InputRef>(null);
   const lookup = useRef<AbortController | null>(null);
   const [searching, setSearching] = useState(false);
+  const city = Form.useWatch('city', form) ?? CITIES[0];
+  const zones = useMemo(() => deliveryOptions(catalog.store, city), [city]);
 
-  /* Fills street, district and city from the CEP. The customer can still
-     type everything by hand when the CEP is unknown or the service fails. */
+  /* Fills street, city and, when it matches the store's list, the
+     neighborhood. The customer can still fill everything by hand when the
+     CEP is unknown or the service fails. */
   async function fillFromCep(value: string) {
     lookup.current?.abort();
     if (cepDigits(value).length !== 8) return;
@@ -40,18 +50,15 @@ export function AddressEditor({ open, initial, onClose, onSave }: {
         form.setFields([{ name: 'cep', errors: ['CEP não encontrado. Preencha o endereço abaixo.'] }]);
         return;
       }
-      const city = CITIES.find(c => normalize(c) === normalize(found.city));
-      if (!city) {
+      const foundCity = CITIES.find(c => normalize(c) === normalize(found.city));
+      if (!foundCity) {
         form.setFields([{ name: 'cep', errors: [`Esse CEP é de ${found.city}. Entregamos em Barra Bonita e Igaraçu do Tietê.`] }]);
         return;
       }
-      form.setFieldsValue({
-        city,
-        ...(found.street && { street: found.street }),
-        ...(found.district && { district: found.district })
-      });
+      const zone = matchZone(found.district, foundCity);
+      form.setFieldsValue({ city: foundCity, zoneId: zone?.id, ...(found.street && { street: found.street }) });
       form.setFields([{ name: 'cep', errors: [] }]);
-      if (found.street) numberRef.current?.focus();
+      if (found.street && zone) numberRef.current?.focus();
     } catch {
       if (!controller.signal.aborted) form.setFields([{ name: 'cep', errors: ['Não deu para buscar o CEP agora. Preencha o endereço abaixo.'] }]);
     } finally {
@@ -64,7 +71,10 @@ export function AddressEditor({ open, initial, onClose, onSave }: {
     lookup.current?.abort();
     setSearching(false);
     form.resetFields();
-    form.setFieldsValue(initial ?? { label: 'Casa', city: CITIES[0] } as Partial<Draft>);
+    // Addresses saved before the neighborhood list get matched by name.
+    form.setFieldsValue(initial
+      ? { ...initial, zoneId: initial.zoneId ?? matchZone(initial.district, initial.city)?.id }
+      : { label: 'Casa', city: CITIES[0] } as Partial<Draft>);
   }, [open, initial, form]);
 
   const body = (
@@ -74,7 +84,13 @@ export function AddressEditor({ open, initial, onClose, onSave }: {
       layout="vertical"
       requiredMark={false}
       className="address-form"
-      onFinish={values => onSave({ ...values, id: initial?.id })}
+      onValuesChange={changed => {
+        if ('city' in changed) form.setFieldsValue({ zoneId: undefined });
+      }}
+      onFinish={values => {
+        const zone = zones.find(z => z.id === values.zoneId);
+        onSave({ ...values, district: zone?.name ?? values.district, id: initial?.id });
+      }}
     >
       <Form.Item name="label" label="Identificação">
         <Segmented block options={LABELS} />
@@ -100,20 +116,41 @@ export function AddressEditor({ open, initial, onClose, onSave }: {
           Não sei meu CEP
         </a>
       </div>
+      <div className="form-row form-row--zone">
+        <Form.Item name="city" label="Cidade" rules={[{ required: true }]}>
+          <Select size="large" options={CITIES.map(c => ({ value: c, label: c }))} />
+        </Form.Item>
+        <Form.Item name="zoneId" label="Bairro ou condomínio" rules={[{ required: true, message: 'Escolha o bairro.' }]}>
+          <Select
+            size="large"
+            placeholder="Escolha seu bairro"
+            showSearch={{
+              filterOption: (input, option) => {
+                const words = zoneWords(input);
+                const name = zoneWords(String(option?.name ?? ''));
+                return words.every(w => name.some(n => n.startsWith(w)));
+              }
+            }}
+            notFoundContent="Bairro não encontrado. Fale com a loja pelo WhatsApp."
+            options={zones.map(z => ({
+              value: z.id,
+              name: z.name,
+              label: (
+                <span className="zone-option">
+                  <span className="zone-option__name">{z.name}</span>
+                  <span className="zone-option__fee">{formatBRL(z.feeCents)}</span>
+                </span>
+              )
+            }))}
+          />
+        </Form.Item>
+      </div>
       <div className="form-row form-row--street">
         <Form.Item name="street" label="Rua" rules={[{ required: true, whitespace: true, message: 'Informe a rua.' }]}>
           <Input size="large" autoComplete="address-line1" maxLength={100} />
         </Form.Item>
         <Form.Item name="number" label="Número" rules={[{ required: true, whitespace: true, message: 'Informe o número.' }]}>
           <Input ref={numberRef} size="large" inputMode="numeric" maxLength={10} />
-        </Form.Item>
-      </div>
-      <div className="form-row">
-        <Form.Item name="district" label="Bairro" rules={[{ required: true, whitespace: true, message: 'Informe o bairro.' }]}>
-          <Input size="large" maxLength={60} />
-        </Form.Item>
-        <Form.Item name="city" label="Cidade" rules={[{ required: true }]}>
-          <Select size="large" options={CITIES.map(c => ({ value: c, label: c }))} />
         </Form.Item>
       </div>
       <Form.Item name="complement" label="Complemento">
