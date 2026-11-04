@@ -99,6 +99,37 @@ public class AssistantTests
     }
 
     [Fact]
+    public async Task Json_escrito_como_texto_vira_cartao_e_nao_aparece()
+    {
+        // Same shape as a real answer: text, then the tool arguments as raw JSON.
+        var reply = """
+            A novidade do momento é a Bella Tarê.
+
+            Quer conhecer?
+
+            {
+            "product_ids": ["bella-tare"],
+            "reasons": ["Lançamento com atum e cream cheese."]
+            }
+            """;
+        var (client, _) = Create(new ScriptedGemini((object)ScriptedGemini.Text(reply)));
+        var (events, text, _) = await Chat(client, "tem alguma novidade?");
+        Assert.DoesNotContain("{", text);
+        Assert.DoesNotContain("product_ids", text);
+        Assert.Contains("Quer conhecer?", text);
+        var cards = events.Single(e => (string?)e["type"] == "products")["items"]!.AsArray();
+        Assert.Equal(["bella-tare"], cards.Select(c => (string?)c!["productId"]));
+    }
+
+    [Fact]
+    public async Task Texto_comum_com_chaves_no_meio_continua_igual()
+    {
+        var (client, _) = Create(new ScriptedGemini((object)ScriptedGemini.Text("Combo com {pizza} e refri.")));
+        var (_, text, _) = await Chat(client, "oi");
+        Assert.Equal("Combo com {pizza} e refri.", text);
+    }
+
+    [Fact]
     public async Task Produto_inexistente_volta_como_erro_para_o_modelo()
     {
         var (client, gemini) = Create(new ScriptedGemini(

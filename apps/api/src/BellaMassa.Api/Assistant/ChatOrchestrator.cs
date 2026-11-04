@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text;
 using System.Text.Json.Nodes;
 using BellaMassa.Domain;
@@ -25,6 +26,67 @@ internal sealed class DashFilter
         var text = TextTools.CleanDashes(_pending.ToString());
         _pending.Clear();
         return text;
+    }
+}
+
+/* Models sometimes write a tool call as text, such as {"product_ids": [...]}.
+   Anything that starts a line with "{" or a code fence is held back until the
+   round ends, so it never reaches the customer as raw JSON. */
+internal sealed class JsonGuard
+{
+    private readonly StringBuilder _held = new();
+    private bool _lineStart = true;
+    private bool _holding;
+
+    public string Push(string text)
+    {
+        var output = new StringBuilder();
+        foreach (var c in text)
+        {
+            if (_holding)
+            {
+                _held.Append(c);
+                continue;
+            }
+            if (_lineStart && (c == '{' || c == '`'))
+            {
+                _holding = true;
+                _held.Append(c);
+                continue;
+            }
+            output.Append(c);
+            if (c == '\n') _lineStart = true;
+            else if (!char.IsWhiteSpace(c)) _lineStart = false;
+        }
+        return output.ToString();
+    }
+
+    public string TakeHeld()
+    {
+        var held = _held.ToString();
+        _held.Clear();
+        _holding = false;
+        _lineStart = true;
+        return held;
+    }
+
+    /* The held block as JSON, without code fences, or null when it is prose. */
+    public static JsonObject? AsJson(string held)
+    {
+        var text = held.Trim();
+        if (text.StartsWith("```", StringComparison.Ordinal))
+        {
+            text = text.Trim('`').Trim();
+            if (text.StartsWith("json", StringComparison.OrdinalIgnoreCase)) text = text[4..];
+        }
+        try
+        {
+            return JsonNode.Parse(text) as JsonObject;
+        }
+        catch (JsonException)
+        {
+            return null;
+        }
     }
 }
 
@@ -61,6 +123,7 @@ public sealed class ChatOrchestrator(GeminiClient gemini, AssistantSettings sett
 
         var ctx = new ToolContext(index, cart, emit);
         var filter = new DashFilter();
+        var guard = new JsonGuard();
         var toolCalls = 0;
         var wroteText = false;
         var model = settings.Model;
@@ -99,10 +162,25 @@ public sealed class ChatOrchestrator(GeminiClient gemini, AssistantSettings sett
                 {
                     modelParts.Add(part);
                     if (part["text"] is JsonValue text && part["thought"]?.GetValue<bool>() != true)
-                        await Write(filter.Push(text.GetValue<string>()));
+                        await Write(guard.Push(filter.Push(text.GetValue<string>())));
                 }
             }
-            await Write(filter.Flush());
+            await Write(guard.Push(filter.Flush()));
+            var held = guard.TakeHeld();
+            if (held.Length > 0)
+            {
+                // A product list written as text becomes the cards it meant to be.
+                if (JsonGuard.AsJson(held) is { } json)
+                {
+                    var args = json["args"] as JsonObject ?? json;
+                    if (args["product_ids"] is JsonArray)
+                        await AssistantTools.RunAsync("show_products", args, ctx);
+                }
+                else
+                {
+                    await Write(held);
+                }
+            }
 
             var calls = modelParts.Where(p => p["functionCall"] is JsonObject).ToList();
             if (calls.Count == 0)
