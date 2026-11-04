@@ -316,8 +316,10 @@
 /* Below this width the banner is too short for the card: they stack into
    one piece and the card reads as the banner's footer. */
 @media (max-width: 1180px) {
+  /* minmax keeps the column at the page width: a longer button or title on
+     the next slide must not widen the banner. */
   .promo__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0;
   }
 
@@ -327,6 +329,7 @@
   }
 
   .promo__card {
+    min-width: 0;
     contain: none;
     overflow: visible;
     gap: 14px;
@@ -351,8 +354,13 @@
 }
 
 @media (max-width: 520px) {
+  .promo__actions {
+    flex-wrap: wrap;
+  }
+
   .promo__actions .ant-btn {
     flex: 1 1 100%;
+    min-width: 0;
   }
 }
 
