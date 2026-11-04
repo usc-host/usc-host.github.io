@@ -32,7 +32,12 @@
   --art-leaf: #3f7d4f;
   --scrollbar: rgba(25, 23, 20, 0.26);
   --scrollbar-hover: rgba(25, 23, 20, 0.45);
+}
 
+/* Sizes and fonts are the same in both themes. They live apart from the
+   colors because the theme selectors outrank plain :root, which would keep
+   a breakpoint like the mobile header height from applying in one theme. */
+:root {
   --font-ui: 'Manrope Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Montserrat Variable', 'Manrope Variable', system-ui, sans-serif;
   --radius-lg: 24px;
