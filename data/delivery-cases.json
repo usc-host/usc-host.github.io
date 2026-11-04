@@ -1,0 +1,16 @@
+{
+  "note": "Casos de taxa por bairro que valem para o site e para a API.",
+  "cases": [
+    { "name": "nome exato", "district": "Jardim Panorama", "status": "found", "feeCents": 800 },
+    { "name": "abreviação e acento", "district": "jd. sao caetano", "status": "found", "feeCents": 800 },
+    { "name": "mesmo bairro escrito de dois jeitos com a mesma taxa", "district": "Jardim Brasil", "status": "found", "feeCents": 800 },
+    { "name": "cidade abreviada na lista", "district": "Centro Igaraçu", "status": "found", "feeCents": 1000 },
+    { "name": "sem a cidade, centro tem duas taxas", "district": "Centro", "status": "ambiguous", "options": 2 },
+    { "name": "nome exato vence o parcial", "district": "Camil", "status": "found", "feeCents": 2500 },
+    { "name": "taxas diferentes para o mesmo nome", "district": "Vista Alegre", "status": "ambiguous", "options": 3 },
+    { "name": "valor zerado pede confirmação", "district": "Fazenda", "status": "confirm" },
+    { "name": "bairro com taxa maior", "district": "Pátio da Usina", "status": "found", "feeCents": 1500 },
+    { "name": "bairro fora da lista", "district": "Copacabana", "status": "not_found" },
+    { "name": "texto vazio", "district": "  ", "status": "not_found" }
+  ]
+}

@@ -4,4 +4,5 @@ export * from './money.ts';
 export * from './text.ts';
 export * from './search.ts';
 export * from './quote.ts';
+export * from './delivery.ts';
 export * from './chat.ts';

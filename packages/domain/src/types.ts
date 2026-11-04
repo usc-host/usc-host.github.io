@@ -26,6 +26,34 @@ export interface Store {
   tagline: string;
   logo: Image;
   info: StoreInfo[];
+  hours?: OpeningHours[];
+  times?: { delivery: string; pickup: string };
+  /* Accepted on delivery or at the counter. The site does not take payments. */
+  payments?: PaymentMethod[];
+  deliveryZones?: DeliveryZone[];
+}
+
+export interface OpeningHours {
+  /* 0 is Sunday, like Date.getDay(). */
+  day: number;
+  label: string;
+  open: string;
+  close: string;
+}
+
+export interface PaymentMethod {
+  id: string;
+  label: string;
+  note?: string;
+}
+
+export interface DeliveryZone {
+  name: string;
+  sector: string | null;
+  city?: string;
+  feeCents: number;
+  status: RecordStatus;
+  note?: string;
 }
 
 export interface Category {
