@@ -786,6 +786,7 @@
 
 .builder-bar__action {
   flex: 1;
+  min-width: 0;
   display: grid;
   gap: 6px;
 }
@@ -800,10 +801,21 @@
   height: 52px;
   display: flex;
   justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
   padding-inline: 22px;
 }
 
+/* The label gives way before the price: it shortens, then ellipsizes. */
+.builder-bar__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .builder-bar__total {
+  flex: none;
   font-variant-numeric: tabular-nums;
 }
 
@@ -825,8 +837,27 @@
     box-shadow: 0 -12px 30px -20px rgba(0, 0, 0, 0.35);
   }
 
+  .builder-bar {
+    gap: 10px;
+  }
+
   .builder-bar .stepper {
+    flex: none;
     height: 52px;
+  }
+
+  .builder-bar .stepper button {
+    width: 38px;
+  }
+
+  .builder-bar .ant-btn {
+    padding-inline: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .builder-bar__long {
+    display: none;
   }
 }
 

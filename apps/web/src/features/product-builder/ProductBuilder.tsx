@@ -452,7 +452,9 @@ export function ProductBuilder({ product, variant, onVariant, initial, editingId
         <div className="builder-bar__action">
           {!quote?.ok && blocking && <span className="builder-bar__hint">{blocking}</span>}
           <Button type="primary" size="large" shape="round" block disabled={!quote?.ok} onClick={submit}>
-            {editingId ? 'Salvar alterações' : 'Adicionar ao carrinho'}
+            <span className="builder-bar__label">
+              {editingId ? <>Salvar<span className="builder-bar__long"> alterações</span></> : <>Adicionar<span className="builder-bar__long"> ao carrinho</span></>}
+            </span>
             {quote?.totalCents != null && <span className="builder-bar__total">{formatBRL(quote.totalCents)}</span>}
           </Button>
         </div>
