@@ -247,6 +247,47 @@ public class AssistantTests
     }
 
     [Fact]
+    public async Task Consultas_demais_nao_descartam_o_que_ja_foi_mostrado()
+    {
+        JsonObject[] Search() => ScriptedGemini.Call("search_menu", new JsonObject { ["query"] = "queijo" });
+        var show = ScriptedGemini.Call("show_products", new JsonObject { ["product_ids"] = new JsonArray("cupim-supremo") });
+        var (client, gemini) = Create(new ScriptedGemini(show, Search(), Search(), Search()),
+            ("CHAT_MAX_TOOL_CALLS", "3"));
+        var (events, text, _) = await Chat(client, "sou vegetariano, tem algo?");
+        Assert.DoesNotContain(events, e => (string?)e["type"] == "error");
+        Assert.Contains(events, e => (string?)e["type"] == "products");
+        Assert.Equal(ChatOrchestrator.ShownFallback, text);
+        // The last round is sent without tools and its call is ignored.
+        Assert.Equal("NONE", (string?)gemini.Requests[^1].Body["toolConfig"]!["functionCallingConfig"]!["mode"]);
+    }
+
+    [Fact]
+    public async Task Texto_ja_escrito_aparece_mesmo_sem_consultas_restantes()
+    {
+        var talk = new[] { new JsonObject { ["text"] = "Separei uma opção." }, ScriptedGemini.Call("search_menu", new JsonObject { ["query"] = "x" })[0] };
+        var search = ScriptedGemini.Call("search_menu", new JsonObject { ["query"] = "queijo" });
+        var (client, _) = Create(new ScriptedGemini(talk, search), ("CHAT_MAX_TOOL_CALLS", "1"));
+        var (events, text, _) = await Chat(client, "tem pizza de queijo?");
+        Assert.DoesNotContain(events, e => (string?)e["type"] == "error");
+        Assert.Equal("Separei uma opção.", text);
+    }
+
+    [Fact]
+    public void Busca_sem_carne_separa_confirmado_e_so_pelo_nome()
+    {
+        var index = BellaMassa.Domain.CatalogIndex.Load(Path.Combine(AppContext.BaseDirectory, "data", "catalog.json"));
+        var found = BellaMassa.Domain.MenuSearch.Search(index, new BellaMassa.Domain.SearchInput(MeatFree: true));
+        Assert.DoesNotContain(found, p => p.Id is "cupim-supremo" or "bella-tare" or "bebidas");
+        var builder = BellaMassa.Domain.MenuSearch.MeatFree(index, index.Product("monte-sua-pizza")!);
+        Assert.Contains("3 Queijos", builder.Confirmed);
+        Assert.DoesNotContain("Bella Tarê", builder.ByNameOnly);
+        var esfihas = BellaMassa.Domain.MenuSearch.MeatFree(index, index.Product("esfihas-salgadas")!);
+        Assert.Contains("Queijo", esfihas.ByNameOnly);
+        Assert.DoesNotContain("Hot dog", esfihas.ByNameOnly);
+        Assert.DoesNotContain("Pizza", esfihas.ByNameOnly);
+    }
+
+    [Fact]
     public async Task Modelo_travado_passa_direto_para_o_reserva()
     {
         var (client, gemini) = Create(new ScriptedGemini(TimeSpan.FromMinutes(1), ScriptedGemini.Text("Olá!")),

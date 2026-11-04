@@ -76,7 +76,8 @@ public static class AssistantTools
                 "query": { "type": "STRING", "description": "Palavras de busca, por exemplo queijo coalho ou frango" },
                 "category": { "type": "STRING", "enum": ["novidades", "premium", "monte", "gigantes", "doces", "esfihas", "combos", "bebidas"] },
                 "kind": { "type": "STRING", "enum": ["salgada", "doce"] },
-                "max_price_reais": { "type": "NUMBER", "description": "Valor máximo em reais para o preço inicial do produto" }
+                "max_price_reais": { "type": "NUMBER", "description": "Valor máximo em reais para o preço inicial do produto" },
+                "sem_carne": { "type": "BOOLEAN", "description": "Só opções sem carne, para vegetarianos. Uma chamada basta: não busque ingrediente por ingrediente." }
               }
             }
           },
@@ -141,7 +142,7 @@ public static class AssistantTools
         ]
         """)!.AsArray();
 
-    private sealed record SearchArgs(string? Query, string? Category, string? Kind, double? Max_price_reais);
+    private sealed record SearchArgs(string? Query, string? Category, string? Kind, double? Max_price_reais, bool? Sem_carne);
     private sealed record ProductArgs(string? Product_id);
     private sealed record QuoteArgs(List<ModelLine>? Lines);
     private sealed record StoreArgs(string? Topic);
@@ -200,9 +201,23 @@ public static class AssistantTools
     {
         if (args.Query is { Length: > 80 } || args.Category is { Length: > 20 } || args.Kind is not (null or "salgada" or "doce") || args.Max_price_reais is <= 0 or > 10000)
             return Error("Argumentos inválidos.");
+        var meatFree = args.Sem_carne == true;
         var results = MenuSearch.Search(ctx.Index, new SearchInput(
-            args.Query, args.Category, args.Max_price_reais is { } max ? (int)Math.Round(max * 100) : null, args.Kind));
-        return Obj(new { count = results.Count, results = results.Take(6).Select(p => Brief(ctx.Index, p)) });
+            args.Query, args.Category, args.Max_price_reais is { } max ? (int)Math.Round(max * 100) : null, args.Kind, meatFree));
+        if (!meatFree) return Obj(new { count = results.Count, results = results.Take(6).Select(p => Brief(ctx.Index, p)) });
+        return Obj(new
+        {
+            count = results.Count,
+            results = results.Take(6).Select(p =>
+            {
+                var options = MenuSearch.MeatFree(ctx.Index, p);
+                var brief = Obj(Brief(ctx.Index, p));
+                brief["sem_carne_pelos_ingredientes"] = JsonSerializer.SerializeToNode(options.Confirmed);
+                brief["sem_carne_so_pelo_nome"] = JsonSerializer.SerializeToNode(options.ByNameOnly);
+                return brief;
+            }),
+            note = "sem_carne_pelos_ingredientes vem da lista cadastrada. sem_carne_so_pelo_nome não tem ingredientes cadastrados: diga que parece não levar carne e que vale confirmar com a loja. Não garanta que nada é vegetariano ou vegano."
+        });
     }
 
     private static JsonObject GetProduct(ProductArgs args, ToolContext ctx)
