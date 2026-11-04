@@ -20,6 +20,20 @@ export function zoneWords(value: string): string[] {
     .filter(w => w && !IGNORED.has(w));
 }
 
+/* Search as the customer types in the neighborhood picker. Each typed word
+   is a prefix of some word in the name, and abbreviations work both ways:
+   "jardim" finds "Jd. Brasil" and "jd" finds "Jardim Panorama". Typed words
+   are not expanded, so a lone "b" still finds "Brasil". */
+export function matchesZoneSearch(name: string, input: string): boolean {
+  const raw = normalize(name).replace(/[^a-z0-9]+/g, ' ').split(' ').filter(Boolean);
+  const words = [...raw, ...raw.flatMap(w => ABBREVIATIONS[w] ?? [])];
+  const typed = normalize(input).replace(/[^a-z0-9]+/g, ' ').split(' ').filter(w => w && !IGNORED.has(w));
+  return typed.every(t => {
+    const full = ABBREVIATIONS[t] ?? [];
+    return words.some(w => w.startsWith(t) || full.some(f => w.startsWith(f)));
+  });
+}
+
 export type DeliveryLookup =
   | { status: 'found'; zone: DeliveryZone; feeCents: number }
   | { status: 'ambiguous'; options: DeliveryZone[] }

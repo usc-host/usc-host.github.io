@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import cases from '../../../data/delivery-cases.json' with { type: 'json' };
 import { defaultIndex } from './catalog.ts';
-import { deliveryOptions, findDeliveryFee, openState } from './delivery.ts';
+import { deliveryOptions, findDeliveryFee, matchesZoneSearch, openState } from './delivery.ts';
 
 /* The same file runs in the C# suite. */
 interface Case {
@@ -34,6 +34,21 @@ describe('bairros para escolher', () => {
     expect(it.length).toBeGreaterThan(30);
     expect([...bb, ...it].every(z => z.feeCents > 0)).toBe(true);
     expect(new Set([...bb, ...it].map(z => z.id)).size).toBe(bb.length + it.length);
+  });
+});
+
+describe('busca no seletor de bairros', () => {
+  it('jardim encontra Jd. e jd encontra Jardim', () => {
+    expect(matchesZoneSearch('Jd. Brasil', 'Jardim')).toBe(true);
+    expect(matchesZoneSearch('Jd. Brasil', 'jardim bra')).toBe(true);
+    expect(matchesZoneSearch('Jardim Panorama', 'jd pan')).toBe(true);
+    expect(matchesZoneSearch('Res. Cestari', 'residencial')).toBe(true);
+  });
+  it('enquanto digita, sem acento e sem trocar letras soltas', () => {
+    expect(matchesZoneSearch('Jd. Brasil', 'jard')).toBe(true);
+    expect(matchesZoneSearch('Jd. Brasil', 'jardim b')).toBe(true);
+    expect(matchesZoneSearch('Vila São João', 'sao joao')).toBe(true);
+    expect(matchesZoneSearch('Jd. Brasil', 'jardim panorama')).toBe(false);
   });
 });
 

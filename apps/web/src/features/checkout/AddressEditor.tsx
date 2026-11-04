@@ -1,5 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { catalog, deliveryOptions, findDeliveryFee, formatBRL, normalize, zoneWords, type DeliveryZone } from '@bella/domain';
+import { catalog, deliveryOptions, findDeliveryFee, formatBRL, matchesZoneSearch, normalize, type DeliveryZone } from '@bella/domain';
 import { Button, Form, Input, Modal, Segmented, Select, type InputRef } from 'antd';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BottomSheet } from '../../components/ui/BottomSheet';
@@ -125,11 +125,7 @@ export function AddressEditor({ open, initial, onClose, onSave }: {
             size="large"
             placeholder="Escolha seu bairro"
             showSearch={{
-              filterOption: (input, option) => {
-                const words = zoneWords(input);
-                const name = zoneWords(String(option?.name ?? ''));
-                return words.every(w => name.some(n => n.startsWith(w)));
-              }
+              filterOption: (input, option) => matchesZoneSearch(String(option?.name ?? ''), input)
             }}
             notFoundContent="Bairro não encontrado. Fale com a loja pelo WhatsApp."
             options={zones.map(z => ({
