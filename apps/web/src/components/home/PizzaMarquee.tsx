@@ -175,6 +175,7 @@ export function PizzaMarquee() {
     <section className="section marquee-section" aria-labelledby="marquee-title">
       <div className="container section__head">
         <div>
+          <span className="eyebrow">{ranked ? 'Os favoritos' : 'Da nossa cozinha'}</span>
           <h2 id="marquee-title">{ranked ? 'Mais pedidas' : 'Sabores da casa'}</h2>
         </div>
         <Link to="/cardapio?categoria=premium" className="text-link">Ver todas <ArrowRightOutlined /></Link>
