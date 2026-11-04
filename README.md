@@ -47,8 +47,8 @@ API (Render ou user-secrets), lista completa em `apps/api/.env.example`:
 | Variável | Uso |
 |---|---|
 | `GEMINI_API_KEY` | Chave do Google AI Studio. Sem ela, produção fica com o assistente indisponível. |
-| `GEMINI_MODEL` | Modelo principal, padrão `gemini-3.8-flash`. |
-| `GEMINI_FALLBACK_MODEL` | Modelo tentado após falhas temporárias. Opcional. |
+| `GEMINI_MODEL` | Modelo principal, padrão `gemini-3.5-flash-lite`. |
+| `GEMINI_FALLBACK_MODEL` | Modelo tentado após falhas temporárias ou quando o principal trava, como `gemini-3.1-flash-lite`. Opcional. |
 | `GEMINI_THINKING_LEVEL` | `minimal`, `low`, `medium` ou `high`, para modelos que aceitam. |
 | `ALLOWED_ORIGINS` | Origens do site autorizadas no CORS. |
 | `CHAT_*`, `QUOTES_*` | Limites de mensagem, histórico, ferramentas, tempo e taxa por IP. |

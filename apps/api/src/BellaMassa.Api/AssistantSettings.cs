@@ -46,7 +46,7 @@ public sealed partial record AssistantSettings
         {
             Mode = mode,
             ApiKey = apiKey,
-            Model = ModelPattern().IsMatch(model) ? model : "gemini-3.8-flash",
+            Model = ModelPattern().IsMatch(model) ? model : "gemini-3.5-flash-lite",
             FallbackModel = ModelPattern().IsMatch(fallback) ? fallback : string.Empty,
             ThinkingLevel = thinking is "minimal" or "low" or "medium" or "high" ? thinking : string.Empty,
             Retries = Int("GEMINI_RETRIES", 2, 1, 4),

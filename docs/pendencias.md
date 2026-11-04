@@ -26,7 +26,7 @@ Itens que dependem da pizzaria ou de credenciais. Nenhum deles impede a apresent
 | Item | Situação |
 |---|---|
 | Chave do Gemini | Pendente. Sem ela a API em produção responde que o assistente está indisponível; em desenvolvimento roda o modo local. A avaliação real do assistente depende dela. |
-| Modelo | `gemini-3.8-flash`, o mesmo padrão do UNI. Confirmar disponibilidade para a chave usada. |
+| Modelo | `gemini-3.5-flash-lite`, com `gemini-3.1-flash-lite` de reserva. O `gemini-3.8-flash` ficava sobrecarregado com frequência. |
 | URL da API no Render | Definir `VITE_API_URL` nas variáveis do repositório depois do primeiro deploy. |
 | WhatsApp para receber pedidos | `VITE_ORDER_WHATSAPP` vazio por padrão, para nenhum resumo ser enviado à loja real sem combinação. |
 | Plano gratuito do Render | A API dorme após inatividade e pode levar cerca de 1 minuto para acordar. O site faz uma chamada de aquecimento ao abrir e o cardápio funciona sem a API. |
