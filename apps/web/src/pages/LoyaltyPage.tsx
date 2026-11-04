@@ -1,4 +1,4 @@
-import { CheckCircleFilled, CopyOutlined, GiftOutlined, LogoutOutlined, ShoppingOutlined, StarFilled } from '@ant-design/icons';
+import { CheckCircleFilled, CopyOutlined, GiftOutlined, ShoppingOutlined, StarFilled } from '@ant-design/icons';
 import { Button, Modal, Popconfirm } from 'antd';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -19,7 +19,7 @@ const dateFormat = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'sh
 
 export default function LoyaltyPage() {
   usePageTitle('Fidelidade');
-  const { token, profile, loading, openAuth, signOut, setProfile } = useAccount();
+  const { token, profile, loading, openAuth, setProfile } = useAccount();
   const navigate = useNavigate();
   const [voucher, setVoucher] = useState<{ code: string; reward: Reward } | null>(null);
   const [redeeming, setRedeeming] = useState<string | null>(null);
@@ -115,10 +115,7 @@ export default function LoyaltyPage() {
 
       {profile && (
         <section className="section loyalty-section" aria-labelledby="history-title">
-          <div className="section__head">
-            <h2 id="history-title">Histórico</h2>
-            <Button type="text" icon={<LogoutOutlined />} onClick={() => signOut().then(() => toast('Você saiu da conta', { id: 'logout' }))}>Sair</Button>
-          </div>
+          <h2 id="history-title">Histórico</h2>
           {profile.history.length === 0 ? (
             <p className="muted">Seus pontos aparecem aqui depois do primeiro pedido concluído.</p>
           ) : (
