@@ -62,7 +62,6 @@
 
 .hero h1 em {
   font-style: italic;
-  font-variation-settings: 'SOFT' 100, 'WONK' 1;
   color: var(--red-ink);
 }
 

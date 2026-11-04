@@ -77,7 +77,6 @@ h3,
 .display {
   font-family: var(--font-display);
   font-optical-sizing: auto;
-  font-variation-settings: 'SOFT' 40;
   font-weight: 640;
   letter-spacing: -0.015em;
   line-height: 1.08;

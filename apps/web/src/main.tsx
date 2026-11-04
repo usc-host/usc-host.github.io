@@ -1,4 +1,4 @@
-import '@fontsource-variable/fraunces/full.css';
+import '@fontsource-variable/montserrat';
 import '@fontsource-variable/manrope';
 import './styles/tokens.css';
 import './styles/base.css';
