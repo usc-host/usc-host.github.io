@@ -6,6 +6,8 @@
     { "name": "mesmo bairro escrito de dois jeitos com a mesma taxa", "district": "Jardim Brasil", "status": "found", "feeCents": 800 },
     { "name": "cidade abreviada na lista", "district": "Centro Igaraçu", "status": "found", "feeCents": 1000 },
     { "name": "sem a cidade, centro tem duas taxas", "district": "Centro", "status": "ambiguous", "options": 2 },
+    { "name": "com a cidade, centro tem uma taxa", "district": "Centro", "city": "Barra Bonita", "status": "found", "feeCents": 800 },
+    { "name": "cidade separa bairros de mesmo nome", "district": "Vista Alegre", "city": "igaracu do tiete", "status": "found", "feeCents": 800 },
     { "name": "nome exato vence o parcial", "district": "Camil", "status": "found", "feeCents": 2500 },
     { "name": "taxas diferentes para o mesmo nome", "district": "Vista Alegre", "status": "ambiguous", "options": 3 },
     { "name": "valor zerado pede confirmação", "district": "Fazenda", "status": "confirm" },

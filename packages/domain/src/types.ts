@@ -48,9 +48,10 @@ export interface PaymentMethod {
 }
 
 export interface DeliveryZone {
+  id: string;
   name: string;
   sector: string | null;
-  city?: string;
+  city: string;
   feeCents: number;
   status: RecordStatus;
   note?: string;

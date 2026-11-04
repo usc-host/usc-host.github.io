@@ -32,16 +32,27 @@ function covers(zone: string[], query: string[]) {
   return query.every(q => zone.some(z => z === q || (q.length >= 4 && z.startsWith(q))));
 }
 
+const sameCity = (zone: DeliveryZone, city?: string) => !city || normalize(zone.city) === normalize(city);
+
+/* Neighborhoods a customer can pick for a city, in alphabetical order.
+   Entries with an invalid fee stay out until the store fixes them. */
+export function deliveryOptions(store: Store, city: string): DeliveryZone[] {
+  return (store.deliveryZones ?? [])
+    .filter(z => z.status === 'approved' && sameCity(z, city))
+    .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+}
+
 /* Exact names win over partial ones, so "Camil" is not mistaken for
    "Conjunto Camilo Saade". When every match costs the same the answer is
    that fee; otherwise the customer picks one of the options. */
-export function findDeliveryFee(store: Store, district: string): DeliveryLookup {
+export function findDeliveryFee(store: Store, district: string, city?: string): DeliveryLookup {
   const query = zoneWords(district);
   if (!query.length) return { status: 'not_found' };
-  const zones = store.deliveryZones ?? [];
+  const zones = (store.deliveryZones ?? []).filter(z => sameCity(z, city));
   const key = query.join(' ');
   const exact = zones.filter(z => zoneWords(z.name).join(' ') === key);
-  const matches = exact.length ? exact : zones.filter(z => covers(zoneWords(z.name), query));
+  // The city may come inside the text, as in "Centro de Igaraçu".
+  const matches = exact.length ? exact : zones.filter(z => covers(zoneWords(`${z.name} ${z.city}`), query));
   if (!matches.length) return { status: 'not_found' };
 
   const fees = new Set(matches.map(z => z.feeCents));
