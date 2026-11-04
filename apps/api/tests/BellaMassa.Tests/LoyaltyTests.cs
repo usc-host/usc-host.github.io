@@ -136,4 +136,90 @@ public class LoyaltyTests
         Assert.Equal(Npgsql.SslMode.Require, builder.SslMode);
         Assert.Equal(Npgsql.GssEncryptionMode.Disable, builder.GssEncryptionMode);
     }
+
+    [Fact]
+    public async Task Esqueci_a_senha_troca_a_senha_com_codigo_e_derruba_as_sessoes()
+    {
+        var (client, email) = await SignedIn();
+        var forgot = await Json(await Client().PostAsJsonAsync("/api/auth/forgot", new { email }));
+        Assert.Equal("reset", (string?)forgot["purpose"]);
+        var code = (string?)forgot["devCode"];
+
+        // The reset code does not sign in by itself.
+        var verify = await Client().PostAsJsonAsync("/api/auth/verify", new { email, code });
+        Assert.Equal(HttpStatusCode.BadRequest, verify.StatusCode);
+
+        var reset = await Client().PostAsJsonAsync("/api/auth/reset", new { email, code, password = "novasenha123" });
+        Assert.Equal(HttpStatusCode.OK, reset.StatusCode);
+        Assert.False(string.IsNullOrEmpty((string?)(await Json(reset))["token"]));
+        Assert.Equal(HttpStatusCode.Unauthorized, (await client.GetAsync("/api/me")).StatusCode);
+
+        var login = await Client().PostAsJsonAsync("/api/auth/login", new { email, password = "novasenha123" });
+        Assert.Equal(HttpStatusCode.OK, login.StatusCode);
+    }
+
+    [Fact]
+    public async Task Esqueci_a_senha_responde_igual_para_email_sem_conta()
+    {
+        var response = await Client().PostAsJsonAsync("/api/auth/forgot", new { email = NewEmail() });
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var body = await Json(response);
+        Assert.True((bool)body["needsVerification"]!);
+        Assert.Null(body["devCode"]);
+    }
+
+    [Fact]
+    public async Task Duas_etapas_pede_codigo_no_login()
+    {
+        var (client, email) = await SignedIn();
+        var wrong = await client.PostAsJsonAsync("/api/me/two-factor", new { enabled = true, password = "errada123" });
+        Assert.Equal(HttpStatusCode.BadRequest, wrong.StatusCode);
+        var on = await Json(await client.PostAsJsonAsync("/api/me/two-factor", new { enabled = true, password = "segredo123" }));
+        Assert.True((bool)on["twoFactor"]!);
+
+        var login = await Json(await Client().PostAsJsonAsync("/api/auth/login", new { email, password = "segredo123" }));
+        Assert.Equal("login", (string?)login["purpose"]);
+        Assert.Null(login["token"]);
+        var ok = await Client().PostAsJsonAsync("/api/auth/verify", new { email, code = (string?)login["devCode"] });
+        Assert.Equal(HttpStatusCode.OK, ok.StatusCode);
+    }
+
+    [Fact]
+    public async Task Troca_de_senha_exige_a_atual_e_mantem_este_aparelho()
+    {
+        var (client, email) = await SignedIn();
+        var other = Client();
+        var otherLogin = await Json(await other.PostAsJsonAsync("/api/auth/login", new { email, password = "segredo123" }));
+        other.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (string?)otherLogin["token"]);
+
+        var wrong = await client.PostAsJsonAsync("/api/me/password", new { currentPassword = "errada123", newPassword = "outrasenha1" });
+        Assert.Equal(HttpStatusCode.BadRequest, wrong.StatusCode);
+        var ok = await client.PostAsJsonAsync("/api/me/password", new { currentPassword = "segredo123", newPassword = "outrasenha1" });
+        Assert.Equal(HttpStatusCode.OK, ok.StatusCode);
+        Assert.Equal(1, (int)(await Json(ok))["sessions"]!);
+        Assert.Equal(HttpStatusCode.OK, (await client.GetAsync("/api/me")).StatusCode);
+        Assert.Equal(HttpStatusCode.Unauthorized, (await other.GetAsync("/api/me")).StatusCode);
+    }
+
+    [Fact]
+    public async Task Dados_da_conta_podem_ser_editados()
+    {
+        var (client, _) = await SignedIn();
+        var bad = await client.PostAsJsonAsync("/api/me/profile", new { name = "A", phone = "12" });
+        Assert.Equal(HttpStatusCode.BadRequest, bad.StatusCode);
+        var ok = await Json(await client.PostAsJsonAsync("/api/me/profile", new { name = "Ana Souza", phone = "(14) 98888-7777" }));
+        Assert.Equal("Ana Souza", (string?)ok["name"]);
+        Assert.Equal("14988887777", (string?)ok["phone"]);
+    }
+
+    [Fact]
+    public async Task Apagar_conta_exige_senha_e_remove_tudo()
+    {
+        var (client, email) = await SignedIn();
+        Assert.Equal(HttpStatusCode.BadRequest, (await client.PostAsJsonAsync("/api/me/delete", new { password = "errada123" })).StatusCode);
+        Assert.Equal(HttpStatusCode.NoContent, (await client.PostAsJsonAsync("/api/me/delete", new { password = "segredo123" })).StatusCode);
+        Assert.Equal(HttpStatusCode.Unauthorized, (await client.GetAsync("/api/me")).StatusCode);
+        var login = await Client().PostAsJsonAsync("/api/auth/login", new { email, password = "segredo123" });
+        Assert.Equal(HttpStatusCode.Unauthorized, login.StatusCode);
+    }
 }

@@ -11,6 +11,11 @@ public sealed record EmailRequest(string? Email);
 public sealed record LoginRequest(string? Email, string? Password);
 public sealed record EarnRequest(string? OrderCode, List<LineConfig>? Lines);
 public sealed record RedeemRequest(string? RewardId);
+public sealed record ResetRequest(string? Email, string? Code, string? Password);
+public sealed record ProfileRequest(string? Name, string? Phone);
+public sealed record PasswordRequest(string? CurrentPassword, string? NewPassword);
+public sealed record TwoFactorRequest(bool Enabled, string? Password);
+public sealed record PasswordConfirmRequest(string? Password);
 
 public static partial class LoyaltyEndpoints
 {
@@ -42,7 +47,15 @@ public static partial class LoyaltyEndpoints
         auth.MapPost("/resend", Resend);
         auth.MapPost("/login", Login);
         auth.MapPost("/logout", Logout);
+        auth.MapPost("/forgot", Forgot);
+        auth.MapPost("/reset", Reset);
         api.MapGet("/me", Me);
+        var me = api.MapGroup("/me");
+        me.MapPost("/profile", UpdateProfile);
+        me.MapPost("/password", ChangePassword);
+        me.MapPost("/two-factor", SetTwoFactor);
+        me.MapPost("/sessions/end-others", EndOtherSessions);
+        me.MapPost("/delete", DeleteAccount);
         api.MapPost("/loyalty/earn", Earn);
         api.MapPost("/loyalty/redeem", Redeem);
         api.MapGet("/loyalty/rewards", () => Results.Ok(new { rewards = Rewards.All }));
@@ -63,7 +76,7 @@ public static partial class LoyaltyEndpoints
 
     /* Creates a fresh code (older ones stop working) and e-mails it. Outside
        production, without an e-mail key, the code comes back in the response. */
-    private static async Task<IResult> SendCode(LoyaltyDb db, Customer customer, EmailSender email, IHostEnvironment env, CancellationToken ct)
+    private static async Task<IResult> SendCode(LoyaltyDb db, Customer customer, EmailSender email, IHostEnvironment env, CancellationToken ct, string purpose = CodePurpose.Verify)
     {
         var last = await db.Codes.Where(c => c.CustomerId == customer.Id).OrderByDescending(c => c.CreatedAt).FirstOrDefaultAsync(ct);
         if (last is not null && !last.Used && DateTimeOffset.UtcNow - last.CreatedAt < ResendCooldown)
@@ -75,25 +88,49 @@ public static partial class LoyaltyEndpoints
 
         await db.Codes.Where(c => c.CustomerId == customer.Id && !c.Used).ExecuteUpdateAsyncSafe(db, ct);
         var code = Secrets.NewCode();
-        db.Codes.Add(new VerificationCode { CustomerId = customer.Id, CodeHash = Secrets.HashCode(customer.Id, code), ExpiresAt = DateTimeOffset.UtcNow + CodeTtl });
+        db.Codes.Add(new VerificationCode { CustomerId = customer.Id, CodeHash = Secrets.HashCode(customer.Id, code), ExpiresAt = DateTimeOffset.UtcNow + CodeTtl, Purpose = purpose });
         await db.SaveChangesAsync(ct);
         try
         {
-            await email.SendCodeAsync(customer.Email, customer.Name, code, ct);
+            await email.SendCodeAsync(customer.Email, customer.Name, code, ct, purpose);
         }
         catch (EmailException error)
         {
             return ApiErrors.Result(502, error.Message);
         }
-        return Results.Ok(new
+        return Results.Ok(CodeSentBody(customer.Email, purpose, email.Configured ? null : code));
+    }
+
+    private static object CodeSentBody(string email, string purpose, string? devCode = null) => new
+    {
+        needsVerification = true,
+        purpose,
+        email,
+        maskedEmail = Mask(email),
+        expiresInSeconds = (int)CodeTtl.TotalSeconds,
+        resendInSeconds = (int)ResendCooldown.TotalSeconds,
+        devCode
+    };
+
+    /* The newest unused code for one of the purposes; a wrong guess counts
+       towards the attempt limit. */
+    private static async Task<(VerificationCode? Code, IResult? Error)> CheckCode(LoyaltyDb db, Customer customer, string? input, string[] purposes, CancellationToken ct)
+    {
+        var code = new string((input ?? string.Empty).Where(char.IsDigit).ToArray());
+        if (code.Length != 6) return (null, ApiErrors.Result(400, "Código incorreto."));
+        var pending = await db.Codes.Where(c => c.CustomerId == customer.Id && !c.Used).OrderByDescending(c => c.CreatedAt).FirstOrDefaultAsync(ct);
+        if (pending is null || !purposes.Contains(pending.Purpose)) return (null, ApiErrors.Result(400, "Peça um novo código."));
+        if (pending.ExpiresAt < DateTimeOffset.UtcNow) return (null, ApiErrors.Result(410, "Esse código expirou. Peça outro."));
+        if (pending.Attempts >= MaxAttempts) return (null, ApiErrors.Result(429, "Muitas tentativas. Peça um novo código."));
+        if (!Secrets.SameHash(pending.CodeHash, Secrets.HashCode(customer.Id, code)))
         {
-            needsVerification = true,
-            email = customer.Email,
-            maskedEmail = Mask(customer.Email),
-            expiresInSeconds = (int)CodeTtl.TotalSeconds,
-            resendInSeconds = (int)ResendCooldown.TotalSeconds,
-            devCode = email.Configured ? null : code
-        });
+            pending.Attempts++;
+            await db.SaveChangesAsync(ct);
+            var left = MaxAttempts - pending.Attempts;
+            return (null, Results.Json(new { error = left > 0 ? $"Código incorreto. Restam {left} tentativas." : "Muitas tentativas. Peça um novo código.", attemptsLeft = left }, statusCode: 400));
+        }
+        pending.Used = true;
+        return (pending, null);
     }
 
     private static async Task<IResult> Register(RegisterRequest body, HttpContext http, RateLimits limits, EmailSender email, IHostEnvironment env, CancellationToken ct)
@@ -134,29 +171,25 @@ public static partial class LoyaltyEndpoints
         if (Db(http) is not { } db) return Off();
         if (Limited(http, limits) is { } limited) return limited;
         var customer = await db.Customers.FirstOrDefaultAsync(c => c.Email == NormalizeEmail(body.Email), ct);
-        if (customer is null || customer.EmailVerifiedAt is not null) return ApiErrors.Result(400, "Não há confirmação pendente para esse e-mail.");
-        return await SendCode(db, customer, email, env, ct);
+        if (customer is null) return ApiErrors.Result(400, "Não há confirmação pendente para esse e-mail.");
+        if (customer.EmailVerifiedAt is null) return await SendCode(db, customer, email, env, ct);
+        // A sign in second step or a password reset can ask for a new code too,
+        // but only while that flow is recent.
+        var last = await db.Codes.Where(c => c.CustomerId == customer.Id).OrderByDescending(c => c.CreatedAt).FirstOrDefaultAsync(ct);
+        if (last is null || last.Purpose == CodePurpose.Verify || DateTimeOffset.UtcNow - last.CreatedAt > CodeTtl * 3)
+            return ApiErrors.Result(400, "Não há confirmação pendente para esse e-mail.");
+        return await SendCode(db, customer, email, env, ct, last.Purpose);
     }
 
     private static async Task<IResult> Verify(VerifyRequest body, HttpContext http, RateLimits limits, CancellationToken ct)
     {
         if (Db(http) is not { } db) return Off();
         if (Limited(http, limits) is { } limited) return limited;
-        var code = new string((body.Code ?? string.Empty).Where(char.IsDigit).ToArray());
         var customer = await db.Customers.FirstOrDefaultAsync(c => c.Email == NormalizeEmail(body.Email), ct);
-        if (customer is null || code.Length != 6) return ApiErrors.Result(400, "Código incorreto.");
-        var pending = await db.Codes.Where(c => c.CustomerId == customer.Id && !c.Used).OrderByDescending(c => c.CreatedAt).FirstOrDefaultAsync(ct);
-        if (pending is null) return ApiErrors.Result(400, "Peça um novo código.");
-        if (pending.ExpiresAt < DateTimeOffset.UtcNow) return ApiErrors.Result(410, "Esse código expirou. Peça outro.");
-        if (pending.Attempts >= MaxAttempts) return ApiErrors.Result(429, "Muitas tentativas. Peça um novo código.");
-        if (!Secrets.SameHash(pending.CodeHash, Secrets.HashCode(customer.Id, code)))
-        {
-            pending.Attempts++;
-            await db.SaveChangesAsync(ct);
-            var left = MaxAttempts - pending.Attempts;
-            return Results.Json(new { error = left > 0 ? $"Código incorreto. Restam {left} tentativas." : "Muitas tentativas. Peça um novo código.", attemptsLeft = left }, statusCode: 400);
-        }
-        pending.Used = true;
+        if (customer is null) return ApiErrors.Result(400, "Código incorreto.");
+        // A reset code only works on the reset route, together with the new password.
+        var (_, error) = await CheckCode(db, customer, body.Code, [CodePurpose.Verify, CodePurpose.Login], ct);
+        if (error is not null) return error;
         customer.EmailVerifiedAt ??= DateTimeOffset.UtcNow;
         var token = await OpenSession(db, customer, ct);
         return Results.Ok(new { token, profile = await Profile(db, customer, ct) });
@@ -170,8 +203,110 @@ public static partial class LoyaltyEndpoints
         if (customer is null || body.Password is null || !Secrets.VerifyPassword(body.Password, customer.PasswordHash))
             return ApiErrors.Result(401, "E-mail ou senha incorretos.");
         if (customer.EmailVerifiedAt is null) return await SendCode(db, customer, email, env, ct);
+        if (customer.TwoFactorEnabled) return await SendCode(db, customer, email, env, ct, CodePurpose.Login);
         var token = await OpenSession(db, customer, ct);
         return Results.Ok(new { token, profile = await Profile(db, customer, ct) });
+    }
+
+    /* Always the same answer, so the form never tells which e-mails have an
+       account. The code only goes out when one exists. */
+    private static async Task<IResult> Forgot(EmailRequest body, HttpContext http, RateLimits limits, EmailSender email, IHostEnvironment env, CancellationToken ct)
+    {
+        if (Db(http) is not { } db) return Off();
+        if (Limited(http, limits) is { } limited) return limited;
+        var mail = NormalizeEmail(body.Email);
+        if (mail.Length > 160 || !EmailPattern().IsMatch(mail)) return Results.Json(new { error = "Informe um e-mail válido.", fields = new { email = "Informe um e-mail válido." } }, statusCode: 400);
+        var customer = await db.Customers.FirstOrDefaultAsync(c => c.Email == mail, ct);
+        if (customer is null) return Results.Ok(CodeSentBody(mail, CodePurpose.Reset));
+        return await SendCode(db, customer, email, env, ct, CodePurpose.Reset);
+    }
+
+    /* A new password ends every open session and signs in here. */
+    private static async Task<IResult> Reset(ResetRequest body, HttpContext http, RateLimits limits, CancellationToken ct)
+    {
+        if (Db(http) is not { } db) return Off();
+        if (Limited(http, limits) is { } limited) return limited;
+        if (body.Password is not { Length: >= 8 and <= 128 })
+            return Results.Json(new { error = "A senha precisa ter pelo menos 8 caracteres.", fields = new { password = "Use pelo menos 8 caracteres." } }, statusCode: 400);
+        var customer = await db.Customers.FirstOrDefaultAsync(c => c.Email == NormalizeEmail(body.Email), ct);
+        if (customer is null) return ApiErrors.Result(400, "Código incorreto.");
+        var (_, error) = await CheckCode(db, customer, body.Code, [CodePurpose.Reset], ct);
+        if (error is not null) return error;
+        customer.PasswordHash = Secrets.HashPassword(body.Password);
+        customer.EmailVerifiedAt ??= DateTimeOffset.UtcNow;
+        db.Sessions.RemoveRange(await db.Sessions.Where(s => s.CustomerId == customer.Id).ToListAsync(ct));
+        var token = await OpenSession(db, customer, ct);
+        return Results.Ok(new { token, profile = await Profile(db, customer, ct) });
+    }
+
+    private static IResult Unauthorized() => ApiErrors.Result(401, "Entre na sua conta.");
+    private static IResult WrongPassword() => Results.Json(new { error = "Senha incorreta.", fields = new { password = "Senha incorreta." } }, statusCode: 400);
+
+    private static async Task<IResult> UpdateProfile(ProfileRequest body, HttpContext http, CancellationToken ct)
+    {
+        if (Db(http) is not { } db) return Off();
+        if (await CurrentCustomer(db, http, ct) is not { } customer) return Unauthorized();
+        var name = (body.Name ?? string.Empty).Trim();
+        var phone = Digits(body.Phone);
+        var errors = new Dictionary<string, string>();
+        if (name.Length is < 2 or > 80) errors["name"] = "Informe seu nome.";
+        if (phone.Length is < 10 or > 11) errors["phone"] = "Informe o celular com DDD.";
+        if (errors.Count > 0) return Results.Json(new { error = "Confira seus dados.", fields = errors }, statusCode: 400);
+        customer.Name = name;
+        customer.Phone = phone;
+        await db.SaveChangesAsync(ct);
+        return Results.Ok(await Profile(db, customer, ct));
+    }
+
+    /* Other devices are signed out; this one stays in. */
+    private static async Task<IResult> ChangePassword(PasswordRequest body, HttpContext http, RateLimits limits, CancellationToken ct)
+    {
+        if (Db(http) is not { } db) return Off();
+        if (Limited(http, limits) is { } limited) return limited;
+        if (await CurrentSession(db, http, ct) is not { } session || await db.Customers.FindAsync([session.CustomerId], ct) is not { } customer) return Unauthorized();
+        if (body.CurrentPassword is null || !Secrets.VerifyPassword(body.CurrentPassword, customer.PasswordHash))
+            return Results.Json(new { error = "Senha atual incorreta.", fields = new { currentPassword = "Senha atual incorreta." } }, statusCode: 400);
+        if (body.NewPassword is not { Length: >= 8 and <= 128 })
+            return Results.Json(new { error = "A nova senha precisa ter pelo menos 8 caracteres.", fields = new { newPassword = "Use pelo menos 8 caracteres." } }, statusCode: 400);
+        customer.PasswordHash = Secrets.HashPassword(body.NewPassword);
+        db.Sessions.RemoveRange(await db.Sessions.Where(s => s.CustomerId == customer.Id && s.Id != session.Id).ToListAsync(ct));
+        await db.SaveChangesAsync(ct);
+        return Results.Ok(await Profile(db, customer, ct));
+    }
+
+    private static async Task<IResult> SetTwoFactor(TwoFactorRequest body, HttpContext http, RateLimits limits, CancellationToken ct)
+    {
+        if (Db(http) is not { } db) return Off();
+        if (Limited(http, limits) is { } limited) return limited;
+        if (await CurrentCustomer(db, http, ct) is not { } customer) return Unauthorized();
+        if (body.Password is null || !Secrets.VerifyPassword(body.Password, customer.PasswordHash)) return WrongPassword();
+        customer.TwoFactorEnabled = body.Enabled;
+        await db.SaveChangesAsync(ct);
+        return Results.Ok(await Profile(db, customer, ct));
+    }
+
+    private static async Task<IResult> EndOtherSessions(HttpContext http, CancellationToken ct)
+    {
+        if (Db(http) is not { } db) return Off();
+        if (await CurrentSession(db, http, ct) is not { } session || await db.Customers.FindAsync([session.CustomerId], ct) is not { } customer) return Unauthorized();
+        db.Sessions.RemoveRange(await db.Sessions.Where(s => s.CustomerId == customer.Id && s.Id != session.Id).ToListAsync(ct));
+        await db.SaveChangesAsync(ct);
+        return Results.Ok(await Profile(db, customer, ct));
+    }
+
+    /* Removes the account with its points, sessions and codes. */
+    private static async Task<IResult> DeleteAccount(PasswordConfirmRequest body, HttpContext http, RateLimits limits, CancellationToken ct)
+    {
+        if (Db(http) is not { } db) return Off();
+        if (Limited(http, limits) is { } limited) return limited;
+        if (await CurrentCustomer(db, http, ct) is not { } customer) return Unauthorized();
+        if (body.Password is null || !Secrets.VerifyPassword(body.Password, customer.PasswordHash)) return WrongPassword();
+        db.Points.RemoveRange(await db.Points.Where(p => p.CustomerId == customer.Id).ToListAsync(ct));
+        db.Sessions.RemoveRange(await db.Sessions.Where(s => s.CustomerId == customer.Id).ToListAsync(ct));
+        db.Codes.RemoveRange(await db.Codes.Where(c => c.CustomerId == customer.Id).ToListAsync(ct));
+        db.Customers.Remove(customer);
+        await db.SaveChangesAsync(ct);
+        return Results.NoContent();
     }
 
     private static async Task<IResult> Logout(HttpContext http, CancellationToken ct)
@@ -250,11 +385,15 @@ public static partial class LoyaltyEndpoints
     private static async Task<object> Profile(LoyaltyDb db, Customer customer, CancellationToken ct)
     {
         var entries = await db.Points.Where(p => p.CustomerId == customer.Id).OrderByDescending(p => p.CreatedAt).ToListAsync(ct);
+        var now = DateTimeOffset.UtcNow;
         return new
         {
             name = customer.Name,
             email = customer.Email,
             phone = customer.Phone,
+            twoFactor = customer.TwoFactorEnabled,
+            memberSince = customer.CreatedAt,
+            sessions = await db.Sessions.CountAsync(s => s.CustomerId == customer.Id && s.ExpiresAt > now, ct),
             points = entries.Sum(p => p.Points),
             history = entries.Take(30).Select(p => new { p.Points, p.Kind, p.Description, p.OrderCode, p.VoucherCode, p.CreatedAt }),
             rewards = Rewards.All
