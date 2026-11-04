@@ -9,6 +9,7 @@ export const CITIES = ['Barra Bonita', 'Igaraçu do Tietê'] as const;
 export interface Address {
   id: string;
   label: string;
+  cep?: string;
   street: string;
   number: string;
   district: string;
@@ -45,7 +46,7 @@ function load(): Book {
 }
 
 export function formatAddress(a: Address): string {
-  return [`${a.street}, ${a.number}`, a.complement, a.district, a.city].filter(Boolean).join(', ');
+  return [`${a.street}, ${a.number}`, a.complement, a.district, a.city, a.cep && `CEP ${a.cep}`].filter(Boolean).join(', ');
 }
 
 export function useCheckoutBook() {

@@ -669,6 +669,24 @@
   }
 }
 
+.form-row--cep {
+  grid-template-columns: 180px 1fr;
+  align-items: start;
+}
+
+.address-form__cep-help {
+  justify-self: start;
+  margin-top: 40px;
+  font-size: 14px;
+}
+
+@media (max-width: 860px) {
+  .form-row--cep {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+}
+
 .address-form .ant-form-item {
   margin-bottom: 14px;
 }
