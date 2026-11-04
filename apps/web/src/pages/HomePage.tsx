@@ -55,7 +55,6 @@ export default function HomePage() {
       <Section className="build-band">
         <div className="container build-band__inner">
           <div>
-            <span className="eyebrow">Do seu jeito</span>
             <h2>Monte sua pizza com até 4 sabores</h2>
             <p className="muted">Escolha o tamanho, combine sabores, escolha a borda e veja o valor exato antes de adicionar.</p>
           </div>
@@ -77,7 +76,6 @@ export default function HomePage() {
       <Section className="container">
         <div className="section__head">
           <div>
-            <span className="eyebrow">Para dividir</span>
             <h2>Combos e gigantes</h2>
           </div>
           <Link to="/combos" className="text-link">Todos os combos <ArrowRightOutlined /></Link>
